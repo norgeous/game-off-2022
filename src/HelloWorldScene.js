@@ -39,7 +39,6 @@ export default class HelloWorldScene extends Phaser.Scene {
 	createPlayer() {
 		this.player = this.matter.add.sprite(50, 300, 'player');
 		this.player.setBounce(0.1); // our player will bounce from items
-		// this.player.setCollideWorldBounds(true); // don't go out of the map
 	}
 
 	createAnimations() {

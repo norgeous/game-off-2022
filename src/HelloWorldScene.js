@@ -6,7 +6,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.image('tiles', 'map/Tileset.png')
+		this.load.image('tileSheet', 'map/Tileset.png')
 		this.load.tilemapTiledJSON('tilemap', 'map/tiledMap.json')
 	}
 
@@ -16,7 +16,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 	createWorld() {
 		const map = this.make.tilemap({ key: 'tilemap' })
-		const tileset = map.addTilesetImage('tiles', 'tiles')
+		const tileset = map.addTilesetImage('tiles', 'tileSheet')
 
 		map.createLayer('Tile Layer 3', tileset)
 		map.createLayer('Tile Layer 1', tileset)

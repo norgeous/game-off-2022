@@ -17,8 +17,10 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	create() {
-    this.matter.world.setBounds(0,0,800,600,30);
+    this.matter.world.setBounds(0,0,800,640,30);
+
 		this.createWorld();
+
 		new Ball(this);
 		new Ball(this);
 

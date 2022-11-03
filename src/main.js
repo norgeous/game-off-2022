@@ -6,7 +6,7 @@ const config = {
   type: Phaser.AUTO,
   parent: 'app',
   width: 800,
-  height: 600,
+  height: 640,
   physics: {
     default: 'matter',
     matter: {

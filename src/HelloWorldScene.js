@@ -7,7 +7,6 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 	preload() {
 		this.load.image('tileSheet', 'map/Tileset.png')
-		this.load.image('tileSheet', 'map/Tileset.png')
 		this.load.tilemapTiledJSON('tilemap', 'map/tiledMap.json')
 
 		this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', {

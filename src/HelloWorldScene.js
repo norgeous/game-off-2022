@@ -17,7 +17,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	create() {
-    this.matter.world.setBounds(0,0,400,400,30);
+    this.matter.world.setBounds(0,0,800,600,30);
 		this.createWorld();
 		new Ball(this);
 		new Ball(this);
@@ -34,6 +34,14 @@ export default class HelloWorldScene extends Phaser.Scene {
 		const layer3 = map.createLayer('Tile Layer 3', tileset)
 		const layer1 = map.createLayer('Tile Layer 1', tileset)
 		const layer2 = map.createLayer('Tile Layer 2', tileset)
+
+		layer1.setCollisionByProperty({ collides: true });
+		layer2.setCollisionByProperty({ collides: true });
+		// layer3.setCollisionByProperty({ collides: true });
+
+		this.matter.world.convertTilemapLayer(layer1);
+		this.matter.world.convertTilemapLayer(layer2);
+		// this.matter.world.convertTilemapLayer(layer3);
 	}
 
 	createPlayer() {

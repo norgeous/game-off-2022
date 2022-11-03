@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Ball from './objects/Ball'
 
 export default class HelloWorldScene extends Phaser.Scene {
 	constructor() {
@@ -11,7 +12,10 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	create() {
+    this.matter.world.setBounds(0,0,400,400,30);
 		this.createWorld();
+		new Ball(this);
+		new Ball(this);
 	}
 
 	createWorld() {

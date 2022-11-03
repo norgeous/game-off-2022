@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Ball from './objects/Ball'
 
 export default class HelloWorldScene extends Phaser.Scene {
 	constructor() {
@@ -16,7 +17,10 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	create() {
+    this.matter.world.setBounds(0,0,400,400,30);
 		this.createWorld();
+		new Ball(this);
+		new Ball(this);
 
 		this.createPlayer();
 
@@ -33,9 +37,8 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	createPlayer() {
-		this.player = this.physics.add.sprite(50, 300, 'player');
+		this.player = this.matter.add.sprite(50, 300, 'player');
 		this.player.setBounce(0.1); // our player will bounce from items
-		this.player.setCollideWorldBounds(true); // don't go out of the map
 	}
 
 	createAnimations() {

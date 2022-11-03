@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 
 export default class HelloWorldScene extends Phaser.Scene {
-
 	constructor() {
 		super('hello-world')
 	}
@@ -52,5 +51,4 @@ export default class HelloWorldScene extends Phaser.Scene {
 	update() {
 		this.player.play('zombieAnim', true);
 	}
-
 }

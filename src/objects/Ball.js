@@ -4,7 +4,7 @@ class Ball {
     this.text = scene.add.text(
       0,
       0,
-      'Z',
+      '🧟',
       { font: '50px Arial', align: 'center' },
     ).setOrigin(0.5);
 

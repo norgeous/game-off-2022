@@ -21,8 +21,10 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 		this.createWorld();
 
-		new Ball(this);
-		new Ball(this);
+		setInterval(() => {
+			new Ball(this);
+			this.createPlayer();
+		}, 1000);
 
 		this.createPlayer();
 

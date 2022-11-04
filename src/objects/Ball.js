@@ -17,7 +17,7 @@ class Ball {
       .setMass(1000)
       .setBounce(1)
       .setFrictionAir(0)
-      .setVelocity(10, -10);
+      .setVelocity(-10, -5);
     this.gameObject.body.label = 'ball';
 
     this.gameObject.x = 300;

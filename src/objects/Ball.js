@@ -4,7 +4,7 @@ class Ball {
     this.text = scene.add.text(
       0,
       0,
-      '🧟',
+      '💣',
       { font: '50px Arial', align: 'center' },
     ).setOrigin(0.5);
 
@@ -17,6 +17,7 @@ class Ball {
       .setMass(1000)
       .setBounce(1)
       .setFrictionAir(0)
+      .setDisplaySize(20, 20)
       .setVelocity(-10, -5);
     this.gameObject.body.label = 'ball';
 

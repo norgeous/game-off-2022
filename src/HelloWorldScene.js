@@ -25,7 +25,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 			const b = new Ball(this);
 			this.createPlayer();
 			setTimeout(() => b.destroy(), 3000);
-		}, 1000);
+		}, 500);
 
 		this.createPlayer();
 

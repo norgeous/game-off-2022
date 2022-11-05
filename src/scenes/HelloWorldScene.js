@@ -36,13 +36,9 @@ export default class HelloWorldScene extends Phaser.Scene {
 	createPlayer() {
 		this.player = new Player(this, 0, 0, 'player', 4);
 		this.cam = this.cameras.main;
-		console.log(this.map.width);
-		console.log(this.map.height);
+
 		this.cam.setBounds(0, 0, this.map.width, this.map.height);
 		this.smoothMoveCameraTowards(this.player);
-
-	//	this.player = this.matter.add.sprite(50, 300, 'player');
-//		this.player.setBounce(0.1); // our player will bounce from items
 	}
 
 	smoothMoveCameraTowards (target, smoothFactor) {

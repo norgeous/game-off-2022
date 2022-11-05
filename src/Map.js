@@ -33,10 +33,12 @@ export default class Map {
         return this.getMapPath() + '/' + this.fileNames.mapData;
     }
 
+    // Must be called inside a scene's preLoad()
     loadTileSheet(key = 'tileSheet') {
         this.tilesSheet = this.Phaser.load.image(key, this.getTileSheetPath());
     }
 
+    // Must be called inside a scene's preLoad()
     loadMapData(key = 'tilemap') {
         this.tileMap = this.Phaser.load.tilemapTiledJSON(key, this.getMapDataPath());
     }
@@ -53,6 +55,7 @@ export default class Map {
         this.Phaser.matter.world.convertTilemapLayer( this.layers.forground);
     }
 
+    // Must be called inside a scene's preLoad()
     preload() {
         this.loadTileSheet();
         this.loadMapData();

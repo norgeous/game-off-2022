@@ -203,7 +203,7 @@ export default class Platformer extends Phaser.Scene {
       fontSize: '20px',
       padding: { x: 20, y: 10 },
       backgroundColor: '#ffffff',
-      // fill: '#000000',
+      color: '#000000',
     });
     this.text.setScrollFactor(0);
     this.updateText();
@@ -227,7 +227,7 @@ export default class Platformer extends Phaser.Scene {
       // player controlled acceleration.
       oldVelocityX = matterSprite.body.velocity.x;
       targetVelocityX = -this.playerController.speed.run;
-      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, -this.smoothedControls.value);
+      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, -this.value);
 
       matterSprite.setVelocityX(newVelocityX);
     }
@@ -239,7 +239,7 @@ export default class Platformer extends Phaser.Scene {
       // player controlled acceleration.
       oldVelocityX = matterSprite.body.velocity.x;
       targetVelocityX = this.playerController.speed.run;
-      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, this.smoothedControls.value);
+      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, this.value);
 
       matterSprite.setVelocityX(newVelocityX);
     } else {

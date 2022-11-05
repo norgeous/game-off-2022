@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import Player from '../objects/Player';
+import Ball from '../objects/Ball';
 
 export default class Platformer extends Phaser.Scene {
   constructor() {
@@ -36,6 +37,7 @@ export default class Platformer extends Phaser.Scene {
     this.matter.add.image(630, 550, 'box');
 
     this.player = new Player(this, 0, 0, 'player', 4);
+    new Ball(this);
 
     this.cam = this.cameras.main;
     this.cam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);

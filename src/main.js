@@ -5,8 +5,8 @@ import HelloWorldScene from './HelloWorldScene'
 const config = {
   type: Phaser.AUTO,
   parent: 'app',
-  width: 928,
-  height: 640,
+  width: 3200,
+  height: 3200,
   physics: {
     default: 'matter',
     matter: {

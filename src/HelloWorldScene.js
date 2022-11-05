@@ -1,14 +1,15 @@
 import Phaser from 'phaser'
 import Ball from './objects/Ball'
+import Map from "./Map.js";
 
 export default class HelloWorldScene extends Phaser.Scene {
 	constructor() {
 		super('hello-world')
+		this.map = new Map(this,'testLevel', 'tileset.png', 'mapData.json');
 	}
 
 	preload() {
-		this.load.image('tileSheet', 'map/Tileset.png')
-		this.load.tilemapTiledJSON('tilemap', 'map/tiledMap.json')
+		this.map.preload();
 
 		this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', {
 			frameWidth: 32,
@@ -17,9 +18,8 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	create() {
-    this.matter.world.setBounds(0,0,928,640,30);
-
-		this.createWorld();
+    	this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
+		this.map.create();
 
 		setInterval(() => {
 			const b = new Ball(this);
@@ -30,23 +30,6 @@ export default class HelloWorldScene extends Phaser.Scene {
 		this.createPlayer();
 
 		this.createAnimations();
-	}
-
-	createWorld() {
-		const map = this.make.tilemap({ key: 'tilemap' })
-		const tileset = map.addTilesetImage('tiles', 'tileSheet')
-
-		const layer3 = map.createLayer('Tile Layer 3', tileset)
-		const layer1 = map.createLayer('Tile Layer 1', tileset)
-		const layer2 = map.createLayer('Tile Layer 2', tileset)
-
-		layer1.setCollisionByProperty({ collides: true });
-		layer2.setCollisionByProperty({ collides: true });
-		// layer3.setCollisionByProperty({ collides: true });
-
-		this.matter.world.convertTilemapLayer(layer1);
-		this.matter.world.convertTilemapLayer(layer2);
-		// this.matter.world.convertTilemapLayer(layer3);
 	}
 
 	createPlayer() {

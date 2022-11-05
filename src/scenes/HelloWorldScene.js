@@ -10,7 +10,6 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 	preload() {
 		this.map.preload();
-
 		this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', {
 			frameWidth: 32,
 			frameHeight: 32
@@ -19,7 +18,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 	create() {
 		this.map.create();
-
+		this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
 		setInterval(() => {
 			const b = new Ball(this);
 			this.createPlayer();

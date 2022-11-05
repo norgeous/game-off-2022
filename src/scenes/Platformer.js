@@ -19,9 +19,9 @@ export default class Platformer extends Phaser.Scene {
     this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
     this.load.image('box', 'https://labs.phaser.io/assets/sprites/box-item-boxed.png');
     this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', {
-			frameWidth: 32,
-			frameHeight: 32
-		});
+      frameWidth: 32,
+      frameHeight: 32
+    });
   }
 
   create() {

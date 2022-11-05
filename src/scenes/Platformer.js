@@ -1,14 +1,14 @@
 import Phaser from 'phaser'
 
 export default class Platformer extends Phaser.Scene {
-	constructor() {
-		super('my-platformer')
+  constructor() {
+    super('my-platformer')
     this.playerController = null;
     this.cursors = null;
     this.text = null;
     this.cam = null;
     this.smoothedControls = null;
-	}
+  }
 
   preload() {
     this.load.tilemapTiledJSON('map', 'https://labs.phaser.io/assets/tilemaps/maps/matter-platformer.json');

@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import Ball from './objects/Ball'
+import Ball from '../objects/Ball'
 
 export default class HelloWorldScene extends Phaser.Scene {
 	constructor() {

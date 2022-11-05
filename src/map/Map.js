@@ -66,5 +66,8 @@ export default class Map {
         this.tileset = this.map.addTilesetImage(this.tileSetName, 'tileSheet')
 
         this.loadLayers();
+
+        this.height = this.layers.background.height;
+        this.width = this.layers.background.width;
     }
 }

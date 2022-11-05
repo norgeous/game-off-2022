@@ -9,6 +9,18 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.health = 100;
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
+    this.upKey;
+    this.downKey;
+    this.leftKey;
+    this.rightKey;
+    this.jumpKey;
+
+    this.upKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.downKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.leftKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.rightKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.jumpKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
     // Smoothed horizontal controls helper. This gives us a value between -1 and 1 depending on how long
     // the player has been pressing left or right, respectively
     this.msSpeed = 0.0005;
@@ -178,7 +190,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     var targetVelocityX;
     var newVelocityX;
 
-    if (this.cursors.left.isDown && !this.playerController.blocked.left)
+    if (this.leftKey.isDown && !this.playerController.blocked.left)
     {
       this.smoothedControls.moveLeft(delta);
       matterSprite.anims.play('left', true);
@@ -191,7 +203,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
 
       matterSprite.setVelocityX(newVelocityX);
     }
-    else if (this.cursors.right.isDown && !this.playerController.blocked.right) {
+    else if (this.rightKey.isDown && !this.playerController.blocked.right) {
       this.smoothedControls.moveRight(delta);
       matterSprite.anims.play('right', true);
 
@@ -212,7 +224,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     // Add a slight delay between jumps since the sensors will still collide for a few frames after
     // a jump is initiated
     var canJump = (time - this.playerController.lastJumpedAt) > 250;
-    if (this.cursors.up.isDown && canJump) {
+    if (this.jumpKey.isDown && canJump) {
       if (this.playerController.blocked.bottom) {
         matterSprite.setVelocityY(-this.playerController.speed.jump);
         this.playerController.lastJumpedAt = time;

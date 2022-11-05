@@ -15,7 +15,6 @@ const config = {
     },
   },
   scene: [
-    Platformer,
     HelloWorldScene,
   ],
 }

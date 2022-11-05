@@ -26,7 +26,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 			setTimeout(() => b.destroy(), 3000);
 		}, 500);
 		
-		this.zombie = new Zombie(this, 100, 100);
+		this.zombie = new Zombie(this, 500, 100);
 		this.createPlayer();
 	}
 

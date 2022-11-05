@@ -11,12 +11,12 @@ export default class Map {
     map;
     tileset;
 
-    constructor(Phaser, map = '', tileSheet = '', mapData = '') {
+    constructor(Phaser, mapFolderName = '', tileSheetName = '', mapDataName = '') {
         this.Phaser = Phaser;
         this.fileNames = {
-            map: map ?? 'test',
-            tileSheet: tileSheet ?? 'tileset.png',
-            mapData: mapData ?? 'mapData.json'
+            map: mapFolderName ?? 'test',
+            tileSheet: tileSheetName ?? 'tileset.png',
+            mapData: mapDataName ?? 'mapData.json'
         };
         this.tileSetName = 'tiles' // TileSet name set in the Tiled program.
     }

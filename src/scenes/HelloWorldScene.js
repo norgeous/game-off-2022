@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
-import Ball from './objects/Ball'
-import Map from "./Map.js";
+import Ball from '../objects/Ball'
+import Map from "../map/Map";
 
 export default class HelloWorldScene extends Phaser.Scene {
 	constructor() {
@@ -18,7 +18,6 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	create() {
-    	this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
 		this.map.create();
 
 		setInterval(() => {

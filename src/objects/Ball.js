@@ -14,11 +14,11 @@ class Ball {
     };
     this.gameObject = scene.matter.add.gameObject(this.text, gameObjectShape);
     this.gameObject
-      .setMass(1000)
+      .setMass(100)
       .setBounce(1)
       .setFrictionAir(0)
-      .setDisplaySize(20, 20)
-      .setVelocity(-10, -5);
+      // .setDisplaySize(40, 40)
+      .setVelocity(10, -5);
     this.gameObject.body.label = 'ball';
 
     this.gameObject.x = 300;

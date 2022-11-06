@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import Player from '../objects/Player';
 import Ball from '../objects/Ball';
+import Zombie from '../objects/Zombie';
 
 export default class Platformer extends Phaser.Scene {
   constructor() {
@@ -17,6 +18,10 @@ export default class Platformer extends Phaser.Scene {
     this.load.image('kenney_redux_64x64', 'https://labs.phaser.io/assets/tilemaps/tiles/kenney_redux_64x64.png');
     this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
     this.load.image('box', 'https://labs.phaser.io/assets/sprites/box-item-boxed.png');
+    this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', {
+      frameWidth: 32,
+      frameHeight: 32
+    });
   }
 
   create() {
@@ -37,6 +42,7 @@ export default class Platformer extends Phaser.Scene {
     this.matter.add.image(630, 550, 'box');
 
     this.player = new Player(this, 0, 0, 'player', 4);
+    this.zombie = new Zombie(this, 500, 300);
     new Ball(this);
 
     this.cam = this.cameras.main;
@@ -51,11 +57,11 @@ export default class Platformer extends Phaser.Scene {
     });
     this.text.setScrollFactor(0);
     this.updateText();
-
   }
 
   update (time, delta) {
     this.player.update(time, delta);
+    this.zombie.update();
     this.smoothMoveCameraTowards(this.player, 0.9);
     this.updateText();
   }

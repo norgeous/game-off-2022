@@ -1,7 +1,8 @@
 import Phaser from 'phaser'
-import Ball from '../objects/Ball'
-import Map from "../map/Map";
-import Player from "../objects/Player.js";
+import Map from '../map/Map';
+import Ball from '../objects/Ball';
+import Player from '../objects/Player.js';
+import Zombie from '../objects/Zombie.js';
 
 export default class HelloWorldScene extends Phaser.Scene {
 	constructor() {
@@ -12,10 +13,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 	preload() {
 		this.map.preload();
-		this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', {
-			frameWidth: 32,
-			frameHeight: 32
-		});
+		this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', { frameWidth: 32, frameHeight: 32 });
 		this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
 	}
 
@@ -27,10 +25,9 @@ export default class HelloWorldScene extends Phaser.Scene {
 			const b = new Ball(this);
 			setTimeout(() => b.destroy(), 3000);
 		}, 500);
-
+		
+		this.zombie = new Zombie(this, 500, 100);
 		this.createPlayer();
-
-		this.createAnimations();
 	}
 
 	createPlayer() {
@@ -47,17 +44,9 @@ export default class HelloWorldScene extends Phaser.Scene {
 		this.cam.scrollY = smoothFactor * this.cam.scrollY + (1 - smoothFactor) * (target.y - this.cam.height * 0.5);
 	}
 
-	createAnimations() {
-		this.anims.create({
-			key: "zombieAnim",
-			frameRate: 3,
-			frames: this.anims.generateFrameNumbers("zombieSpriteSheet", {start: 0, end:8}),
-			repeat: -1
-		});
-	}
-
 	update(time, delta) {
 		this.player.update(time, delta);
+		this.zombie.update();
 		this.smoothMoveCameraTowards(this.player, 0.9);
 	}
 }

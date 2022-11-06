@@ -5,48 +5,50 @@ import Player from '../objects/Player.js';
 import Zombie from '../objects/Zombie.js';
 
 export default class HelloWorldScene extends Phaser.Scene {
-	constructor() {
-		super('hello-world')
-		this.map = new Map(this,'testLevel', 'tileset.png', 'mapData.json');
-		this.player = null;
-	}
+  constructor() {
+    super('hello-world')
+    this.map = new Map(this,'testLevel', 'tileset.png', 'mapData.json');
+    this.player = null;
+  }
 
-	preload() {
-		this.map.preload();
-		this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', { frameWidth: 32, frameHeight: 32 });
-		this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
-	}
+  preload() {
+    this.map.preload();
+    this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
+  }
 
-	create() {
-		this.map.create();
-		this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
+  create() {
+    this.map.create();
+    this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
 
-		setInterval(() => {
-			const b = new Ball(this);
-			setTimeout(() => b.destroy(), 3000);
-		}, 500);
-		
-		this.zombie = new Zombie(this, 500, 100);
-		this.createPlayer();
-	}
+		this.zombieGroup = this.add.group();
 
-	createPlayer() {
-		this.player = new Player(this, 0, 0, 'player', 4);
-		this.cam = this.cameras.main;
+    setInterval(() => {
+			this.zombieGroup.add(new Zombie(this, 500, 100));
+      const b = new Ball(this);
+      setTimeout(() => b.destroy(), 3000);
+    }, 1000);
+    
+    this.createPlayer();
+  }
 
-		this.cam.setBounds(0, 0, this.map.width, this.map.height);
-		this.smoothMoveCameraTowards(this.player);
-	}
+  createPlayer() {
+    this.player = new Player(this, 0, 0, 'player', 4);
+    this.cam = this.cameras.main;
 
-	smoothMoveCameraTowards (target, smoothFactor) {
-		if (smoothFactor === undefined) { smoothFactor = 0; }
-		this.cam.scrollX = smoothFactor * this.cam.scrollX + (1 - smoothFactor) * (target.x - this.cam.width * 0.5);
-		this.cam.scrollY = smoothFactor * this.cam.scrollY + (1 - smoothFactor) * (target.y - this.cam.height * 0.5);
-	}
+    this.cam.setBounds(0, 0, this.map.width, this.map.height);
+    this.smoothMoveCameraTowards(this.player);
+  }
 
-	update(time, delta) {
-		this.player.update(time, delta);
-		this.zombie.update();
-		this.smoothMoveCameraTowards(this.player, 0.9);
-	}
+  smoothMoveCameraTowards (target, smoothFactor) {
+    if (smoothFactor === undefined) { smoothFactor = 0; }
+    this.cam.scrollX = smoothFactor * this.cam.scrollX + (1 - smoothFactor) * (target.x - this.cam.width * 0.5);
+    this.cam.scrollY = smoothFactor * this.cam.scrollY + (1 - smoothFactor) * (target.y - this.cam.height * 0.5);
+  }
+
+  update(time, delta) {
+    this.player.update(time, delta);
+    this.zombieGroup.getChildren().forEach(zombie => zombie.update());
+    this.smoothMoveCameraTowards(this.player, 0.9);
+  }
 }

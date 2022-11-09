@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 import Map from '../map/Map';
 import Ball from '../objects/Ball';
-import Player from '../objects/Player.js';
-import Zombie from '../objects/Zombie.js';
+import Player from '../objects/Player';
+import Zombie from '../objects/Zombie';
 
 export default class HelloWorldScene extends Phaser.Scene {
 	constructor() {

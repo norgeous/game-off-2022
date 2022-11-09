@@ -16,8 +16,8 @@ const config = {
     },
   },
   scene: [
-    LevelWithSpawnPoints,
     HelloWorldScene,
+    LevelWithSpawnPoints,
     Platformer,
   ],
 }

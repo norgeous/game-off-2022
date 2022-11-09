@@ -7,7 +7,7 @@ import Zombie from '../objects/Zombie.js';
 export default class LevelWithSpawnPoints extends Phaser.Scene {
   constructor() {
     super('LevelWithSpawnPoints')
-    this.map = new Map(this, 'levelWithSpawnPoints', 'tileset.png', 'mapData.json');
+    this.map = new Map(this, 'testLevel', 'tileset_extruded.png', 'levelWithSpawnPoints.json');
     this.player = null;
   }
 

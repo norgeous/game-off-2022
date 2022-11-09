@@ -48,6 +48,11 @@ export default class Map {
         this.layers.forground = this.map.createLayer('Forground', this.tileset)
         this.layers.background = this.map.createLayer('Background', this.tileset)
 
+        this.spawners = {
+          player: this.map.findObject('Spawner', obj => obj.name === 'player'),
+          zombie: this.map.filterObjects('Spawner', obj => obj.name === 'zombie'),
+        };
+
         this.layers.background.setCollisionByProperty({ collides: true });
         this.layers.forground.setCollisionByProperty({ collides: true });
 

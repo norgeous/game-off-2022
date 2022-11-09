@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import Platformer from './scenes/Platformer'
 import HelloWorldScene from './scenes/HelloWorldScene'
+import LevelWithSpawnPoints from './scenes/LevelWithSpawnPoints'
 
 const config = {
   type: Phaser.AUTO,
@@ -15,7 +16,9 @@ const config = {
     },
   },
   scene: [
+    LevelWithSpawnPoints,
     HelloWorldScene,
+    Platformer,
   ],
 }
 

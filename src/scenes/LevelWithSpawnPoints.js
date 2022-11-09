@@ -1,15 +1,15 @@
 import Phaser from 'phaser'
 import Map from '../map/Map';
-import Ball from '../objects/Ball';
+// import Ball from '../objects/Ball';
 import Player from '../objects/Player';
 import Zombie from '../objects/Zombie';
 
-export default class HelloWorldScene extends Phaser.Scene {
-	constructor() {
-		super('hello-world')
-		this.map = new Map(this,'testLevel', 'tileset_extruded.png', 'mapData.json');
-		this.player = null;
-	}
+export default class LevelWithSpawnPoints extends Phaser.Scene {
+  constructor() {
+    super('LevelWithSpawnPoints')
+    this.map = new Map(this, 'testLevel', 'tileset_extruded.png', 'levelWithSpawnPoints.json');
+    this.player = null;
+  }
 
   preload() {
     this.map.preload();
@@ -17,23 +17,20 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
   }
 
-	create() {
-		this.map.create();
-		this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
+  create() {
+    this.map.create();
+    this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
 
 		this.zombieGroup = this.add.group();
-
-    setInterval(() => {
-			this.zombieGroup.add(new Zombie(this, 500, 100));
-      const b = new Ball(this);
-      setTimeout(() => b.destroy(), 3000);
-    }, 1000);
+    this.map.spawners.zombie.forEach(zombie => {
+      this.zombieGroup.add(new Zombie(this, zombie.x, zombie.y-16));
+    });
     
     this.createPlayer();
   }
 
   createPlayer() {
-    this.player = new Player(this, 100, 100, 'player', 4);
+    this.player = new Player(this, this.map.spawners.player.x, this.map.spawners.player.y-16, 'player', 4);
     this.cam = this.cameras.main;
 
     this.cam.setBounds(0, 0, this.map.width, this.map.height);

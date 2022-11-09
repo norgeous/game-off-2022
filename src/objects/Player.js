@@ -104,7 +104,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this
       .setExistingBody(compoundBody)
       .setFixedRotation() // Sets max inertia to prevent rotation
-      .setPosition(630, 1000);
+      .setPosition(x, y);
 
     this.anims.create({
       key: 'left',

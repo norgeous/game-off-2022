@@ -68,7 +68,7 @@ export default class Map {
 
     create() {
         this.map = this.Phaser.make.tilemap({ key:  'tilemap'})
-        this.tileset = this.map.addTilesetImage(this.tileSetName, 'tileSheet')
+        this.tileset = this.map.addTilesetImage(this.tileSetName, 'tileSheet', 32, 32, 1, 2)
 
         this.loadLayers();
 

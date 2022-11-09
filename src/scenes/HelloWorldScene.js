@@ -5,11 +5,11 @@ import Player from '../objects/Player.js';
 import Zombie from '../objects/Zombie.js';
 
 export default class HelloWorldScene extends Phaser.Scene {
-  constructor() {
-    super('hello-world')
-    this.map = new Map(this,'testLevel', 'tileset.png', 'mapData.json');
-    this.player = null;
-  }
+	constructor() {
+		super('hello-world')
+		this.map = new Map(this,'testLevel', 'tileset_extruded.png', 'mapData.json');
+		this.player = null;
+	}
 
   preload() {
     this.map.preload();
@@ -17,9 +17,9 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
   }
 
-  create() {
-    this.map.create();
-    this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
+	create() {
+		this.map.create();
+		this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
 
 		this.zombieGroup = this.add.group();
 

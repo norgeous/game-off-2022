@@ -7,7 +7,7 @@ import Zombie from '../objects/Zombie.js';
 export default class HelloWorldScene extends Phaser.Scene {
 	constructor() {
 		super('hello-world')
-		this.map = new Map(this,'testLevel', 'tileset.png', 'mapData.json');
+		this.map = new Map(this,'testLevel', 'tileset_extruded.png', 'mapData.json');
 		this.player = null;
 	}
 
@@ -18,6 +18,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 	}
 
 	create() {
+
 		this.map.create();
 		this.matter.world.setBounds(0,0,this.map.width,this.map.height,30);
 

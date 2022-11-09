@@ -24,3 +24,8 @@ https://blog.ourcade.co/posts/2020/phaser-3-noob-guide-loading-tiled-tilemaps/
 https://itnext.io/modular-game-worlds-in-phaser-3-tilemaps-4-meet-matter-js-abf4dfa65ca1
 
 https://phaser.io/examples/v3/view/tilemap/collision/matter-platformer-with-wall-jumping
+
+
+## Tile Extruder
+
+https://github.com/sporadic-labs/tile-extruder#readme

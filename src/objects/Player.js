@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import MachineGun from "./weapons/MachineGun.js";
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -7,6 +8,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.scene = scene;
 
     this.health = 100;
+    this.weapon = new MachineGun(this);
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
     this.upKey;
@@ -179,16 +181,20 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.scene.matter.world.drawDebug = !this.scene.matter.world.drawDebug;
       this.scene.matter.world.debugGraphic.visible = this.scene.matter.world.drawDebug;
     }, this);
+
+    this.scene.input.on('pointerdown', () => {
+      this.weapon.fire();
+    }, this);
   }
 
   update (time, delta) {
     var matterSprite = this;
 
     // Horizontal movement
-
     var oldVelocityX;
     var targetVelocityX;
     var newVelocityX;
+
 
     if (this.leftKey.isDown && !this.playerController.blocked.left)
     {

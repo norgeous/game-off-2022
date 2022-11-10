@@ -10,4 +10,7 @@ export default class AbstractWeapon {
     fire() {
         throw new Error("Method 'fire()' must be implemented on weapon class " + this.constructor);
     }
+
+    preLoad() {}
+    update() {}
 }

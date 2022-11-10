@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import MachineGun from "./weapons/MachineGun.js";
+import Bomb from "./weapons/Bomb.js";
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -8,7 +9,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.scene = scene;
 
     this.health = 100;
-    this.weapon = new MachineGun(this);
+    this.weapon = new Bomb(this);
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
     this.upKey;

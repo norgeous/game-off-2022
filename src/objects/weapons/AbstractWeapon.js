@@ -1,3 +1,4 @@
+import Ball from "../Ball.js";
 
 export default class AbstractWeapon {
     constructor(player) {
@@ -5,12 +6,18 @@ export default class AbstractWeapon {
         if (this.constructor == AbstractWeapon) {
             throw new Error("Abstract classes can't be instantiated.");
         }
+        this.firstShot = true;
     }
 
     fire() {
-        throw new Error("Method 'fire()' must be implemented on weapon class " + this.constructor);
+        if (this.firstShot) {
+            this.firstShot = false;
+        }
     }
 
+    fireRelease() {
+        this.firstShot = true;
+    }
     preLoad() {}
     update() {}
 }

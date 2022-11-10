@@ -9,7 +9,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.scene = scene;
 
     this.health = 100;
-    this.weapon = new Bomb(this);
+    this.weapon = new Bomb(this, 1000);
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
     this.upKey;
@@ -17,12 +17,14 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.leftKey;
     this.rightKey;
     this.jumpKey;
+    this.fireKey;
 
     this.upKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.downKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.leftKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.rightKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.jumpKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.fireKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
     // Smoothed horizontal controls helper. This gives us a value between -1 and 1 depending on how long
     // the player has been pressing left or right, respectively
@@ -183,9 +185,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.scene.matter.world.debugGraphic.visible = this.scene.matter.world.drawDebug;
     }, this);
 
-    this.scene.input.on('pointerdown', () => {
-      this.weapon.fire();
-    }, this);
   }
 
   update (time, delta) {
@@ -196,6 +195,13 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     var targetVelocityX;
     var newVelocityX;
 
+    if (this.fireKey.isDown) {
+      this.weapon.fire();
+    }
+
+    if (this.fireKey.isUp) {
+      this.weapon.fireRelease();
+    }
 
     if (this.leftKey.isDown && !this.playerController.blocked.left)
     {

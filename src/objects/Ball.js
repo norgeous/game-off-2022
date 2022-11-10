@@ -17,12 +17,12 @@ class Ball {
       .setMass(100)
       .setBounce(1)
       .setFrictionAir(0)
-      // .setDisplaySize(40, 40)
+      .setDisplaySize(10, 10)
       .setVelocity(10, -5);
     this.gameObject.body.label = 'ball';
 
-    this.gameObject.x = 300;
-    this.gameObject.y = 300;
+    this.gameObject.x = 100;
+    this.gameObject.y = 1250;
 	}
 
   destroy() {

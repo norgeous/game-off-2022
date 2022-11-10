@@ -20,10 +20,18 @@ export default class Zombie extends Phaser.Physics.Matter.Sprite {
     });
 
     this.setBounce(0.1);
+
+    this.health = 200;
+
+    this.setOnCollide(data => {
+      this.health -= data.collision.depth;
+    });
   }
 
   update() {
     const speed = Math.hypot(this.body.velocity.x, this.body.velocity.y);
     this.play(speed < 0.7 ? 'zombie_idle' : 'zombie_walk', true);
+
+    if (this.health <= 0) this.destroy();
   }
 }

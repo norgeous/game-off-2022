@@ -177,7 +177,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.playerController.blocked.bottom = this.playerController.numTouching.bottom > 0 ? true : false;
     });
 
-    this.scene.input.on('pointerdown', () => {
+    this.scene.input.keyboard.on('keydown-ALT', () => {
       this.scene.matter.world.drawDebug = !this.scene.matter.world.drawDebug;
       this.scene.matter.world.debugGraphic.visible = this.scene.matter.world.drawDebug;
     }, this);

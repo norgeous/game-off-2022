@@ -2,6 +2,10 @@ import Phaser from 'phaser'
 import MachineGun from "../weapons/MachineGun.js";
 import Bomb from "../weapons/Bomb.js";
 import PlayerInput from "./PlayerInput.js";
+import Direction from "../enums/Direction.js";
+import Animations from "../enums/EntityAnimations.js";
+import EntityAnimations from "../enums/EntityAnimations.js";
+
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -69,7 +73,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       speed: {
         run: 7,
         jump: 10
-      }
+      },
+      facingDirection: Direction.Right
     };
 
     var M = Phaser.Physics.Matter.Matter;
@@ -107,25 +112,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       .setFixedRotation() // Sets max inertia to prevent rotation
       .setPosition(x, y);
 
-    this.anims.create({
-      key: 'left',
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    this.anims.create({
-      key: 'right',
-      frames: this.anims.generateFrameNumbers('player', { start: 5, end: 8 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    this.anims.create({
-      key: 'idle',
-      frames: this.anims.generateFrameNumbers('player', { start: 4, end: 4 }),
-      frameRate: 10,
-      repeat: -1
-    });
-
+    this.createAnimations();
     // Use matter events to detect whether the player is touching a surface to the left, right or
     // bottom.
 
@@ -199,66 +186,83 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.weapon = this.weaponInventory.weapons[this.weaponInventory.index];
   }
 
-  update (time, delta) {
+  createAnimations() {
+    this.anims.create({
+      key: EntityAnimations.MoveLeft,
+      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+    this.anims.create({
+      key: EntityAnimations.MoveRight,
+      frames: this.anims.generateFrameNumbers('player', { start: 5, end: 8 }),
+      frameRate: 10,
+      repeat: -1
+    });
+    this.anims.create({
+      key: EntityAnimations.Idle,
+      frames: this.anims.generateFrameNumbers('player', { start: 4, end: 4 }),
+      frameRate: 10,
+      repeat: -1
+    });
+  }
 
-    var matterSprite = this;
-
+  moveSprite(delta) {
     // Horizontal movement
-    var oldVelocityX;
-    var targetVelocityX;
-    var newVelocityX;
+    let oldVelocityX;
+    let targetVelocityX;
+    let newVelocityX;
+
+    oldVelocityX = this.body.velocity.x;
+
+    if (this.playerController.direction == Direction.Left) {
+      this.anims.play(EntityAnimations.MoveLeft, true);
+      targetVelocityX = -this.playerController.speed.run;
+      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, -this.value);
+      this.smoothedControls.moveLeft(delta);
+    } else {
+      this.smoothedControls.moveRight(delta);
+      this.anims.play(EntityAnimations.MoveRight, true);
+      targetVelocityX = this.playerController.speed.run;
+      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, this.value);
+    }
+    this.setVelocityX(newVelocityX);
+  }
+
+  update (time, delta) {
 
     if (this.keys.fireKey.isDown) {
       this.weapon.fire();
     }
 
-    if (this.keys.leftKey.isDown && !this.playerController.blocked.left)
-    {
-      this.smoothedControls.moveLeft(delta);
-      matterSprite.anims.play('left', true);
-
-      // Lerp the velocity towards the max run using the smoothed controls. This simulates a
-      // player controlled acceleration.
-      oldVelocityX = matterSprite.body.velocity.x;
-      targetVelocityX = -this.playerController.speed.run;
-      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, -this.value);
-
-      matterSprite.setVelocityX(newVelocityX);
-    }
-    else if (this.keys.rightKey.isDown && !this.playerController.blocked.right) {
-      this.smoothedControls.moveRight(delta);
-      matterSprite.anims.play('right', true);
-
-      // Lerp the velocity towards the max run using the smoothed controls. This simulates a
-      // player controlled acceleration.
-      oldVelocityX = matterSprite.body.velocity.x;
-      targetVelocityX = this.playerController.speed.run;
-      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, this.value);
-
-      matterSprite.setVelocityX(newVelocityX);
+    if (this.keys.leftKey.isDown && !this.playerController.blocked.left) {
+      this.playerController.direction = Direction.Left;
+      this.moveSprite(delta);
+    } else if (this.keys.rightKey.isDown && !this.playerController.blocked.right) {
+      this.playerController.direction = Direction.Right;
+      this.moveSprite(delta);
     } else {
+      this.anims.play(EntityAnimations.Idle, true);
       this.smoothedControls.reset();
-      matterSprite.anims.play('idle', true);
     }
 
     // Jumping & wall jumping
-
     // Add a slight delay between jumps since the sensors will still collide for a few frames after
     // a jump is initiated
     var canJump = (time - this.playerController.lastJumpedAt) > 250;
     if (this.keys.jumpKey.isDown && canJump) {
       if (this.playerController.blocked.bottom) {
-        matterSprite.setVelocityY(-this.playerController.speed.jump);
+        this.setVelocityY(-this.playerController.speed.jump);
         this.playerController.lastJumpedAt = time;
       } else if (this.playerController.blocked.left) {
         // Jump up and away from the wall
-        matterSprite.setVelocityY(-this.playerController.speed.jump);
-        matterSprite.setVelocityX(this.playerController.speed.run);
+        this.setVelocityY(-this.playerController.speed.jump);
+        this.setVelocityX(this.playerController.speed.run);
         this.playerController.lastJumpedAt = time;
       } else if (this.playerController.blocked.right) {
         // Jump up and away from the wall
-        matterSprite.setVelocityY(-this.playerController.speed.jump);
-        matterSprite.setVelocityX(-this.playerController.speed.run);
+        this.setVelocityY(-this.playerController.speed.jump);
+        this.setVelocityX(-this.playerController.speed.run);
         this.playerController.lastJumpedAt = time;
       }
     }

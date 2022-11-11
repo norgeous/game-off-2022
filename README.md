@@ -25,6 +25,7 @@ https://itnext.io/modular-game-worlds-in-phaser-3-tilemaps-4-meet-matter-js-abf4
 
 https://phaser.io/examples/v3/view/tilemap/collision/matter-platformer-with-wall-jumping
 
+https://phaser.io/examples/v3/view/game-objects/graphics/health-bars-demo
 
 ## Tile Extruder
 

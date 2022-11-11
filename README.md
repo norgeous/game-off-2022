@@ -27,6 +27,8 @@ https://phaser.io/examples/v3/view/tilemap/collision/matter-platformer-with-wall
 
 https://phaser.io/examples/v3/view/game-objects/graphics/health-bars-demo
 
+https://phaser.discourse.group/t/create-a-matter-sprite-class-from-a-phaser-container/11272
+
 ## Tile Extruder
 
 https://github.com/sporadic-labs/tile-extruder#readme

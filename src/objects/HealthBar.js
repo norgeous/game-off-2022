@@ -8,6 +8,7 @@ export default class HealthBar {
     background = 0x000000,
     maxHealth = 100,
   }) {
+    this.scene = scene;
     this.x = x;
     this.y = y;
     this.width = width;
@@ -16,8 +17,9 @@ export default class HealthBar {
     this.background = background;
     this.maxHealth = maxHealth;
     
-    this.bar = new Phaser.GameObjects.Graphics(scene);
-    scene.add.existing(this.bar);
+    // this.bar = new Phaser.GameObjects.Graphics(scene);
+    // scene.add.existing(this.bar);
+    this.bar = this.scene.add.graphics();
 
     this.draw(this.maxHealth);
   }
@@ -34,8 +36,8 @@ export default class HealthBar {
     // draw the health bar track (background)
     this.bar.fillStyle(this.background);
     this.bar.fillRect(
-      this.x,
-      this.y,
+      this.x - (this.width / 2),
+      this.y - (this.height / 2),
       this.width + (this.padding * 2),
       this.height + (this.padding * 2),
     );
@@ -44,8 +46,8 @@ export default class HealthBar {
     const fraction = (value / this.maxHealth);
     this.bar.fillStyle(this.getColor(fraction));
     this.bar.fillRect(
-      this.x + this.padding,
-      this.y + this.padding,
+      this.x + this.padding - (this.width / 2),
+      this.y + this.padding - (this.height / 2),
       Math.floor(this.width * fraction),
       this.height,
     );

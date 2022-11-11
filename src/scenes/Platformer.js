@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import Player from '../objects/Player';
+import Player from '../objects/player/Player.js';
 import Ball from '../objects/Ball';
 import Zombie from '../objects/Zombie';
 

@@ -1,25 +1,26 @@
 import Phaser from 'phaser'
+import MachineGun from "../weapons/MachineGun.js";
+import Bomb from "../weapons/Bomb.js";
+import PlayerInput from "./PlayerInput.js";
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene.matter.world, x, y, texture, frame);
     scene.add.existing(this);
     this.scene = scene;
-
+    this.playerInput = new PlayerInput(scene);
+    this.keys = this.playerInput.keys;
     this.health = 100;
+    this.weapon = new Bomb(this, 500);
+    this.weaponInventory = {
+      index: 0,
+      weapons: [
+        new Bomb(this, 500),
+        new MachineGun(this)
+      ],
+    };
+
     this.cursors = this.scene.input.keyboard.createCursorKeys();
-
-    this.upKey;
-    this.downKey;
-    this.leftKey;
-    this.rightKey;
-    this.jumpKey;
-
-    this.upKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    this.downKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    this.leftKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    this.rightKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    this.jumpKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     // Smoothed horizontal controls helper. This gives us a value between -1 and 1 depending on how long
     // the player has been pressing left or right, respectively
@@ -168,6 +169,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       }
     });
 
+    this.scene.events.on('cycleWeapon', () => {
+      this.cycleWeapons();
+    });
+
     // Update over, so now we can determine if any direction is blocked
     this.scene.matter.world.on('afterupdate', () => {
       this.playerController.blocked.right = this.playerController.numTouching.right > 0 ? true : false;
@@ -175,22 +180,39 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.playerController.blocked.bottom = this.playerController.numTouching.bottom > 0 ? true : false;
     });
 
-    this.scene.input.on('pointerdown', () => {
+    this.scene.input.keyboard.on('keydown-ALT', () => {
       this.scene.matter.world.drawDebug = !this.scene.matter.world.drawDebug;
       this.scene.matter.world.debugGraphic.visible = this.scene.matter.world.drawDebug;
     }, this);
+
+    this.keys.fireKey.on('up', () => {
+      this.weapon.fireRelease();
+    },this);
+  }
+
+  cycleWeapons() {
+    this.weaponInventory.index++;
+
+    if (this.weaponInventory.index > this.weaponInventory.weapons.length-1) {
+      this.weaponInventory.index = 0;
+    }
+    this.weapon = this.weaponInventory.weapons[this.weaponInventory.index];
   }
 
   update (time, delta) {
+
     var matterSprite = this;
 
     // Horizontal movement
-
     var oldVelocityX;
     var targetVelocityX;
     var newVelocityX;
 
-    if (this.leftKey.isDown && !this.playerController.blocked.left)
+    if (this.keys.fireKey.isDown) {
+      this.weapon.fire();
+    }
+
+    if (this.keys.leftKey.isDown && !this.playerController.blocked.left)
     {
       this.smoothedControls.moveLeft(delta);
       matterSprite.anims.play('left', true);
@@ -203,7 +225,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
 
       matterSprite.setVelocityX(newVelocityX);
     }
-    else if (this.rightKey.isDown && !this.playerController.blocked.right) {
+    else if (this.keys.rightKey.isDown && !this.playerController.blocked.right) {
       this.smoothedControls.moveRight(delta);
       matterSprite.anims.play('right', true);
 
@@ -224,7 +246,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     // Add a slight delay between jumps since the sensors will still collide for a few frames after
     // a jump is initiated
     var canJump = (time - this.playerController.lastJumpedAt) > 250;
-    if (this.jumpKey.isDown && canJump) {
+    if (this.keys.jumpKey.isDown && canJump) {
       if (this.playerController.blocked.bottom) {
         matterSprite.setVelocityY(-this.playerController.speed.jump);
         this.playerController.lastJumpedAt = time;

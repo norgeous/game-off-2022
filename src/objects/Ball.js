@@ -1,5 +1,5 @@
 class Ball {
-  constructor(scene) {
+  constructor(scene, x, y) {
     // create ball
     this.text = scene.add.text(
       0,
@@ -21,9 +21,9 @@ class Ball {
       .setVelocity(10, -5);
     this.gameObject.body.label = 'ball';
 
-    this.gameObject.x = 100;
-    this.gameObject.y = 1250;
-	}
+    this.gameObject.x = x ?? 100;
+    this.gameObject.y = y ?? 1250;
+  }
 
   destroy() {
     this.gameObject.destroy();

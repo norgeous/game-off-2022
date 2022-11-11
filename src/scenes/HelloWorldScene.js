@@ -23,20 +23,23 @@ export default class HelloWorldScene extends Phaser.Scene {
 
 		this.zombieGroup = this.add.group();
     this.map.spawners.zombie.forEach(zombie => {
-      this.zombieGroup.add(new Zombie(this, zombie.x, zombie.y-16));
+      this.zombieGroup.add(new Zombie(this, zombie.x+16, zombie.y-16));
     });
 
     setInterval(() => {
-			this.zombieGroup.add(new Zombie(this, 500, 100));
+      this.map.spawners.zombie.forEach(zombie => {
+        this.zombieGroup.add(new Zombie(this, zombie.x+16, zombie.y-16));
+      });
+
       const b = new Ball(this);
       setTimeout(() => b.destroy(), 3000);
-    }, 1000);
+    }, 200);
     
     this.createPlayer();
   }
 
   createPlayer() {
-    this.player = new Player(this, this.map.spawners.player.x, this.map.spawners.player.y-16, 'player', 4);
+    this.player = new Player(this, this.map.spawners.player.x+16, this.map.spawners.player.y-16, 'player', 4);
     this.cam = this.cameras.main;
 
     this.cam.setBounds(0, 0, this.map.width, this.map.height);

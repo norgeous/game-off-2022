@@ -1,6 +1,4 @@
 import Phaser from 'phaser'
-import MachineGun from "../weapons/MachineGun.js";
-import Bomb from "../weapons/Bomb.js";
 
 export default class PlayerInput {
     constructor(scene) {

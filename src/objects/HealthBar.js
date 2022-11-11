@@ -1,55 +1,53 @@
 import Phaser from 'phaser';
 
 export default class HealthBar {
-  constructor (scene, x, y) {
-    this.bar = new Phaser.GameObjects.Graphics(scene);
-
+  constructor (scene, x, y, {
+    width = 80,
+    height = 5,
+    padding = 2,
+    background = 0x000000,
+    maxHealth = 100,
+  }) {
     this.x = x;
     this.y = y;
-    this.value = 100;
-    this.p = 76 / 100;
-
-    this.draw();
-
+    this.width = width;
+    this.height = height;
+    this.padding = padding;
+    this.background = background;
+    this.maxHealth = maxHealth;
+    
+    this.bar = new Phaser.GameObjects.Graphics(scene);
     scene.add.existing(this.bar);
+
+    this.draw(this.maxHealth);
   }
 
-  decrease (amount) {
-    this.value -= amount;
-
-    if (this.value < 0)
-    {
-      this.value = 0;
-    }
-
-    this.draw();
-
-    return (this.value === 0);
+  getColor (fraction) {
+    if (fraction <= 0.3) return 0xff0000; // red
+    if (fraction <= 0.6) return 0xffa500; // orange
+    return 0x00ff00; // green
   }
 
-  draw () {
+  draw (value) {
     this.bar.clear();
 
-    //  BG
-    this.bar.fillStyle(0x000000);
-    this.bar.fillRect(this.x, this.y, 80, 16);
+    // draw the health bar track (background)
+    this.bar.fillStyle(this.background);
+    this.bar.fillRect(
+      this.x,
+      this.y,
+      this.width + (this.padding * 2),
+      this.height + (this.padding * 2),
+    );
 
-    //  Health
-
-    this.bar.fillStyle(0xffffff);
-    this.bar.fillRect(this.x + 2, this.y + 2, 76, 12);
-
-    if (this.value < 30)
-    {
-      this.bar.fillStyle(0xff0000);
-    }
-    else
-    {
-      this.bar.fillStyle(0x00ff00);
-    }
-
-    var d = Math.floor(this.p * this.value);
-
-    this.bar.fillRect(this.x + 2, this.y + 2, d, 12);
+    // draw the health bar
+    const fraction = (value / this.maxHealth);
+    this.bar.fillStyle(this.getColor(fraction));
+    this.bar.fillRect(
+      this.x + this.padding,
+      this.y + this.padding,
+      Math.floor(this.width * fraction),
+      this.height,
+    );
   }
 }

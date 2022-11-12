@@ -42,6 +42,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
     // add sprite, text and health bar into container
     this.add([this.sprite, this.healthBar.bar, this.text]);
 
+    // add this container to scene
     this.scene.add.existing(this);
 
     // add physics object to scene

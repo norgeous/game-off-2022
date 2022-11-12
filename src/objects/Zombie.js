@@ -1,17 +1,6 @@
 import Phaser from 'phaser'
 import HealthBar from './HealthBar';
 
-// export default class Zombie extends Phaser.Physics.Matter.Sprite {
-//   constructor(scene, x, y) {
-//     super(scene.matter.world, x, y, 'zombie');
-//     // scene.add.existing(this);
-
-
-//   }
-
-
-// }
-
 export default class Zombie extends Phaser.GameObjects.Container {
   constructor (scene, x, y, children) {
     super(scene, x, y, children);

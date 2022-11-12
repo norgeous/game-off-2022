@@ -21,10 +21,10 @@ export default class HelloWorldScene extends Phaser.Scene {
 		this.map.create();
 		this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
-		// this.zombieGroup = this.add.group();
-    // this.map.spawners.zombie.forEach(zombie => {
-    //   this.zombieGroup.add(new Zombie(this, zombie.x+16, zombie.y-16));
-    // });
+		this.zombieGroup = this.add.group();
+    this.map.spawners.zombie.forEach(zombie => {
+      this.zombieGroup.add(new Zombie(this, zombie.x+16, zombie.y-16));
+    });
 
     // setInterval(() => {
     //   this.map.spawners.zombie.forEach(zombie => {
@@ -34,7 +34,6 @@ export default class HelloWorldScene extends Phaser.Scene {
     //   const b = new Ball(this);
     //   setTimeout(() => b.destroy(), 3000);
     // }, 200);
-    new Zombie(this, 100,100);
     
     this.createPlayer();
   }
@@ -55,7 +54,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update(time, delta);
-    // this.zombieGroup.getChildren().forEach(zombie => zombie.update());
+    this.zombieGroup.getChildren().forEach(zombie => zombie.update());
     this.smoothMoveCameraTowards(this.player, 0.9);
   }
 }

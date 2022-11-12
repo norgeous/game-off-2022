@@ -9,23 +9,17 @@ import HealthBar from './HealthBar';
 
 //   }
 
-//   update() {
-//     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
-//     this.sprite.play(speed < 0.7 ? 'zombie_idle' : 'zombie_walk', true);
 
-//     this.healthBar.draw(this.health);
-//     if (this.health <= 0) this.gameObject.destroy();
-//   }
 // }
 
 export default class Zombie extends Phaser.GameObjects.Container {
-  constructor (scene, x, y) {
-    super(scene, x, y);
+  constructor (scene, x, y, children) {
+    super(scene, x, y, children);
 
     this.scene = scene;
 
     // zombie sprite
-    this.sprite = this.scene.add.sprite(x, y, 'zombie');
+    this.sprite = this.scene.add.sprite(0, 0, 'zombie');
     this.scene.anims.create({
       key: 'zombie_idle',
       frameRate: 3,
@@ -40,32 +34,29 @@ export default class Zombie extends Phaser.GameObjects.Container {
     });
     this.sprite.play('zombie_idle', true);
 
-    console.log(this);
-
-
     // health bar
-    this.health = 200;
-    this.healthBar = new HealthBar(scene, x, y - 30, {
+    this.health = 100;
+    this.healthBar = new HealthBar(scene, 0, 0 - 30, {
       width: 40,
       padding: 1,
       maxHealth: this.health,
     });
-    this.healthBar.draw(this.health/2);
 
     // text
-    this.text = this.scene.add.text(x, y - 40, 'Zombie', {
+    this.text = this.scene.add.text(0, 0 - 40, 'Zomb', {
       font: '12px Arial',
       align: 'center',
       color: 'black',
       fontWeight: 'bold',
     }).setOrigin(0.5);
 
-    // add sprite and health bar to container
-    // this.add([this.sprite, this.healthBar.bar, this.text]);
-    // this.add([this.text]);
+    // add sprite, text and health bar into container
+    this.add([this.sprite, this.healthBar.bar, this.text]);
+
+    this.scene.add.existing(this);
 
     // add physics object to scene
-    this.scene.matter.add.gameObject(
+    this.gameObject = scene.matter.add.gameObject(
       this,
       {
         shape: { type: 'rectangle', width: 20, height: 40 },
@@ -75,9 +66,23 @@ export default class Zombie extends Phaser.GameObjects.Container {
     )
       .setFrictionAir(0.001)
       .setBounce(0.1)
-      .setMass(100)
-      .setOnCollide(data => {
-        this.health -= data.collision.depth;
-      });    
+      .setMass(100);
+
+    this.gameObject.setOnCollide(data => {
+      this.health -= data.collision.depth;
+    });    
+  }
+
+  update() {
+    const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
+    this.sprite.play(speed < 0.7 ? 'zombie_idle' : 'zombie_walk', true);
+
+    this.healthBar.draw(this.health);
+    if (this.health <= 0) {
+      this.sprite.destroy();
+      this.text.destroy();
+      this.destroy();
+      this.gameObject.destroy();
+    }
   }
 }

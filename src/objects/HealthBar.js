@@ -1,5 +1,3 @@
-import Phaser from 'phaser';
-
 export default class HealthBar {
   constructor (scene, x, y, {
     width = 80,
@@ -17,8 +15,6 @@ export default class HealthBar {
     this.background = background;
     this.maxHealth = maxHealth;
     
-    // this.bar = new Phaser.GameObjects.Graphics(scene);
-    // scene.add.existing(this.bar);
     this.bar = this.scene.add.graphics();
 
     this.draw(this.maxHealth);

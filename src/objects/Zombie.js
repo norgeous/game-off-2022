@@ -49,9 +49,9 @@ export default class Zombie extends Phaser.GameObjects.Container {
     this.gameObject = scene.matter.add.gameObject(
       this,
       {
-        shape: { type: 'rectangle', width: 20, height: 40 },
+        shape: { type: 'rectangle', width: 16, height: 40 },
         isStatic: false,
-        chamfer: { radius: 3 },
+        chamfer: { radius: 4 },
       },
     )
       .setFrictionAir(0.001)
@@ -67,12 +67,32 @@ export default class Zombie extends Phaser.GameObjects.Container {
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     this.sprite.play(speed < 0.7 ? 'zombie_idle' : 'zombie_walk', true);
 
+    // force upright (springy)
+    const { angle, angularVelocity } = this.gameObject.body;
+    if (angle !== 0) {
+      const diff = 0 - angle;
+      const newAv = (angularVelocity + (diff / 100)) * 0.9999;
+      this.gameObject.setAngularVelocity(newAv);
+    }
+
+    // (re)draw health bar
     this.healthBar.draw(this.health);
+
+    // kill if zero health
     if (this.health <= 0) {
       this.sprite.destroy();
       this.text.destroy();
       this.destroy();
       this.gameObject.destroy();
     }
+
+    // const { x, y } = this.scene.player;
+    // const dx = x - this.x;
+    // const dy = y - this.y;
+    // console.log(this.gameObject);
+    if (this.gameObject?.body?.velocity?.x) {
+      this.gameObject?.setVelocityX?.(1);
+    }
+
   }
 }

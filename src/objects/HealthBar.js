@@ -30,7 +30,7 @@ export default class HealthBar {
     this.bar.clear();
 
     // draw the health bar track (background)
-    this.bar.fillStyle(this.background);
+    this.bar.fillStyle(this.background, 0.5);
     this.bar.fillRect(
       this.x - (this.width / 2),
       this.y - (this.height / 2),
@@ -40,7 +40,7 @@ export default class HealthBar {
 
     // draw the health bar
     const fraction = (value / this.maxHealth);
-    this.bar.fillStyle(this.getColor(fraction));
+    this.bar.fillStyle(this.getColor(fraction), 0.5);
     this.bar.fillRect(
       this.x + this.padding - (this.width / 2),
       this.y + this.padding - (this.height / 2),

@@ -59,7 +59,10 @@ export default class Zombie extends Phaser.GameObjects.Container {
       .setMass(100);
 
     this.gameObject.setOnCollide(data => {
-      this.health -= data.collision.depth;
+      const { depth } = data.collision;
+      if (depth > 3) {
+        this.health -= depth;
+      }
     });    
   }
 
@@ -77,6 +80,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
       this.gameObject.setAngularVelocity(newAv);
     }
 
+    // when close to player and not moving much, jump towards player
     const { player } = this.scene;
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 250;
     const closeToStationary = speed <= 0.01;

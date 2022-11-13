@@ -64,6 +64,8 @@ export default class Zombie extends Phaser.GameObjects.Container {
   }
 
   update() {
+    if (!this.gameObject.body) return;
+
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     this.sprite.play(speed < 0.7 ? 'zombie_idle' : 'zombie_walk', true);
 
@@ -73,6 +75,17 @@ export default class Zombie extends Phaser.GameObjects.Container {
       const diff = 0 - angle;
       const newAv = (angularVelocity + (diff / 100)) * 0.9999;
       this.gameObject.setAngularVelocity(newAv);
+    }
+
+    const { player } = this.scene;
+    const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 250;
+    const closeToStationary = speed <= 0.01;
+    if (closeToPlayer && closeToStationary) {
+      const vectorTowardsPlayer = {
+        x: player.x - this.x,
+        y: player.y - this.y,
+      };
+      this.gameObject.setVelocity?.(vectorTowardsPlayer.x<0 ? -2 : 2, -1);
     }
 
     // (re)draw health bar
@@ -85,14 +98,5 @@ export default class Zombie extends Phaser.GameObjects.Container {
       this.destroy();
       this.gameObject.destroy();
     }
-
-    // const { x, y } = this.scene.player;
-    // const dx = x - this.x;
-    // const dy = y - this.y;
-    const closeToStationary = speed <= 0.01;
-    if (closeToStationary) {
-      this.gameObject?.setVelocity?.(2, -1);
-    }
-
   }
 }

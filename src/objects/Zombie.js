@@ -89,9 +89,9 @@ export default class Zombie extends Phaser.GameObjects.Container {
     // const { x, y } = this.scene.player;
     // const dx = x - this.x;
     // const dy = y - this.y;
-    // console.log(this.gameObject);
-    if (this.gameObject?.body?.velocity?.x) {
-      this.gameObject?.setVelocityX?.(1);
+    const closeToStationary = speed <= 0.01;
+    if (closeToStationary) {
+      this.gameObject?.setVelocity?.(2, -1);
     }
 
   }

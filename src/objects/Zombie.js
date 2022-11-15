@@ -56,14 +56,18 @@ export default class Zombie extends Phaser.GameObjects.Container {
     )
       .setFrictionAir(0.001)
       .setBounce(0.1)
-      .setMass(100);
+      // .setMass(100);
 
     this.gameObject.setOnCollide(data => {
       const { depth } = data.collision;
       if (depth > 3) {
         this.health -= depth;
       }
-    });    
+    });
+
+    setInterval(() => {
+      // this.gameObject.angle += 90;
+    }, 4000);
   }
 
   update() {
@@ -71,19 +75,24 @@ export default class Zombie extends Phaser.GameObjects.Container {
 
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     this.sprite.play(speed < 0.7 ? 'zombie_idle' : 'zombie_walk', true);
+    const { player } = this.scene;
+    const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 300;
+    const closeToStationary = speed <= 0.01;
+    const twoPi = Math.PI * 2;
 
     // force upright (springy)
     const { angle, angularVelocity } = this.gameObject.body;
-    if (angle !== 0) {
+    // const closestUpright = Math.round(angle / twoPi) * twoPi;
+    const angleInRotation = angle % twoPi;
+    // if (closeToPlayer) {
       const diff = 0 - angle;
-      const newAv = (angularVelocity + (diff / 100)) * 0.9999;
+      const newAv = (angularVelocity + (diff / 100));
       this.gameObject.setAngularVelocity(newAv);
-    }
+      // console.log('APPLY zombie moviement', angle.toFixed(1), angleInRotation.toFixed(1), newAv.toFixed(1));
+    // }
+    // console.log({closestUpright, angleInRotation, angle, angularVelocity})
 
     // when close to player and not moving much, jump towards player
-    const { player } = this.scene;
-    const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 250;
-    const closeToStationary = speed <= 0.01;
     if (closeToPlayer && closeToStationary) {
       const vectorTowardsPlayer = {
         x: player.x - this.x,

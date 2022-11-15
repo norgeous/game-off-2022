@@ -35,7 +35,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
     this.text = this.scene.add.text(0, 0 - 40, 'Zomb', {
       font: '12px Arial',
       align: 'center',
-      color: 'black',
+      color: 'red',
       fontWeight: 'bold',
     }).setOrigin(0.5);
 
@@ -64,10 +64,6 @@ export default class Zombie extends Phaser.GameObjects.Container {
         this.health -= depth;
       }
     });
-
-    setInterval(() => {
-      // this.gameObject.angle += 90;
-    }, 4000);
   }
 
   update() {
@@ -81,16 +77,13 @@ export default class Zombie extends Phaser.GameObjects.Container {
     const twoPi = Math.PI * 2;
 
     // force upright (springy)
-    const { angle, angularVelocity } = this.gameObject.body;
-    // const closestUpright = Math.round(angle / twoPi) * twoPi;
-    const angleInRotation = angle % twoPi;
-    // if (closeToPlayer) {
+    if (closeToPlayer) {
+      this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
+      const { angle, angularVelocity } = this.gameObject.body;
       const diff = 0 - angle;
       const newAv = (angularVelocity + (diff / 100));
       this.gameObject.setAngularVelocity(newAv);
-      // console.log('APPLY zombie moviement', angle.toFixed(1), angleInRotation.toFixed(1), newAv.toFixed(1));
-    // }
-    // console.log({closestUpright, angleInRotation, angle, angularVelocity})
+    }
 
     // when close to player and not moving much, jump towards player
     if (closeToPlayer && closeToStationary) {
@@ -98,7 +91,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
         x: player.x - this.x,
         y: player.y - this.y,
       };
-      this.gameObject.setVelocity?.(vectorTowardsPlayer.x<0 ? -2 : 2, -1);
+      this.gameObject.setVelocity?.(vectorTowardsPlayer.x < 0 ? -2 : 2, -1);
     }
 
     // (re)draw health bar

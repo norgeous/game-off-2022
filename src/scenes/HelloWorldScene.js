@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
 import Map from '../map/Map';
-import Ball from '../objects/Ball';
 import Player from '../objects/player/Player';
 import Zombie from '../objects/Zombie';
 
@@ -30,16 +29,14 @@ export default class HelloWorldScene extends Phaser.Scene {
       this.map.spawners.zombie.forEach(zombie => {
         this.zombieGroup.add(new Zombie(this, zombie.x+16, zombie.y-16));
       });
-
-      const b = new Ball(this);
-      setTimeout(() => b.destroy(), 3000);
-    }, 200);
+    }, 600);
     
     this.createPlayer();
   }
 
   createPlayer() {
     this.player = new Player(this, this.map.spawners.player.x+16, this.map.spawners.player.y-16, 'player', 4);
+    console.log(this.player)
     this.cam = this.cameras.main;
 
     this.cam.setBounds(0, 0, this.map.width, this.map.height);

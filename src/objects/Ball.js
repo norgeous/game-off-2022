@@ -20,7 +20,8 @@ class Ball {
       .setDisplaySize(10, 10)
       .setVelocity(10, -5);
     this.gameObject.body.label = 'ball';
-
+    this.gameObject.body.canDamageEnemy = true;
+    this.gameObject.body.damage = 10;
     this.gameObject.x = x ?? 100;
     this.gameObject.y = y ?? 1250;
   }

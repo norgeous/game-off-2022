@@ -59,11 +59,24 @@ export default class Zombie extends Phaser.GameObjects.Container {
       // .setMass(100);
 
     this.gameObject.setOnCollide(data => {
+      if (data.bodyA.canDamageEnemy) {
+        this.takeDamage(data.bodyB.damage);
+      }
+
+      if (data.bodyB.canDamageEnemy) {
+        this.takeDamage(data.bodyB.damage);
+      }
+
       const { depth } = data.collision;
       if (depth > 3) {
         this.health -= depth;
       }
     });
+
+  }
+
+  takeDamage(amount) {
+    this.health -= amount;
   }
 
   update() {

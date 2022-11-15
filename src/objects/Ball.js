@@ -18,7 +18,8 @@ class Ball {
       .setBounce(1)
       .setFrictionAir(0)
       .setDisplaySize(10, 10)
-      .setVelocity(10, -5);
+      .setIgnoreGravity(true)
+      .setVelocity(10, 0);
     this.gameObject.body.label = 'ball';
     this.gameObject.body.canDamageEnemy = true;
     this.gameObject.body.damage = 10;

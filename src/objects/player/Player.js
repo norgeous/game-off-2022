@@ -1,11 +1,10 @@
 import Phaser from 'phaser'
-import MachineGun from "../weapons/MachineGun.js";
-import Bomb from "../weapons/Bomb.js";
-import PlayerInput from "./PlayerInput.js";
-import Direction from "../enums/Direction.js";
-import Animations from "../enums/EntityAnimations.js";
-import EntityAnimations from "../enums/EntityAnimations.js";
-
+import MachineGun from '../weapons/MachineGun';
+import Bomb from '../weapons/Bomb';
+import PlayerInput from './PlayerInput';
+import Direction from '../enums/Direction';
+import Animations from '../enums/EntityAnimations';
+import EntityAnimations from '../enums/EntityAnimations';
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {

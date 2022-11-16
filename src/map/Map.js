@@ -53,19 +53,21 @@ export default class Map {
 
     this.layers.background.setCollisionByProperty({ collides: true });
     this.layers.foreground.setCollisionByProperty({ collides: true });
-
-    console.log([
-      this.Phaser.matter.world.nextCategory(),
-      this.Phaser.matter.world.nextCategory(),
-      this.Phaser.matter.world.nextCategory(),
-      this.Phaser.matter.world.nextCategory(),
-    ]);
-    this.layers.ladders.setCollisionBetween(0, 6); 
     this.layers.ladders.setCollisionByProperty({ collides: true });
 
     this.Phaser.matter.world.convertTilemapLayer(this.layers.background);
     this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);
     this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
+
+    this.layers.ladders.forEachTile(tile => {
+      if (tile.index === -1) return;
+      // tile.physics.matterBody.setCollisionGroup(2); // default group is 0
+      tile.physics.matterBody.setCollisionCategory(0b10); // default category is 0b1
+      // tile.physics.matterBody.setCollidesWith(0); // default mask is 4294967295 aka 0b11111111111111111111111111111111
+      console.log(tile.physics.matterBody.body.collisionFilter);
+    });
+
+    console.log(this.layers.ladders);
   }
 
   // Must be called inside a scene's preLoad()

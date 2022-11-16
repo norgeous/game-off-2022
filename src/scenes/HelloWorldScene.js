@@ -22,7 +22,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     // resize game on window resize
     window.addEventListener('resize', () => {
       setTimeout(() => {
-        this.scale.setGameSize(window.innerWidth / 4, window.innerHeight / 4);
+        this.scale.setGameSize(window.innerWidth / 3, window.innerHeight / 3);
       }, 100);
     });
 

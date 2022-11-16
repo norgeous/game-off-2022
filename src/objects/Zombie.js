@@ -2,8 +2,8 @@ import Phaser from 'phaser'
 import HealthBar from './HealthBar';
 
 export default class Zombie extends Phaser.GameObjects.Container {
-  constructor (scene, x, y, children) {
-    super(scene, x, y, children);
+  constructor (scene, x, y) {
+    super(scene, x, y);
 
     this.scene = scene;
 
@@ -32,10 +32,10 @@ export default class Zombie extends Phaser.GameObjects.Container {
     });
 
     // text
-    this.text = this.scene.add.text(0, 0 - 40, 'Zomb', {
+    this.text = this.scene.add.text(0, 0 - 40, 'Zombie', {
       font: '12px Arial',
       align: 'center',
-      color: 'red',
+      color: 'black',
       fontWeight: 'bold',
     }).setOrigin(0.5);
 
@@ -49,7 +49,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
     this.gameObject = scene.matter.add.gameObject(
       this,
       {
-        shape: { type: 'rectangle', width: 16, height: 40 },
+        shape: { type: 'rectangle', width: 14, height: 32 },
         isStatic: false,
         chamfer: { radius: 4 },
       },
@@ -83,17 +83,19 @@ export default class Zombie extends Phaser.GameObjects.Container {
   update() {
     if (!this.gameObject.body) return;
 
+    const { angle, angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
-    this.sprite.play(speed < 0.7 ? 'zombie_idle' : 'zombie_walk', true);
+
+    this.sprite.play(speed + angularVelocity < 0.1 ? 'zombie_idle' : 'zombie_walk', true);
+
     const { player } = this.scene;
-    const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 300;
+    const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 200;
     const closeToStationary = speed <= 0.01;
     const twoPi = Math.PI * 2;
 
     // force upright (springy)
     if (closeToPlayer) {
       this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
-      const { angle, angularVelocity } = this.gameObject.body;
       const diff = 0 - angle;
       const newAv = (angularVelocity + (diff / 100));
       this.gameObject.setAngularVelocity(newAv);
@@ -105,7 +107,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
         x: player.x - this.x,
         y: player.y - this.y,
       };
-      this.gameObject.setVelocity?.(vectorTowardsPlayer.x < 0 ? -2 : 2, -1);
+      this.gameObject.setVelocity?.(vectorTowardsPlayer.x < 0 ? -2 : 2, -2);
     }
 
     // (re)draw health bar

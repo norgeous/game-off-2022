@@ -5,6 +5,7 @@ import PlayerInput from './PlayerInput';
 import Direction from '../enums/Direction';
 import Animations from '../enums/EntityAnimations';
 import EntityAnimations from '../enums/EntityAnimations';
+import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -112,9 +113,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       .setPosition(x, y);
 
     this.createAnimations();
-    // Use matter events to detect whether the player is touching a surface to the left, right or
-    // bottom.
-
+    
+    // Use matter events to detect whether the player is touching a surface to the left, right or bottom.
     // Before matter's update, reset the player's count of what surfaces it is touching.
     this.scene.matter.world.on('beforeupdate', () => {
       this.playerController.numTouching.left = 0;
@@ -225,11 +225,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       targetVelocityX = this.playerController.speed.run;
       newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, this.value);
     }
+
     this.setVelocityX(newVelocityX);
   }
 
   update (time, delta) {
-
     if (this.keys.fireKey.isDown) {
       this.weapon.fire();
     }
@@ -264,6 +264,13 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         this.setVelocityX(-this.playerController.speed.run);
         this.playerController.lastJumpedAt = time;
       }
+    }
+
+    // ladder collisions
+    if (this.body.velocity.y < -4 || this.keys.downKey.isDown) {
+      this.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
+    } else {
+      this.setCollidesWith(collisionMaskEverything);
     }
   }
 }

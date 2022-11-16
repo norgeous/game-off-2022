@@ -8,7 +8,7 @@ const MAX_ZOMBIES = 10;
 export default class HelloWorldScene extends Phaser.Scene {
   constructor() {
     super('hello-world')
-    this.map = new Map(this,'testLevel', 'tileset_extruded.png', 'mapData.json');
+    this.map = new Map(this, 'testLevel', 'tileset_extruded.png', 'mapData.json');
     this.player = null;
   }
 

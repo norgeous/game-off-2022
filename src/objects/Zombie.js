@@ -2,8 +2,8 @@ import Phaser from 'phaser'
 import HealthBar from './HealthBar';
 
 export default class Zombie extends Phaser.GameObjects.Container {
-  constructor (scene, x, y, children) {
-    super(scene, x, y, children);
+  constructor (scene, x, y) {
+    super(scene, x, y);
 
     this.scene = scene;
 

@@ -42,8 +42,9 @@ export default class Map {
 
   loadLayers() {
     this.layers.backgroundColour = this.map.createLayer('BackgroundColour', this.tileset)
-    this.layers.forground = this.map.createLayer('Forground', this.tileset)
+    this.layers.foreground = this.map.createLayer('Forground', this.tileset)
     this.layers.background = this.map.createLayer('Background', this.tileset)
+    this.layers.ladders = this.map.createLayer('Ladders', this.tileset)
 
     this.spawners = {
       player: this.map.findObject('Spawner', obj => obj.name === 'player'),
@@ -51,10 +52,20 @@ export default class Map {
     };
 
     this.layers.background.setCollisionByProperty({ collides: true });
-    this.layers.forground.setCollisionByProperty({ collides: true });
+    this.layers.foreground.setCollisionByProperty({ collides: true });
+
+    console.log([
+      this.Phaser.matter.world.nextCategory(),
+      this.Phaser.matter.world.nextCategory(),
+      this.Phaser.matter.world.nextCategory(),
+      this.Phaser.matter.world.nextCategory(),
+    ]);
+    this.layers.ladders.setCollisionBetween(0, 6); 
+    this.layers.ladders.setCollisionByProperty({ collides: true });
 
     this.Phaser.matter.world.convertTilemapLayer(this.layers.background);
-    this.Phaser.matter.world.convertTilemapLayer(this.layers.forground);
+    this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);
+    this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
   }
 
   // Must be called inside a scene's preLoad()

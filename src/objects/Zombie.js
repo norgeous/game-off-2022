@@ -72,7 +72,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
     const { angle, angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
 
-    this.sprite.play(speed + angularVelocity < 0.4 ? 'zombie_idle' : 'zombie_walk', true);
+    this.sprite.play(speed + angularVelocity < 0.1 ? 'zombie_idle' : 'zombie_walk', true);
 
     const { player } = this.scene;
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 300;

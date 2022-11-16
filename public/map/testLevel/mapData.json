@@ -2245,6 +2245,54 @@
                 }, 
                 {
                  "id":174,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "class":"",
+                             "height":0,
+                             "id":3,
+                             "name":"",
+                             "polygon":[
+                                    {
+                                     "x":0,
+                                     "y":0
+                                    }, 
+                                    {
+                                     "x":0,
+                                     "y":-1.00390625
+                                    }, 
+                                    {
+                                     "x":31,
+                                     "y":-31.99609375
+                                    }, 
+                                    {
+                                     "x":32,
+                                     "y":-32
+                                    }, 
+                                    {
+                                     "x":32.00390625,
+                                     "y":-31
+                                    }, 
+                                    {
+                                     "x":0.99609375,
+                                     "y":0
+                                    }],
+                             "rotation":0,
+                             "visible":true,
+                             "width":0,
+                             "x":0,
+                             "y":32
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"collides",

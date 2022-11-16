@@ -2139,6 +2139,11 @@
                          "name":"collides",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"ladder",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -2193,6 +2198,11 @@
                  "properties":[
                         {
                          "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"ladder",
                          "type":"bool",
                          "value":true
                         }]

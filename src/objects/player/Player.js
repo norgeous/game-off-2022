@@ -5,6 +5,7 @@ import PlayerInput from './PlayerInput';
 import Direction from '../enums/Direction';
 import Animations from '../enums/EntityAnimations';
 import EntityAnimations from '../enums/EntityAnimations';
+import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -265,8 +266,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       }
     }
 
-    // ladders
-    if (this.body.velocity.y < -4 || this.keys.downKey.isDown) this.setCollidesWith(0b11111111111111111111111111111111 - 0b10);
-    else this.setCollidesWith(0b11111111111111111111111111111111 );
+    // ladder collisions
+    if (this.body.velocity.y < -4 || this.keys.downKey.isDown) {
+      this.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
+    } else {
+      this.setCollidesWith(collisionMaskEverything);
+    }
   }
 }

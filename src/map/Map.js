@@ -1,3 +1,5 @@
+import { collisionCategories } from '../objects/enums/Collisions';
+
 export default class Map {
   root = 'map';
   tilesSheet;
@@ -59,15 +61,11 @@ export default class Map {
     this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);
     this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
 
+    // now that matter has loaded the layers, set collision categories on tile bodies
     this.layers.ladders.forEachTile(tile => {
       if (tile.index === -1) return;
-      // tile.physics.matterBody.setCollisionGroup(2); // default group is 0
-      tile.physics.matterBody.setCollisionCategory(0b10); // default category is 0b1
-      // tile.physics.matterBody.setCollidesWith(0); // default mask is 4294967295 aka 0b11111111111111111111111111111111
-      console.log(tile.physics.matterBody.body.collisionFilter);
+      tile.physics.matterBody.setCollisionCategory(collisionCategories.ladders);
     });
-
-    console.log(this.layers.ladders);
   }
 
   // Must be called inside a scene's preLoad()

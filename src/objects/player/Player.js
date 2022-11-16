@@ -266,7 +266,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     }
 
     // ladders
-    if (this.body.velocity.y < -4) this.setCollidesWith(0b11111111111111111111111111111111 - 0b10);
+    if (this.body.velocity.y < -4 || this.keys.downKey.isDown) this.setCollidesWith(0b11111111111111111111111111111111 - 0b10);
     else this.setCollidesWith(0b11111111111111111111111111111111 );
   }
 }

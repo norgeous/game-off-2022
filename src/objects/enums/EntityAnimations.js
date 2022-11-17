@@ -5,6 +5,7 @@ export default class EntityAnimations {
     static MoveRight = 'right';
     static MoveUp = 'up';
     static MoveDown = 'down';
+    static Walk = 'walk';
 
     static Death = 'death';
     static TakeDamage = 'take_damage';

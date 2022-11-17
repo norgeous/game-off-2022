@@ -11,7 +11,7 @@ class Bullet {
       { font: '50px Arial', align: 'center' },
     ).setOrigin(0.5);
 
-    const gameObjectShape = {
+    const gameObjectConfig = {
       shape: { type: 'circle', radius: 26 },
       restitution: 1,
       mass: 1,
@@ -19,7 +19,7 @@ class Bullet {
       frictionAir: 0,
       ignoreGravity: true,
     };
-    this.gameObject = scene.matter.add.gameObject(this.text, gameObjectShape);
+    this.gameObject = scene.matter.add.gameObject(this.text, gameObjectConfig);
     this.gameObject
       .setDisplaySize(5, 5)
       .setVelocity(10, 0);

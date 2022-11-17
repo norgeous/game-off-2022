@@ -20,10 +20,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
 
     loadPhysics(physicsConfig) {
-        this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig.options)
-            .setFrictionAir(physicsConfig.frictionAir)
-            .setBounce(physicsConfig.bounce)
-            .setMass(physicsConfig.mass);
+        this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig)
     }
 
     loadSprite() {
@@ -31,7 +28,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
 
     getKey(key) {
-        return this.name + '_' + key;
+        return `${this.name}_${key}`;
     }
 
     addToContainer(array) {

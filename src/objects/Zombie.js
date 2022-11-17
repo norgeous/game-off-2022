@@ -44,11 +44,9 @@ export default class Zombie extends Entity {
       frictionAir: 0.001,
       bounce: 0.1,
       mass: 500,
-      options: {
-        shape: { type: 'rectangle', width: 14, height: 32 },
-        isStatic: false,
-        chamfer: { radius: 4 },
-      }
+      shape: { type: 'rectangle', width: 14, height: 32 },
+      isStatic: false,
+      chamfer: { radius: 4 },
     });
 
     this.gameObject.setOnCollide(data => {

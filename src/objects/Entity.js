@@ -1,5 +1,4 @@
 import Phaser from 'phaser'
-import HealthBar from './HealthBar';
 
 export default class Entity extends Phaser.GameObjects.Container {
     constructor (scene, x, y, children) {

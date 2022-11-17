@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import HealthBar from './HealthBar';
+import { collisionCategories, collisionMaskEverything } from './enums/Collisions';
 
 export default class Zombie extends Phaser.GameObjects.Container {
   constructor (scene, x, y) {
@@ -59,11 +60,25 @@ export default class Zombie extends Phaser.GameObjects.Container {
       // .setMass(100);
 
     this.gameObject.setOnCollide(data => {
+
+      if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
+        this.takeDamage(data.bodyB.damage);
+      }
+
+      if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
+        this.takeDamage(data.bodyB.damage);
+      }
+
       const { depth } = data.collision;
       if (depth > 3) {
         this.health -= depth;
       }
     });
+
+  }
+
+  takeDamage(amount) {
+    this.health -= amount;
   }
 
   update() {

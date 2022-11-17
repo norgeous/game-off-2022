@@ -1,5 +1,5 @@
-import AbstractWeapon from "./AbstractWeapon.js";
-import Ball from "../Ball.js";
+import AbstractWeapon from './AbstractWeapon';
+import Ball from '../Ball';
 
 export default class Bomb extends AbstractWeapon {
     constructor(player, timerMs = 0) {

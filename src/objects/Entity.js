@@ -15,7 +15,6 @@ export default class Entity extends Phaser.GameObjects.Container {
         this.health = 100;
         this.healthBar = null;
 
-
         this.followPlayer = true;
         this.healthCheck = true;
     }
@@ -40,7 +39,7 @@ export default class Entity extends Phaser.GameObjects.Container {
         this.scene.add.existing(this);
     }
 
-    createAnimation(key, startFrame, endFrame, repeat = -1, frameRate = 3) {
+    createAnimation(key, startFrame, endFrame, frameRate = 3,  repeat = -1) {
         this.scene.anims.create({
             key: this.getKey(key),
             frameRate: frameRate,

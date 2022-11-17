@@ -1,3 +1,5 @@
+import { collisionCategories, collisionMaskEverything } from './enums/Collisions';
+
 class Ball {
   constructor(scene, x, y) {
     // create ball
@@ -21,10 +23,10 @@ class Ball {
       .setIgnoreGravity(true)
       .setVelocity(10, 0);
     this.gameObject.body.label = 'ball';
-    this.gameObject.body.canDamageEnemy = true;
     this.gameObject.body.damage = 10;
     this.gameObject.x = x ?? 100;
     this.gameObject.y = y ?? 1250;
+    this.gameObject.setCollisionCategory(collisionCategories.enemyDamage)
   }
 
   destroy() {

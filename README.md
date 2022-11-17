@@ -25,9 +25,13 @@ https://itnext.io/modular-game-worlds-in-phaser-3-tilemaps-4-meet-matter-js-abf4
 
 https://phaser.io/examples/v3/view/tilemap/collision/matter-platformer-with-wall-jumping
 
+https://github.com/photonstorm/phaser/issues/5488
+
 https://phaser.io/examples/v3/view/game-objects/graphics/health-bars-demo
 
 https://phaser.discourse.group/t/create-a-matter-sprite-class-from-a-phaser-container/11272
+
+https://blog.ourcade.co/posts/2020/phaser-3-matter-physics-collision-filter/
 
 ## Tile Extruder
 

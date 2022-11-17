@@ -3,12 +3,14 @@ import Map from '../map/Map';
 import Player from '../objects/player/Player';
 import Zombie from '../objects/Zombie';
 
+const MAX_ZOMBIES = 10;
+
 export default class HelloWorldScene extends Phaser.Scene {
-	constructor() {
-		super('hello-world')
-		this.map = new Map(this,'testLevel', 'tileset_extruded.png', 'mapData.json');
-		this.player = null;
-	}
+  constructor() {
+    super('hello-world')
+    this.map = new Map(this, 'testLevel', 'tileset_extruded.png', 'mapData.json');
+    this.player = null;
+  }
 
   preload() {
     this.map.preload();
@@ -16,27 +18,34 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
   }
 
-	create() {
-		this.map.create();
-		this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
+  create() {
+    // resize game on window resize
+    window.addEventListener('resize', () => {
+      setTimeout(() => {
+        this.scale.setGameSize(window.innerWidth / 3, window.innerHeight / 3);
+      }, 100);
+    });
 
-		this.zombieGroup = this.add.group();
-    this.map.spawners.zombie.forEach(zombie => {
-      this.zombieGroup.add(new Zombie(this, zombie.x+16, zombie.y-16));
+    this.map.create();
+    this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
+
+		this.zombieGroup = this.add.group({
+      maxSize: MAX_ZOMBIES,
+      runChildUpdate: true,
+      classType: Zombie,
     });
 
     setInterval(() => {
       this.map.spawners.zombie.forEach(zombie => {
-        this.zombieGroup.add(new Zombie(this, zombie.x+16, zombie.y-16));
+        this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
       });
-    }, 600);
+    }, 1000);
     
     this.createPlayer();
   }
 
   createPlayer() {
     this.player = new Player(this, this.map.spawners.player.x+16, this.map.spawners.player.y-16, 'player', 4);
-    console.log(this.player)
     this.cam = this.cameras.main;
 
     this.cam.setBounds(0, 0, this.map.width, this.map.height);
@@ -51,7 +60,6 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update(time, delta);
-    this.zombieGroup.getChildren().forEach(zombie => zombie.update());
     this.smoothMoveCameraTowards(this.player, 0.9);
   }
 }

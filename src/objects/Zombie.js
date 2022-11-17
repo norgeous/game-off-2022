@@ -158,7 +158,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
 
     // kill if zero health
     if (this.health <= 0) {
-      this.gameObject.rotation = 0;
+      this.gameObject.rotation = 0; // force upright for death animation
       this.text.setText('X');
       this.scene.time.delayedCall(2000, () => {
         this.sprite.destroy();

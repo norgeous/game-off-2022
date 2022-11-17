@@ -20,7 +20,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
 
     loadPhysics(physicsConfig) {
-        this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig)
+        this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig);
     }
 
     loadSprite() {

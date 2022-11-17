@@ -10,7 +10,6 @@ export default class Zombie extends Entity {
 
     this.scene = scene;
     this.name = 'zombie';
-
     this.spriteObject.spriteSheet = 'zombieSpriteSheet';
 
     this.loadSprite();
@@ -19,7 +18,7 @@ export default class Zombie extends Entity {
     // zombie sprite
     this.sprite.flipX = Math.random() > 0.5; // initial face left / right randomly
 
-    this.playAnimation(this.getKey(EntityAnimations.Idle));
+    this.playAnimation(EntityAnimations.Idle);
 
     // health bar
     this.health = 100;
@@ -43,7 +42,6 @@ export default class Zombie extends Entity {
     this.loadPhysics({
       frictionAir: 0.001,
       bounce: 0.1,
-      mass: 500,
       shape: { type: 'rectangle', width: 14, height: 32 },
       isStatic: false,
       chamfer: { radius: 4 },
@@ -96,14 +94,14 @@ export default class Zombie extends Entity {
       // alive
       if (veryCloseToPlayer) {
         // attack
-        this.sprite.play(EntityAnimations.Attack, true);
+        this.playAnimation(EntityAnimations.Attack);
       } else {
         // when moving play walking animation, otherwise play idle
-        this.sprite.play(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walking, true);
+        this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walking);
       }
     } else {
       // dead
-      this.sprite.play(EntityAnimations.Death, true);
+      this.playAnimation(EntityAnimations.Death);
     }
 
     // force upright (springy)

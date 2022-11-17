@@ -2,18 +2,24 @@ import Phaser from 'phaser'
 import HealthBar from './HealthBar';
 import EntityAnimations from './enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from './enums/Collisions';
+import Entity from "./Entity.js";
 
-export default class Zombie extends Phaser.GameObjects.Container {
+export default class Zombie extends Entity {
   constructor (scene, x, y) {
     super(scene, x, y);
 
     this.scene = scene;
+    this.name = 'zombie';
+
+    this.spriteObject.spriteSheet = 'zombieSpriteSheet';
+
+    this.loadSprite();
+    this.createAnimations();
 
     // zombie sprite
-    this.sprite = this.scene.add.sprite(0, 0, 'zombie');
     this.sprite.flipX = Math.random() > 0.5; // initial face left / right randomly
-    this.createAnimations();
-    this.sprite.play('zombie_idle', true);
+
+    this.playAnimation(this.getKey(EntityAnimations.Idle));
 
     // health bar
     this.health = 100;
@@ -31,24 +37,17 @@ export default class Zombie extends Phaser.GameObjects.Container {
       fontWeight: 'bold',
     }).setOrigin(0.5);
 
-    // add sprite, text and health bar into container
-    this.add([this.sprite, this.healthBar.bar, this.text]);
 
-    // add this container to scene
-    this.scene.add.existing(this);
+    this.addToContainer([this.sprite, this.healthBar.bar, this.text]);
 
-    // add physics object to scene
-    this.gameObject = scene.matter.add.gameObject(
-      this,
-      {
-        shape: { type: 'rectangle', width: 14, height: 32 },
-        isStatic: false,
-        chamfer: { radius: 4 },
-      },
-    )
-      .setFrictionAir(0.001)
-      .setBounce(0.1)
-      // .setMass(100);
+    this.loadPhysics({
+      frictionAir: 0.001,
+      bounce: 0.1,
+      mass: 500,
+      shape: { type: 'rectangle', width: 14, height: 32 },
+      isStatic: false,
+      chamfer: { radius: 4 },
+    });
 
     this.gameObject.setOnCollide(data => {
 
@@ -64,7 +63,6 @@ export default class Zombie extends Phaser.GameObjects.Container {
       const { depth } = data.collision;
       if (depth > 5) this.takeDamage(depth);
     });
-
   }
 
   takeDamage(amount) {
@@ -73,30 +71,10 @@ export default class Zombie extends Phaser.GameObjects.Container {
   }
 
   createAnimations() {
-    this.scene.anims.create({
-      key: EntityAnimations.Idle,
-      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 10, end: 11 }),
-      frameRate: 3,
-      repeat: -1
-    });
-    this.scene.anims.create({
-      key: EntityAnimations.Walking,
-      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 0, end: 3 }),
-      frameRate: 5,
-      repeat: -1
-    });
-    this.scene.anims.create({
-      key: EntityAnimations.Attack,
-      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 4, end: 7 }),
-      frameRate: 15,
-      repeat: -1,
-    });
-    this.scene.anims.create({
-      key: EntityAnimations.Death,
-      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 12, end: 15 }),
-      frameRate: 2,
-      repeat: 0,
-    });
+    this.createAnimation(EntityAnimations.Idle, 10, 11, 3);
+    this.createAnimation(EntityAnimations.Walking, 0, 3, 5);
+    this.createAnimation(EntityAnimations.Attack, 4, 7, 15);
+    this.createAnimation(EntityAnimations.Death, 12, 15, 2);
   }
 
   update() {
@@ -112,7 +90,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
     const twoPi = Math.PI * 2;
     const isAlive = this.health > 0;
 
-    
+
     // animations
     if (isAlive) {
       // alive

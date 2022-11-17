@@ -7,6 +7,12 @@ export default class AbstractWeapon {
       throw new Error('Abstract classes can\'t be instantiated.');
     }
     this.firstShot = true;
+
+    // this.zombieGroup = this.add.group({
+    //   maxSize: MAX_ZOMBIES,
+    //   runChildUpdate: true,
+    //   classType: Zombie,
+    // });
   }
 
   fire() {

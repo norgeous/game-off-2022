@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import HealthBar from './HealthBar';
+import EntityAnimations from './enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from './enums/Collisions';
 
 export default class Zombie extends Phaser.GameObjects.Container {
@@ -10,18 +11,8 @@ export default class Zombie extends Phaser.GameObjects.Container {
 
     // zombie sprite
     this.sprite = this.scene.add.sprite(0, 0, 'zombie');
-    this.scene.anims.create({
-      key: 'zombie_idle',
-      frameRate: 3,
-      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 10, end: 11 }),
-      repeat: -1
-    });
-    this.scene.anims.create({
-      key: 'zombie_walk',
-      frameRate: 3,
-      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 0, end: 3 }),
-      repeat: -1
-    });
+    this.sprite.flipX = Math.random() > 0.5; // initial face left / right randomly
+    this.createAnimations();
     this.sprite.play('zombie_idle', true);
 
     // health bar
@@ -69,16 +60,43 @@ export default class Zombie extends Phaser.GameObjects.Container {
         this.takeDamage(data.bodyB.damage);
       }
 
+      // environmental / fall damage
       const { depth } = data.collision;
-      if (depth > 3) {
-        this.health -= depth;
-      }
+      if (depth > 5) this.takeDamage(depth);
     });
 
   }
 
   takeDamage(amount) {
     this.health -= amount;
+    if (this.health<0) this.health = 0;
+  }
+
+  createAnimations() {
+    this.scene.anims.create({
+      key: EntityAnimations.Idle,
+      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 10, end: 11 }),
+      frameRate: 3,
+      repeat: -1
+    });
+    this.scene.anims.create({
+      key: EntityAnimations.Walking,
+      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 0, end: 3 }),
+      frameRate: 5,
+      repeat: -1
+    });
+    this.scene.anims.create({
+      key: EntityAnimations.Attack,
+      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 4, end: 7 }),
+      frameRate: 15,
+      repeat: -1,
+    });
+    this.scene.anims.create({
+      key: EntityAnimations.Death,
+      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 12, end: 15 }),
+      frameRate: 2,
+      repeat: 0,
+    });
   }
 
   update() {
@@ -86,16 +104,32 @@ export default class Zombie extends Phaser.GameObjects.Container {
 
     const { angle, angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
-
-    this.sprite.play(speed + angularVelocity < 0.1 ? 'zombie_idle' : 'zombie_walk', true);
-
+    const motion = speed + Math.abs(angularVelocity);
+    const closeToStationary = motion <= 0.1;
     const { player } = this.scene;
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 200;
-    const closeToStationary = speed <= 0.01;
+    const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
     const twoPi = Math.PI * 2;
+    const isAlive = this.health > 0;
+
+    
+    // animations
+    if (isAlive) {
+      // alive
+      if (veryCloseToPlayer) {
+        // attack
+        this.sprite.play(EntityAnimations.Attack, true);
+      } else {
+        // when moving play walking animation, otherwise play idle
+        this.sprite.play(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walking, true);
+      }
+    } else {
+      // dead
+      this.sprite.play(EntityAnimations.Death, true);
+    }
 
     // force upright (springy)
-    if (closeToPlayer) {
+    if (isAlive && closeToPlayer) {
       this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
       const diff = 0 - angle;
       const newAv = (angularVelocity + (diff / 100));
@@ -103,16 +137,19 @@ export default class Zombie extends Phaser.GameObjects.Container {
     }
 
     // when close to player and not moving much, jump towards player
-    if (closeToPlayer && closeToStationary) {
+    if (isAlive && closeToPlayer && closeToStationary) {
       const vectorTowardsPlayer = {
         x: player.x - this.x,
         y: player.y - this.y,
       };
-      this.gameObject.setVelocity?.(vectorTowardsPlayer.x < 0 ? -2 : 2, -2);
+      this.gameObject.setVelocity?.(
+        vectorTowardsPlayer.x < 0 ? -2 : 2,
+        -2,
+      );
     }
 
     // flip zombie sprite when player is close to and left of zombie
-    if (closeToPlayer) {
+    if (isAlive && closeToPlayer) {
       this.sprite.flipX = player.x < this.x;
     }
 
@@ -121,10 +158,14 @@ export default class Zombie extends Phaser.GameObjects.Container {
 
     // kill if zero health
     if (this.health <= 0) {
-      this.sprite.destroy();
-      this.text.destroy();
-      this.destroy();
-      this.gameObject.destroy();
+      this.gameObject.rotation = 0; // force upright for death animation
+      this.text.setText('X');
+      this.scene.time.delayedCall(2000, () => {
+        this.sprite.destroy();
+        this.text.destroy();
+        this.destroy();
+        this.gameObject.destroy();
+      });
     }
   }
 }

@@ -3,7 +3,6 @@ import MachineGun from '../weapons/MachineGun';
 import Bomb from '../weapons/Bomb';
 import PlayerInput from './PlayerInput';
 import Direction from '../enums/Direction';
-import Animations from '../enums/EntityAnimations';
 import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
 
@@ -144,8 +143,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         }
         else if ((bodyA === left && bodyB.isStatic) || (bodyB === left && bodyA.isStatic))
         {
-          // Only static objects count since we don't want to be blocked by an object that we
-          // can push around.
+          // Only static objects count since we don't want to be blocked by an object that we can push around.
           this.playerController.numTouching.left += 1;
         }
         else if ((bodyA === right && bodyB.isStatic) || (bodyB === right && bodyA.isStatic))

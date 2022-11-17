@@ -9,18 +9,8 @@ export default class Zombie extends Phaser.GameObjects.Container {
 
     // zombie sprite
     this.sprite = this.scene.add.sprite(0, 0, 'zombie');
-    this.scene.anims.create({
-      key: 'zombie_idle',
-      frameRate: 3,
-      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 10, end: 11 }),
-      repeat: -1
-    });
-    this.scene.anims.create({
-      key: 'zombie_walk',
-      frameRate: 3,
-      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 0, end: 3 }),
-      repeat: -1
-    });
+    this.sprite.flipX = Math.random() > 0.5; // initial face left/right randomly
+    this.createAnimations();
     this.sprite.play('zombie_idle', true);
 
     // health bar
@@ -63,6 +53,21 @@ export default class Zombie extends Phaser.GameObjects.Container {
       if (depth > 3) {
         this.health -= depth;
       }
+    });
+  }
+
+  createAnimations() {
+    this.scene.anims.create({
+      key: 'zombie_idle',
+      frameRate: 3,
+      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 10, end: 11 }),
+      repeat: -1
+    });
+    this.scene.anims.create({
+      key: 'zombie_walk',
+      frameRate: 3,
+      frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 0, end: 3 }),
+      repeat: -1
     });
   }
 

@@ -3,7 +3,6 @@ import MachineGun from '../weapons/MachineGun';
 import Bomb from '../weapons/Bomb';
 import PlayerInput from './PlayerInput';
 import Direction from '../enums/Direction';
-import Animations from '../enums/EntityAnimations';
 import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
 

@@ -111,6 +111,11 @@ export default class Zombie extends Phaser.GameObjects.Container {
       this.gameObject.setVelocity?.(vectorTowardsPlayer.x < 0 ? -2 : 2, -2);
     }
 
+    // flip zombie sprite when player is close to and left of zombie
+    if (closeToPlayer) {
+      this.sprite.flipX = player.x < this.x;
+    }
+
     // (re)draw health bar
     this.healthBar.draw(this.health);
 

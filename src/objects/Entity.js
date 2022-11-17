@@ -20,7 +20,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
 
     loadPhysics(physicsConfig) {
-        this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig)
+        this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig);
     }
 
     loadSprite() {
@@ -37,6 +37,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
 
     createAnimation(key, startFrame, endFrame, frameRate = 3,  repeat = -1) {
+        console.log( this.getKey(key));
         this.scene.anims.create({
             key: this.getKey(key),
             frameRate: frameRate,

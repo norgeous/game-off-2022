@@ -11,7 +11,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
 
     // zombie sprite
     this.sprite = this.scene.add.sprite(0, 0, 'zombie');
-    this.sprite.flipX = Math.random() > 0.5; // initial face left/right randomly
+    this.sprite.flipX = Math.random() > 0.5; // initial face left / right randomly
     this.createAnimations();
     this.sprite.play('zombie_idle', true);
 
@@ -94,7 +94,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
     this.scene.anims.create({
       key: EntityAnimations.Death,
       frames: this.sprite.anims.generateFrameNumbers('zombieSpriteSheet', { start: 12, end: 15 }),
-      frameRate: 10,
+      frameRate: 2,
       repeat: 0,
     });
   }
@@ -110,17 +110,26 @@ export default class Zombie extends Phaser.GameObjects.Container {
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 200;
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
     const twoPi = Math.PI * 2;
+    const isAlive = this.health > 0;
 
+    
     // animations
-    if (veryCloseToPlayer) {
-      this.sprite.play(EntityAnimations.Attack, true);
+    if (isAlive) {
+      // alive
+      if (veryCloseToPlayer) {
+        // attack
+        this.sprite.play(EntityAnimations.Attack, true);
+      } else {
+        // when moving play walking animation, otherwise play idle
+        this.sprite.play(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walking, true);
+      }
     } else {
-      // when moving play walking animation, otherwise play idle
-      this.sprite.play(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walking, true);
+      // dead
+      this.sprite.play(EntityAnimations.Death, true);
     }
 
     // force upright (springy)
-    if (closeToPlayer) {
+    if (isAlive && closeToPlayer) {
       this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
       const diff = 0 - angle;
       const newAv = (angularVelocity + (diff / 100));
@@ -128,7 +137,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
     }
 
     // when close to player and not moving much, jump towards player
-    if (closeToPlayer && closeToStationary) {
+    if (isAlive && closeToPlayer && closeToStationary) {
       const vectorTowardsPlayer = {
         x: player.x - this.x,
         y: player.y - this.y,
@@ -140,7 +149,7 @@ export default class Zombie extends Phaser.GameObjects.Container {
     }
 
     // flip zombie sprite when player is close to and left of zombie
-    if (closeToPlayer) {
+    if (isAlive && closeToPlayer) {
       this.sprite.flipX = player.x < this.x;
     }
 
@@ -149,10 +158,8 @@ export default class Zombie extends Phaser.GameObjects.Container {
 
     // kill if zero health
     if (this.health <= 0) {
-
-      this.sprite.play(EntityAnimations.Death, false);
       this.text.setText('X');
-      this.scene.time.delayedCall(10000, () => {
+      this.scene.time.delayedCall(2000, () => {
         this.sprite.destroy();
         this.text.destroy();
         this.destroy();

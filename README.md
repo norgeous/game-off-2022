@@ -33,6 +33,8 @@ https://phaser.discourse.group/t/create-a-matter-sprite-class-from-a-phaser-cont
 
 https://blog.ourcade.co/posts/2020/phaser-3-matter-physics-collision-filter/
 
+https://photonstorm.github.io/phaser3-docs/Phaser.Types.Physics.Matter.html#.MatterBodyConfig
+
 ## Tile Extruder
 
 https://github.com/sporadic-labs/tile-extruder#readme

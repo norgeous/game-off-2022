@@ -7,13 +7,14 @@ export default class MachineGun extends AbstractWeapon {
       scene,
       {
         BulletClass: Bullet,
-        maxBullets: 100,
+        maxBullets: 10,
       },
     );
   }
 
   fire() {
-    this.bulletGroup.get(this.scene.player.x, this.scene.player.y);
+    const b = this.bulletGroup.get(this.scene.player.x, this.scene.player.y);
+    // b?.setVelocity(10,0);
   }
 
   fireRelease() {

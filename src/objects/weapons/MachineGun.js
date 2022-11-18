@@ -7,7 +7,7 @@ export default class MachineGun extends AbstractWeapon {
     }
 
     fire() {
-        const bullet = new Ball(this.player.scene, this.player.x, this.player.y);
+        const bullet = new Ball(this.player.scene, this.player.x, this.player.y, this.player.playerController.direction);
     }
     
     fireRelease() {

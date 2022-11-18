@@ -8,7 +8,7 @@ export default class Entity extends Phaser.GameObjects.Container {
         this.sprite = null;
         this.spriteObject = {
             defaultFrameRate: 3,
-            spriteSheet: ''
+            spriteSheet: '',
         };
 
         this.health = 100;
@@ -40,7 +40,7 @@ export default class Entity extends Phaser.GameObjects.Container {
             key: this.getKey(key),
             frameRate: frameRate,
             frames: this.sprite.anims.generateFrameNumbers(this.spriteObject.spriteSheet, { start: startFrame, end: endFrame }),
-            repeat: repeat
+            repeat: repeat,
         });
     }
 

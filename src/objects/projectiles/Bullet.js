@@ -1,8 +1,9 @@
 import Phaser from 'phaser';
 import { collisionCategories } from '../enums/Collisions';
+import Direction from '../enums/Direction';
 
 class Bullet extends Phaser.Physics.Matter.Sprite {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, direction) {
     super(
       scene.matter.world,
       x,
@@ -18,9 +19,12 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
       },
     );
 
+    const velocityX = (direction === Direction.Right) ? 10 : -10;
+    const velocityY = 0;
+
     this.body.damage = 10;
     this.setCollisionCategory(collisionCategories.enemyDamage)
-    this.setVelocity(10, 0);
+    this.setVelocity(velocityX, velocityY);
 
     // self destroy after lifespan
     this.scene.time.delayedCall(1000, () => this.destroy());

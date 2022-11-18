@@ -1,5 +1,5 @@
 import { collisionCategories } from '../enums/Collisions';
-import Direction from '../enums/Direction.js';
+import Direction from '../enums/Direction';
 
 class Ball {
   constructor(scene, x, y, direction) {

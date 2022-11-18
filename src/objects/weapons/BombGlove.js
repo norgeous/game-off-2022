@@ -16,7 +16,7 @@ export default class BombGlove extends AbstractWeapon {
 
   fire() {
     if (this.firstShot) {
-      const b = new Ball(this.scene, this.scene.player.x, this.scene.player.y);
+      const b = new Ball(this.scene, this.scene.player.x, this.scene.player.y, this.scene.player.playerController.direction);
 
       if (this.timer > 0) {
         setTimeout(() => b.destroy(), this.timer);

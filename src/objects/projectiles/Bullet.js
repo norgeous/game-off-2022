@@ -1,4 +1,4 @@
-import { collisionCategories } from './enums/Collisions';
+import { collisionCategories } from '../enums/Collisions';
 
 // https://labs.phaser.io/assets/sprites/bullets/bullet1.png
 

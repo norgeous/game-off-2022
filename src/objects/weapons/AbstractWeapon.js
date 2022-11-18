@@ -1,18 +1,17 @@
-import Phaser from 'phaser';
-
 export default class AbstractWeapon {
-  constructor(player) {
-    this.player = player;
+  constructor(scene, { BulletClass, maxBullets }) {
+    this.scene = scene;
+
     if (this.constructor == AbstractWeapon) {
       throw new Error('Abstract classes can\'t be instantiated.');
     }
-    this.firstShot = true;
 
-    // this.zombieGroup = this.add.group({
-    //   maxSize: MAX_ZOMBIES,
-    //   runChildUpdate: true,
-    //   classType: Zombie,
-    // });
+    this.bulletGroup = this.scene.add.group({
+      maxSize: maxBullets,
+      classType: BulletClass,
+    });
+
+    this.firstShot = true;
   }
 
   fire() {
@@ -24,6 +23,8 @@ export default class AbstractWeapon {
   fireRelease() {
     this.firstShot = true;
   }
+
   preLoad() {}
+
   update() {}
 }

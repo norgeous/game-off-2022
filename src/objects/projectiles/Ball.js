@@ -1,4 +1,4 @@
-import { collisionCategories } from './enums/Collisions';
+import { collisionCategories } from '../enums/Collisions';
 
 class Ball {
   constructor(scene, x, y) {

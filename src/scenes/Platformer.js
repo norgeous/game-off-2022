@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import Player from '../objects/player/Player.js';
-import Ball from '../objects/Ball';
+import Ball from '../objects/projectiles/Ball';
 import Zombie from '../objects/Zombie';
 
 export default class Platformer extends Phaser.Scene {

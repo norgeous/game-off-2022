@@ -27,7 +27,7 @@ class Bomb extends Phaser.GameObjects.Text {
       .setMass(100)
       .setBounce(1)
       .setFrictionAir(0)
-      .setDisplaySize(10, 10)
+      .setDisplaySize(20, 20)
       // .setIgnoreGravity(true)
       .setVelocity(velocityX, velocityY);
     this.gameObject.body.damage = 10;

@@ -13,10 +13,11 @@ export default class MachineGun extends AbstractWeapon {
   }
 
   fire() {
-    const bullet = this.bulletGroup.get(this.scene.player.x, this.scene.player.y, this.scene.player.playerController.direction);
-  }
-    
-  fireRelease() {
-    this.firstShot = false;
+    this.bulletGroup.get(
+      this.scene.player.x,
+      this.scene.player.y,
+      this.scene.player.playerController.direction,
+      1000,
+    );
   }
 }

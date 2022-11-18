@@ -1,12 +1,12 @@
 import AbstractWeapon from './AbstractWeapon';
-import Ball from '../projectiles/Ball';
+import Bomb from '../projectiles/Bomb';
 
 export default class BombGlove extends AbstractWeapon {
-  constructor(scene, timerMs = 0) {
+  constructor(scene, timerMs = 1000) {
     super(
       scene,
       {
-        BulletClass: Ball,
+        BulletClass: Bomb,
         maxBullets: 1,
       },
     );
@@ -16,11 +16,12 @@ export default class BombGlove extends AbstractWeapon {
 
   fire() {
     if (this.firstShot) {
-      const b = new Ball(this.scene, this.scene.player.x, this.scene.player.y, this.scene.player.playerController.direction);
-
-      if (this.timer > 0) {
-        setTimeout(() => b.destroy(), this.timer);
-      }
+      this.bulletGroup.get(
+        this.scene.player.x,
+        this.scene.player.y,
+        this.scene.player.playerController.direction,
+        this.timer,
+      );
     }
     super.fire();
   }

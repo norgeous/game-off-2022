@@ -25,7 +25,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     };
 
     this.cursors = this.scene.input.keyboard.createCursorKeys();
-
+    this.spriteFrames = {
+      facingCamera: 5,
+      facingLeft: 0,
+      facingRight: 5
+    }
     // Smoothed horizontal controls helper. This gives us a value between -1 and 1 depending on how long
     // the player has been pressing left or right, respectively
     this.msSpeed = 0.0005;
@@ -71,10 +75,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       },
       lastJumpedAt: 0,
       speed: {
-        run: 7,
+        run: 4,
         jump: 10
       },
-      facingDirection: Direction.Right
+      direction: Direction.Right
     };
 
     var M = Phaser.Physics.Matter.Matter;
@@ -91,8 +95,22 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     var sx = w / 2;
     var sy = h / 2;
 
+
+    let physicsOptions = {
+      chamfer: {
+        radius: 10
+      },
+      mass: 1,
+      friction: 1,
+      staticFriction: 1,
+      frictionAir: 1,
+      bounce: 0.1,
+      restitution: 1,
+      isStatic: true
+    }
+
     // The player's body is going to be a compound body.
-    var playerBody = M.Bodies.rectangle(sx, sy, w * 0.75, h, { chamfer: { radius: 10 } });
+    var playerBody = M.Bodies.rectangle(sx, sy, w * 0.75, h, physicsOptions);
     this.playerController.sensors.bottom = M.Bodies.rectangle(sx, h, sx, 5, { isSensor: true });
     this.playerController.sensors.left = M.Bodies.rectangle(sx - w * 0.45, sy, 5, h * 0.25, { isSensor: true });
     this.playerController.sensors.right = M.Bodies.rectangle(sx + w * 0.45, sy, 5, h * 0.25, { isSensor: true });
@@ -102,18 +120,14 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
           this.playerController.sensors.bottom,
           this.playerController.sensors.left,
           this.playerController.sensors.right
-      ],
-      friction: 0.01,
-      restitution: 0.05 // Prevent body from sticking against a wall
+      ]
     });
 
-    this
-      .setExistingBody(compoundBody)
-      .setFixedRotation() // Sets max inertia to prevent rotation
-      .setPosition(x, y);
+    this.setExistingBody(compoundBody)
+        .setPosition(x, y);
 
     this.createAnimations();
-    
+
     // Use matter events to detect whether the player is touching a surface to the left, right or bottom.
     // Before matter's update, reset the player's count of what surfaces it is touching.
     this.scene.matter.world.on('beforeupdate', () => {
@@ -214,10 +228,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     oldVelocityX = this.body.velocity.x;
 
     if (this.playerController.direction == Direction.Left) {
+      this.smoothedControls.moveLeft(delta);
       this.anims.play(EntityAnimations.MoveLeft, true);
       targetVelocityX = -this.playerController.speed.run;
       newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, -this.value);
-      this.smoothedControls.moveLeft(delta);
     } else {
       this.smoothedControls.moveRight(delta);
       this.anims.play(EntityAnimations.MoveRight, true);
@@ -244,6 +258,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.smoothedControls.reset();
     }
 
+    let isMoving = (!this.value == 0);
+    if (!isMoving) {
+      if (this.playerController.direction == Direction.Left) {
+        this.setFrame(this.spriteFrames.facingLeft);
+      }
+      if (this.playerController.direction == Direction.Right) {
+        this.setFrame(this.spriteFrames.facingRight);
+      }
+    }
     // Jumping & wall jumping
     // Add a slight delay between jumps since the sensors will still collide for a few frames after
     // a jump is initiated

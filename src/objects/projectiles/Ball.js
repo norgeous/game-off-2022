@@ -1,7 +1,9 @@
 import { collisionCategories } from '../enums/Collisions';
+import Direction from '../enums/Direction.js';
 
 class Ball {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, direction) {
+    // create ball
     this.text = scene.add.text(
       0,
       0,
@@ -13,6 +15,9 @@ class Ball {
       shape: { type: 'circle', radius: 26 },
       restitution: 1,
     };
+    let velocityY = 0;
+    let velocityX = (direction === Direction.Right) ? 10 : -10;
+
     this.gameObject = scene.matter.add.gameObject(this.text, gameObjectShape);
     this.gameObject
       .setMass(100)
@@ -20,7 +25,7 @@ class Ball {
       .setFrictionAir(0)
       .setDisplaySize(10, 10)
       .setIgnoreGravity(true)
-      .setVelocity(10, 0);
+      .setVelocity(velocityX, velocityY);
     this.gameObject.body.label = 'ball';
     this.gameObject.body.damage = 10;
     this.gameObject.x = x ?? 100;

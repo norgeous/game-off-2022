@@ -1,40 +1,35 @@
 import Phaser from 'phaser';
-// import { collisionCategories } from '../enums/Collisions';
+import { collisionCategories } from '../enums/Collisions';
 
 class Bullet extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y) {
-    super(scene.matter.world, x, y, 'bullet1');
+    super(
+      scene.matter.world,
+      x,
+      y,
+      'bullet1',
+      0,
+      {
+        chamfer: { radius: 4 },
+        restitution: 0.5,
+        frictionAir: 0,
+        ignoreGravity: true,
+        mass: .0100,
+      },
+    );
 
-    scene.add.existing(this);
+    this.body.damage = 10;
+    this.setCollisionCategory(collisionCategories.enemyDamage)
+    this.setVelocity(10, 0);
 
-    // const size = 5;
-
-
-
-    // const gameObjectConfig = {
-    //   shape: {
-    //     type: 'circle',
-    //     radius: (size / 2) + 1,
-    //   },
-    //   restitution: 1,
-    //   bounce: 1,
-    //   frictionAir: 0,
-    //   ignoreGravity: true,
-    //   // mass: 1,
-    // };
-    // this.gameObject = scene.matter.add.gameObject(this.text, gameObjectConfig);
-    // this.gameObject.setVelocity(10, 0);
-    // this.gameObject.body.damage = 10;
-    // this.gameObject.setCollisionCategory(collisionCategories.enemyDamage)
+    // self destroy after lifespan
+    this.scene.time.delayedCall(1000, () => this.destroy());
   }
 
   update() {
     // if bullet moving to slowly, destroy it
-  }
-
-  destroy() {
-    // this.gameObject.destroy();
-    // delete this.gameObject;
+    const speed = Math.hypot(this.body.velocity.x, this.body.velocity.y);
+    if (speed < 4) this.destroy();
   }
 }
 

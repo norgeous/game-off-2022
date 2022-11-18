@@ -1,42 +1,43 @@
+import Phaser from 'phaser';
 import { collisionCategories } from '../enums/Collisions';
 import Direction from '../enums/Direction';
 
-class Ball {
+class Bomb extends Phaser.GameObjects.Text {
   constructor(scene, x, y, direction) {
-    // create ball
-    this.text = scene.add.text(
-      0,
-      0,
+    super(
+      scene,
+      x,
+      y,
       '💣',
       { font: '50px Arial', align: 'center' },
-    ).setOrigin(0.5);
+    );
+
+    this.setOrigin(0.5);
 
     const gameObjectShape = {
       shape: { type: 'circle', radius: 26 },
       restitution: 1,
     };
-    let velocityY = 0;
-    let velocityX = (direction === Direction.Right) ? 10 : -10;
 
-    this.gameObject = scene.matter.add.gameObject(this.text, gameObjectShape);
+    let velocityX = (direction === Direction.Right) ? 10 : -10;
+    let velocityY = 0;
+
+    this.gameObject = scene.matter.add.gameObject(this, gameObjectShape);
     this.gameObject
       .setMass(100)
       .setBounce(1)
       .setFrictionAir(0)
       .setDisplaySize(10, 10)
-      .setIgnoreGravity(true)
+      // .setIgnoreGravity(true)
       .setVelocity(velocityX, velocityY);
-    this.gameObject.body.label = 'ball';
     this.gameObject.body.damage = 10;
     this.gameObject.x = x ?? 100;
     this.gameObject.y = y ?? 1250;
-    this.gameObject.setCollisionCategory(collisionCategories.enemyDamage)
-  }
+    this.gameObject.setCollisionCategory(collisionCategories.enemyDamage);
 
-  destroy() {
-    this.gameObject.destroy();
-    delete this.gameObject;
+    // self destroy after lifespan
+    this.scene.time.delayedCall(1000, () => this.destroy());
   }
 }
 
-export default Ball;
+export default Bomb;

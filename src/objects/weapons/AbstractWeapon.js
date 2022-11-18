@@ -9,6 +9,7 @@ export default class AbstractWeapon {
     this.bulletGroup = this.scene.add.group({
       maxSize: maxBullets,
       classType: BulletClass,
+      runChildUpdate: true,
     });
 
     this.firstShot = true;

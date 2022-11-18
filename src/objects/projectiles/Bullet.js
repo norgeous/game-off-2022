@@ -1,36 +1,40 @@
-import { collisionCategories } from '../enums/Collisions';
+import Phaser from 'phaser';
+// import { collisionCategories } from '../enums/Collisions';
 
-// https://labs.phaser.io/assets/sprites/bullets/bullet1.png
+class Bullet extends Phaser.Physics.Matter.Sprite {
+  constructor(scene, x, y) {
+    super(scene.matter.world, x, y, 'bullet1');
 
-class Bullet {
-  constructor(scene, x, y, size = 5) {
-    this.text = scene.add.text(
-      x,
-      y,
-      '⭐',
-      { font: `${size}px Arial`, align: 'center' },
-    ).setOrigin(0.5);
+    scene.add.existing(this);
 
-    const gameObjectConfig = {
-      shape: {
-        type: 'circle',
-        radius: (size / 2) + 1,
-      },
-      restitution: 1,
-      mass: 1,
-      bounce: 1.2,
-      frictionAir: 0,
-      ignoreGravity: true,
-    };
-    this.gameObject = scene.matter.add.gameObject(this.text, gameObjectConfig);
-    this.gameObject.setVelocity(10, 0);
-    this.gameObject.body.damage = 10;
-    this.gameObject.setCollisionCategory(collisionCategories.enemyDamage)
+    // const size = 5;
+
+
+
+    // const gameObjectConfig = {
+    //   shape: {
+    //     type: 'circle',
+    //     radius: (size / 2) + 1,
+    //   },
+    //   restitution: 1,
+    //   bounce: 1,
+    //   frictionAir: 0,
+    //   ignoreGravity: true,
+    //   // mass: 1,
+    // };
+    // this.gameObject = scene.matter.add.gameObject(this.text, gameObjectConfig);
+    // this.gameObject.setVelocity(10, 0);
+    // this.gameObject.body.damage = 10;
+    // this.gameObject.setCollisionCategory(collisionCategories.enemyDamage)
+  }
+
+  update() {
+    // if bullet moving to slowly, destroy it
   }
 
   destroy() {
-    this.gameObject.destroy();
-    delete this.gameObject;
+    // this.gameObject.destroy();
+    // delete this.gameObject;
   }
 }
 

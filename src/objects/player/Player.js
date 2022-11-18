@@ -1,4 +1,4 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 import MachineGun from '../weapons/MachineGun';
 import BombGlove from '../weapons/BombGlove';
 import PlayerInput from './PlayerInput';

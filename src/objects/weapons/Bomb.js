@@ -9,7 +9,7 @@ export default class Bomb extends AbstractWeapon {
 
     fire() {
         if (this.firstShot) {
-            const b = new Ball(this.player.scene, this.player.x, this.player.y);
+            const b = new Ball(this.player.scene, this.player.x, this.player.y, this.player.playerController.direction);
 
             if (this.timer > 0) {
                 setTimeout(() => b.destroy(), this.timer);

@@ -10,18 +10,26 @@ export default class Map {
   map;
   tileset;
 
-  constructor(Phaser, mapFolderName = '', tileSheetName = '', mapDataName = '') {
+  constructor(Phaser, mapFolderName = '', tileSheetName = '', mapDataName = '', backgroundCount = 1) {
     this.Phaser = Phaser;
     this.fileNames = {
       map: mapFolderName ?? 'test',
       tileSheet: tileSheetName ?? 'tileset.png',
-      mapData: mapDataName ?? 'mapData.json'
+      mapData: mapDataName ?? 'mapData.json',
+      background: 'backgrounds'
     };
     this.tileSetName = 'tiles' // TileSet name set in the Tiled program.
+    this.parallax = {
+      backgroundCount: backgroundCount,
+    }
   }
 
   getMapPath() {
     return this.root + '/' + this.fileNames.map;
+  }
+
+  getBackgroundPath() {
+    return `${this.root}/${this.fileNames.map}/${this.fileNames.background}`;
   }
 
   getTileSheetPath() {
@@ -37,13 +45,18 @@ export default class Map {
     this.tilesSheet = this.Phaser.load.image(key, this.getTileSheetPath());
   }
 
+  loadBackgroundImages() {
+    for (let x=1; x <= this.parallax.backgroundCount; x++) {
+      this.Phaser.load.image(`background${x}`, `${this.getBackgroundPath()}/${x}.png`);
+    }
+  }
   // Must be called inside a scene's preLoad()
   loadMapData(key = 'tilemap') {
     this.tileMap = this.Phaser.load.tilemapTiledJSON(key, this.getMapDataPath());
   }
 
   loadLayers() {
-    this.layers.backgroundColour = this.map.createLayer('BackgroundColour', this.tileset)
+  //  this.layers.backgroundColour = this.map.createLayer('BackgroundColour', this.tileset)
     this.layers.foreground = this.map.createLayer('Forground', this.tileset)
     this.layers.background = this.map.createLayer('Background', this.tileset)
     this.layers.ladders = this.map.createLayer('Ladders', this.tileset)
@@ -68,9 +81,24 @@ export default class Map {
     });
   }
 
+  loadBackgrounds() {
+    const width = this.Phaser.scale.width
+    const height = this.Phaser.scale.height
+    for (let x=1; x <= this.parallax.backgroundCount; x++) {
+      let scrollFactorX = 0.01 + (x/20);
+      let scrollFactorY = 0.01 + (x/50);
+      this.Phaser.add.image(width, height, `background${x}`)
+        .setOrigin(0,0)
+        .setScrollFactor(scrollFactorX, scrollFactorY)
+        .setPosition(0,0)
+        .setSize(width, height)
+    }
+  }
+
   // Must be called inside a scene's preLoad()
   preload() {
     this.loadTileSheet();
+    this.loadBackgroundImages();
     this.loadMapData();
   }
 
@@ -78,9 +106,12 @@ export default class Map {
     this.map = this.Phaser.make.tilemap({ key:  'tilemap'})
     this.tileset = this.map.addTilesetImage(this.tileSetName, 'tileSheet', 32, 32, 1, 2)
 
+    this.loadBackgrounds();
     this.loadLayers();
 
     this.height = this.layers.background.height;
     this.width = this.layers.background.width;
   }
+
+
 }

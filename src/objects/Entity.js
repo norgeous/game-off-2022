@@ -47,7 +47,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
 
     playAnimation(key, repeat = true) {
-        this.sprite.play(this.getKey(key), repeat);
+        return this.sprite.play(this.getKey(key), repeat);
     }
 
     takeDamage(amount) {

@@ -72,7 +72,7 @@ export default class Zombie extends Entity {
     this.createAnimation(EntityAnimations.Idle, 10, 11, 3);
     this.createAnimation(EntityAnimations.Walking, 0, 3, 5);
     this.createAnimation(EntityAnimations.Attack, 4, 7, 15);
-    this.createAnimation(EntityAnimations.Death, 12, 15, 2);
+    this.createAnimation(EntityAnimations.Death, 12, 15, 2, 0);
   }
 
   update() {
@@ -101,7 +101,14 @@ export default class Zombie extends Entity {
       }
     } else {
       // dead
-      this.playAnimation(EntityAnimations.Death);
+      this.gameObject.rotation = 0; // force upright for death animation
+      this.text.setText('X');
+      this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {
+        this.sprite.destroy();
+        this.text.destroy();
+        this.destroy();
+        this.gameObject.destroy();
+      });
     }
 
     // force upright (springy)
@@ -131,17 +138,5 @@ export default class Zombie extends Entity {
 
     // (re)draw health bar
     this.healthBar.draw(this.health);
-
-    // kill if zero health
-    if (this.health <= 0) {
-      this.gameObject.rotation = 0; // force upright for death animation
-      this.text.setText('X');
-      this.scene.time.delayedCall(2000, () => {
-        this.sprite.destroy();
-        this.text.destroy();
-        this.destroy();
-        this.gameObject.destroy();
-      });
-    }
   }
 }

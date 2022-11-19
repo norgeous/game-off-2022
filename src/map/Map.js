@@ -10,7 +10,7 @@ export default class Map {
   map;
   tileset;
 
-  constructor(Phaser, mapFolderName = '', tileSheetName = '', mapDataName = '') {
+  constructor(Phaser, mapFolderName = '', tileSheetName = '', mapDataName = '', backgroundCount = 1) {
     this.Phaser = Phaser;
     this.fileNames = {
       map: mapFolderName ?? 'test',
@@ -20,7 +20,7 @@ export default class Map {
     };
     this.tileSetName = 'tiles' // TileSet name set in the Tiled program.
     this.parallax = {
-      backgroundCount: 8,
+      backgroundCount: backgroundCount,
     }
   }
 
@@ -81,6 +81,20 @@ export default class Map {
     });
   }
 
+  loadBackgrounds() {
+    const width = this.Phaser.scale.width
+    const height = this.Phaser.scale.height
+    for (let x=1; x <= this.parallax.backgroundCount; x++) {
+      let scrollFactorX = 0.01 + (x/20);
+      let scrollFactorY = 0.01 + (x/50);
+      this.Phaser.add.image(width, height, `background${x}`)
+        .setOrigin(0,0)
+        .setScrollFactor(scrollFactorX, scrollFactorY)
+        .setPosition(0,0)
+        .setSize(width, height)
+    }
+  }
+
   // Must be called inside a scene's preLoad()
   preload() {
     this.loadTileSheet();
@@ -92,23 +106,12 @@ export default class Map {
     this.map = this.Phaser.make.tilemap({ key:  'tilemap'})
     this.tileset = this.map.addTilesetImage(this.tileSetName, 'tileSheet', 32, 32, 1, 2)
 
-    const width = this.Phaser.scale.width
-    const height = this.Phaser.scale.height
-
-    for (let x=1; x <= this.parallax.backgroundCount; x++) {
-      let scrollFactorX = 0.01 + (x/20);
-      let scrollFactorY = 0.01 + (x/50);
-      console.log(scrollFactorY);
-      this.Phaser.add.image(width, height, `background${x}`)
-        .setOrigin(0,0)
-        .setScrollFactor(scrollFactorX, scrollFactorY)
-        .setPosition(0,0)
-        .setSize(width, height)
-    }
-
+    this.loadBackgrounds();
     this.loadLayers();
 
     this.height = this.layers.background.height;
     this.width = this.layers.background.width;
   }
+
+
 }

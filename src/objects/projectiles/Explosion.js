@@ -25,7 +25,7 @@ class Explosion {
 
   playExplodeAnimation(x, y, scene) {
     this.sprite = scene.add.sprite(x, y, 'bomb_explosion');
-    this.sprite.play('explosion').on('animationcomplete', ()=> {
+    this.sprite.play('explosion').on('animationcomplete', () => {
       this.sprite.destroy()
     });
   }

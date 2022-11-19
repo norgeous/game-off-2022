@@ -38,7 +38,7 @@ class Bomb extends Phaser.GameObjects.Text {
 
     // self destroy after lifespan
     this.scene.time.delayedCall(1000, () => {
-      new Explosion(scene, this.gameObject.x, this.gameObject.y, { radius: 200, force: 10 });
+      new Explosion(scene, this.gameObject.x, this.gameObject.y, { radius: 120, force: 10 });
       this.destroy();
     });
   }

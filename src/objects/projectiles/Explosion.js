@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 class Explosion {
-  constructor (scene, x, y, { radius, force }) {
+  constructor (scene, x, y, { radius = 50, force = 50 }) {
     // draw a circle at size of explosion radius
     const circle = scene.add.circle(x, y, radius);
     circle.setStrokeStyle(1, 0xFF0000);
@@ -25,9 +25,10 @@ class Explosion {
           y: Math.sin(angleOfVelocity),
         };
 
-        // console.log({ blastVector, forceVector });
-
-        zombie.setVelocity(forceVector.x*force, (forceVector.y*force) - 5);
+        zombie.setVelocity(
+          forceVector.x * force,
+          (forceVector.y * force) - 5,
+        );
       }
     });
   }

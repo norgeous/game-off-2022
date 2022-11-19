@@ -20,8 +20,8 @@ class Bomb extends Phaser.GameObjects.Text {
       restitution: .5,
     };
 
-    let velocityX = (direction === Direction.Right) ? 5 : -5;
-    let velocityY = -1;
+    let velocityX = (direction === Direction.Right) ? 10 : -10;
+    let velocityY = -3;
 
     this.gameObject = scene.matter.add.gameObject(this, gameObjectShape);
     this.gameObject

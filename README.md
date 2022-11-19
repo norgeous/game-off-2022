@@ -35,6 +35,8 @@ https://blog.ourcade.co/posts/2020/phaser-3-matter-physics-collision-filter/
 
 https://photonstorm.github.io/phaser3-docs/Phaser.Types.Physics.Matter.html#.MatterBodyConfig
 
+https://stackoverflow.com/questions/6039522/given-the-x-and-y-components-of-the-velocity-how-can-the-angle-be-computed
+
 ## Tile Extruder
 
 https://github.com/sporadic-labs/tile-extruder#readme

@@ -32,7 +32,7 @@ export default class Zombie extends Entity {
     this.text = this.scene.add.text(0, 0 - 40, 'Zombie', {
       font: '12px Arial',
       align: 'center',
-      color: 'black',
+      color: 'white',
       fontWeight: 'bold',
     }).setOrigin(0.5);
 

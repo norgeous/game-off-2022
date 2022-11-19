@@ -36,9 +36,8 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
 
   update() {
     // force bullet rotation to match movement direction
-    const rotationOffset = -(Math.PI / 2);
-    const angleOfVelocity = Math.atan2(this.body.velocity.x, this.body.velocity.y * -1);
-    this.rotation = angleOfVelocity + rotationOffset;
+    const angleOfVelocity = Math.atan2(this.body.velocity.y, this.body.velocity.x);
+    this.rotation = angleOfVelocity;
 
     // if bullet moving too slowly, destroy it
     const speed = Math.hypot(this.body.velocity.x, this.body.velocity.y);

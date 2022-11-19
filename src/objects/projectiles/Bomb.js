@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { collisionCategories } from '../enums/Collisions';
 import Direction from '../enums/Direction';
+import Explosion from './Explosion';
 
 class Bomb extends Phaser.GameObjects.Text {
   constructor(scene, x, y, direction) {
@@ -16,18 +17,18 @@ class Bomb extends Phaser.GameObjects.Text {
 
     const gameObjectShape = {
       shape: { type: 'circle', radius: 26 },
-      restitution: 1,
+      restitution: .5,
     };
 
     let velocityX = (direction === Direction.Right) ? 10 : -10;
-    let velocityY = 0;
+    let velocityY = -3;
 
     this.gameObject = scene.matter.add.gameObject(this, gameObjectShape);
     this.gameObject
-      .setMass(100)
-      .setBounce(1)
+      .setMass(1)
+      .setBounce(0.5)
       .setFrictionAir(0)
-      .setDisplaySize(20, 20)
+      .setDisplaySize(10, 10)
       // .setIgnoreGravity(true)
       .setVelocity(velocityX, velocityY);
     this.gameObject.body.damage = 10;
@@ -36,7 +37,10 @@ class Bomb extends Phaser.GameObjects.Text {
     this.gameObject.setCollisionCategory(collisionCategories.enemyDamage);
 
     // self destroy after lifespan
-    this.scene.time.delayedCall(1000, () => this.destroy());
+    this.scene.time.delayedCall(1000, () => {
+      new Explosion(scene, this.gameObject.x, this.gameObject.y, { radius: 200, force: 10 });
+      this.destroy();
+    });
   }
 }
 

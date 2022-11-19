@@ -1,4 +1,4 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 import HealthBar from './HealthBar';
 import EntityAnimations from './enums/EntityAnimations';
 import { collisionCategories } from './enums/Collisions';

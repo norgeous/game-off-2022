@@ -126,6 +126,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.setExistingBody(compoundBody)
         .setPosition(x, y);
 
+    this.setCollisionCategory(collisionCategories.player);
+
     this.createAnimations();
 
     // Use matter events to detect whether the player is touching a surface to the left, right or bottom.

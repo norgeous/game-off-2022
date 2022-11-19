@@ -1,4 +1,5 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
+import { collisionCategories } from './enums/Collisions';
 
 export default class Entity extends Phaser.GameObjects.Container {
     constructor (scene, x, y, children) {
@@ -20,6 +21,7 @@ export default class Entity extends Phaser.GameObjects.Container {
 
     loadPhysics(physicsConfig) {
         this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig);
+        this.gameObject.setCollisionCategory(collisionCategories.enemy);
     }
 
     loadSprite() {

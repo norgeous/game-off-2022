@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { collisionCategories } from '../enums/Collisions';
+import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
 import Direction from '../enums/Direction';
 
 class Bullet extends Phaser.Physics.Matter.Sprite {
@@ -12,7 +12,7 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
       0,
       {
         chamfer: { radius: 4 },
-        restitution: 0.5,
+        restitution: 0.99,
         frictionAir: 0,
         ignoreGravity: true,
         mass: .01,
@@ -24,6 +24,10 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
 
     this.body.damage = 10;
     this.setCollisionCategory(collisionCategories.enemyDamage);
+
+    // collide with everything except other bullets, ladders and player
+    this.setCollidesWith(collisionMaskEverything &~ collisionCategories.enemyDamage &~ collisionCategories.ladders &~ collisionCategories.player);
+
     this.setVelocity(velocityX, velocityY);
 
     // self destroy after lifespan

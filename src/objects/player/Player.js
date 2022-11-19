@@ -1,6 +1,6 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 import MachineGun from '../weapons/MachineGun';
-import Bomb from '../weapons/Bomb';
+import BombGlove from '../weapons/BombGlove';
 import PlayerInput from './PlayerInput';
 import Direction from '../enums/Direction';
 import EntityAnimations from '../enums/EntityAnimations';
@@ -9,17 +9,18 @@ import { collisionCategories, collisionMaskEverything } from '../enums/Collision
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
     super(scene.matter.world, x, y, texture, frame);
-    scene.add.existing(this);
     this.scene = scene;
+    scene.add.existing(this);
     this.playerInput = new PlayerInput(scene);
     this.keys = this.playerInput.keys;
     this.health = 100;
-    this.weapon = new Bomb(this, 500);
+
+    this.weapon = new BombGlove(this.scene, 500);
     this.weaponInventory = {
       index: 0,
       weapons: [
-        new Bomb(this, 500),
-        new MachineGun(this)
+        new BombGlove(this.scene, 500),
+        new MachineGun(this.scene),
       ],
     };
 

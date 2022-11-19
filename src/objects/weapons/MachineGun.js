@@ -1,16 +1,23 @@
-import AbstractWeapon from "./AbstractWeapon.js";
-import Ball from "../Ball.js";
+import AbstractWeapon from './AbstractWeapon';
+import Bullet from '../projectiles/Bullet';
 
 export default class MachineGun extends AbstractWeapon {
-    constructor(player) {
-        super(player)
-    }
+  constructor(scene) {
+    super(
+      scene,
+      {
+        BulletClass: Bullet,
+        maxBullets: 10,
+      },
+    );
+  }
 
-    fire() {
-        const bullet = new Ball(this.player.scene, this.player.x, this.player.y, this.player.playerController.direction);
-    }
-    
-    fireRelease() {
-        this.firstShot = false;
-    }
+  fire() {
+    this.bulletGroup.get(
+      this.scene.player.x,
+      this.scene.player.y,
+      this.scene.player.playerController.direction,
+      1000,
+    );
+  }
 }

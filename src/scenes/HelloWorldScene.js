@@ -14,8 +14,10 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   preload() {
     this.map.preload();
-    this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', { frameWidth: 32, frameHeight: 32 });
     this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
+    this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('mummy', 'https://labs.phaser.io/assets/sprites/metalslug_mummy37x45.png', { frameWidth: 37, frameHeight: 45 });
+    this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
   }
 
   create() {
@@ -26,13 +28,15 @@ export default class HelloWorldScene extends Phaser.Scene {
       }, 100);
     });
 
+    this.matter.world.drawDebug = false;
+
     this.map.create();
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
 		this.zombieGroup = this.add.group({
       maxSize: MAX_ZOMBIES,
-      runChildUpdate: true,
       classType: Zombie,
+      runChildUpdate: true,
     });
 
     setInterval(() => {

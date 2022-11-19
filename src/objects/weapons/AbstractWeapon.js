@@ -1,23 +1,31 @@
-import Ball from "../Ball.js";
-
 export default class AbstractWeapon {
-    constructor(player) {
-        this.player = player;
-        if (this.constructor == AbstractWeapon) {
-            throw new Error("Abstract classes can't be instantiated.");
-        }
-        this.firstShot = true;
+  constructor(scene, { BulletClass, maxBullets }) {
+    this.scene = scene;
+
+    if (this.constructor == AbstractWeapon) {
+      throw new Error('Abstract classes can\'t be instantiated.');
     }
 
-    fire() {
-        if (this.firstShot) {
-            this.firstShot = false;
-        }
-    }
+    this.bulletGroup = this.scene.add.group({
+      maxSize: maxBullets,
+      classType: BulletClass,
+      runChildUpdate: true,
+    });
 
-    fireRelease() {
-        this.firstShot = true;
+    this.firstShot = true;
+  }
+
+  fire() {
+    if (this.firstShot) {
+      this.firstShot = false;
     }
-    preLoad() {}
-    update() {}
+  }
+
+  fireRelease() {
+    this.firstShot = true;
+  }
+
+  preLoad() {}
+
+  update() {}
 }

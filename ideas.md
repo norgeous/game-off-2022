@@ -44,7 +44,6 @@
 - meele attack?
 - pickup items from level? or class based?
 - more items than gun and bomb?
-- physics explosion for bomb? is it even possible?
 - particle effects
   - ricochet effects when bouncing off terrain + sound
   - muzzle flash on bullet spawn location

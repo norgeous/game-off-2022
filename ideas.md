@@ -32,7 +32,6 @@
 
 - bullet spread
 - machine gun fire rate needs adjusting
-- 🚧 bullets can't collide with player, bullets or ladders
 - sounds
 - meele attack?
 - pickup items from level? or class based?

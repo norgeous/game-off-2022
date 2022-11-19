@@ -7,11 +7,27 @@ class Explosion {
     circle.setStrokeStyle(1, 0xFF0000);
     scene.time.delayedCall(500, () => circle.destroy());
 
+    scene.anims.create({
+      key: 'explosion',
+      frameRate: 15,
+      frames: scene.anims.generateFrameNumbers('explosion', { start: 1, end: 9 }),
+      repeat: 0,
+      hideOnComplete: true
+    });
+
     // find close zombies and apply force to them
     scene.zombieGroup.getChildren().forEach(zombie => this.applyExplosionForce(x, y, radius, force, zombie));
 
     // apply to player too, for grenade jumps
     this.applyExplosionForce(x, y, radius, force, scene.player);
+    this.playExplodeAnimation(x, y, scene);
+  }
+
+  playExplodeAnimation(x, y, scene) {
+    this.sprite = scene.add.sprite(x, y, 'bomb_explosion');
+    this.sprite.play('explosion').on('animationcomplete', ()=> {
+      this.sprite.destroy()
+    });
   }
 
   applyExplosionForce (x, y, radius, force, gameObject) {

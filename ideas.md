@@ -32,8 +32,7 @@
 
 - bullet spread
 - machine gun fire rate needs adjusting
-- bullets can't collide with player, bullets or ladders
-- 🚧 bullet's angle should be locked to movement vector
+- 🚧 bullets can't collide with player, bullets or ladders
 - sounds
 - meele attack?
 - pickup items from level? or class based?

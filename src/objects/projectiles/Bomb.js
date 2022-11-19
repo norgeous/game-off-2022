@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { collisionCategories } from '../enums/Collisions';
 import Direction from '../enums/Direction';
-import Explosion from './Explosion.js';
+import Explosion from './Explosion';
 
 class Bomb extends Phaser.GameObjects.Text {
   constructor(scene, x, y, direction) {

@@ -23,11 +23,14 @@
   - on bomb explode
   - maybe on take damage
 
+
 ## ui
+
 - Showing player health. (hearts? or health bar?)
 - menus uis (start game, pause, options.)
 - maybe classic old style test all sounds menu? 
 - inventory?
+
 
 ## player
 
@@ -73,6 +76,7 @@
 
 
 ## sound and music
+
 - background music
 - sounds
   - weapons 
@@ -81,4 +85,3 @@
     - onHitEnemy
 - player 
 - enemies
- 

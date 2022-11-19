@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import Map from '../map/Map';
 import Player from '../objects/player/Player';
 import Zombie from '../objects/Zombie';
+import Sound from '../objects/enums/Sound';
 
 const MAX_ZOMBIES = 10;
 
@@ -19,6 +20,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.spritesheet('mummy', 'https://labs.phaser.io/assets/sprites/metalslug_mummy37x45.png', { frameWidth: 37, frameHeight: 45 });
     this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
     this.load.spritesheet('explosion', 'sprites/explosion.png', { frameWidth: 256, frameHeight: 256 });
+    this.load.audio(Sound.MusicKey, `${this.map.getMapPath()}/${Sound.MapMusicFileName}`);
   }
 
   create() {
@@ -32,6 +34,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.matter.world.drawDebug = false;
 
     this.map.create();
+
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
 		this.zombieGroup = this.add.group({

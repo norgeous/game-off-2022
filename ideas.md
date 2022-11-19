@@ -22,15 +22,20 @@
 - screen shake
   - on bomb explode
   - maybe on take damage
-  
+
+## ui
+- Showing player health. (hearts? or health bar?)
+- menus uis (start game, pause, options.)
+- maybe classic old style test all sounds menu? 
+- inventory?
+
 ## player
 
 - replace default phaser player character with survivor
-- sounds
 - inventory overlay?
 - health hud?
 - cliche phrases tts
-- directional shooting (8 way metal slug style?)
+- sounds
 - make it obvious when player gets hurt
   - screen maybe goes red
   - sounds 
@@ -41,17 +46,16 @@
 - bullet spread
 - machine gun fire rate needs adjusting
 - sounds
-- meele attack?
-- pickup items from level? or class based?
-- more items than gun and bomb?
+- firing up/down. directional shooting (8 way metal slug style?)
 - particle effects
   - ricochet effects when bouncing off terrain + sound
   - muzzle flash on bullet spawn location
-- firing up/down. 
 - weapon sprites.
 - weapon animations
   - impact 
   - explode
+- pickup items from level? or class based?
+- more items than gun and bomb? meele attack?
 
 ## enemies
 
@@ -65,13 +69,7 @@
   - make them only spawn when player is nearby?
   - spawn animation?
     - climb out of hole in wall or ground?
-    - reverse frames of death anim?
-
-## ui
-- Showing player health. (hearts? or health bar?)
-- menus uis (start game, pause, options.)
-- maybe classic old style test all sounds menu? 
-- inventory?
+    - reverse frames of death anim
 
 
 ## sound and music

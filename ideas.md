@@ -8,20 +8,20 @@
   - more tiles sets (perhaps forest > city > inside building)
   - introduce 1 zombie first, later hoards of zombies
   - doors
-- on-screen analog or dpad and jump+fire buttons (for mobile)
+- on-screen analog or d-pad and jump+fire buttons (for mobile)
 - post-processing + lighting (might be worth spending a day on?)
 - show keyboard bindings somewhere on screen (IMPORTANT)
 - settings menu?
   - volume control or mute button?
 - score system, high scores?
-- deployment
-  - if no database -> to github pages?
 - points system? 
   - points for killing zombies?
   -  leaderboard
 - screen shake
   - on bomb explode
   - maybe on take damage
+- deployment
+  - if no database -> to github pages?
 
 
 ## ui
@@ -44,6 +44,7 @@
   - sounds 
   - flash animation 
 
+
 ## weapons
 
 - bullet spread
@@ -59,6 +60,7 @@
   - explode
 - pickup items from level? or class based?
 - more items than gun and bomb? meele attack?
+
 
 ## enemies
 

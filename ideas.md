@@ -44,6 +44,7 @@
   - sounds 
   - flash animation 
 
+
 ## weapons
 
 - bullet spread
@@ -59,6 +60,7 @@
   - explode
 - pickup items from level? or class based?
 - more items than gun and bomb? meele attack?
+
 
 ## enemies
 

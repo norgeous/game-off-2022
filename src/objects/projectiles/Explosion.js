@@ -8,29 +8,34 @@ class Explosion {
     scene.time.delayedCall(500, () => circle.destroy());
 
     // find close zombies and apply force to them
-    scene.zombieGroup.getChildren().forEach(zombie => {
-      const distance = Phaser.Math.Distance.BetweenPoints({ x, y }, zombie);
-      const isInsideRadius = distance <= radius;
+    scene.zombieGroup.getChildren().forEach(zombie => this.applyExplosionForce(x, y, radius, force, zombie));
 
-      if (isInsideRadius) {
-        const blastVector = {
-          x: (zombie.x - x),
-          y: (zombie.y - y),
-        };
+    // apply to player too, for grenade jumps
+    this.applyExplosionForce(x, y, radius, force, scene.player);
+  }
 
-        const angleOfVelocity = Math.atan2(blastVector.y, blastVector.x);
+  applyExplosionForce (x, y, radius, force, gameObject) {
+    const distance = Phaser.Math.Distance.BetweenPoints({ x, y }, gameObject);
+    const isInsideRadius = distance <= radius;
 
-        const forceVector ={
-          x: Math.cos(angleOfVelocity),
-          y: Math.sin(angleOfVelocity),
-        };
+    if (isInsideRadius) {
+      const blastVector = {
+        x: (gameObject.x - x),
+        y: (gameObject.y - y),
+      };
 
-        zombie.setVelocity(
-          forceVector.x * force,
-          (forceVector.y * force) - 5,
-        );
-      }
-    });
+      const angleOfVelocity = Math.atan2(blastVector.y, blastVector.x);
+
+      const forceVector ={
+        x: Math.cos(angleOfVelocity),
+        y: Math.sin(angleOfVelocity),
+      };
+
+      gameObject.setVelocity(
+        forceVector.x * force,
+        (forceVector.y * force) - 5,
+      );
+    }
   }
 }
 

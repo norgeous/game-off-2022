@@ -3,6 +3,8 @@ import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
 
+const SPRITESHEETKEY = 'zombieSpriteSheet';
+
 export default class Zombie extends Entity {
   constructor (scene, x, y) {
     super(
@@ -10,7 +12,7 @@ export default class Zombie extends Entity {
       x, y,
       {
         name: 'ZombieEntity', // this becomes this.name
-        spriteSheetKey: 'zombieSpriteSheet',
+        spriteSheetKey: SPRITESHEETKEY,
         animations: {
           [EntityAnimations.Idle]:   { start:  0, end: 3,  fps: 10 },
           [EntityAnimations.Attack]: { start:  0, end: 5,  fps: 15 },
@@ -47,7 +49,7 @@ export default class Zombie extends Entity {
   }
 
   static preload(scene) {
-    scene.load.spritesheet('zombieSpriteSheet', 'sprites/craftpix.net/zombie.png', { frameWidth: 48, frameHeight: 48 });
+    scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/zombie.png', { frameWidth: 48, frameHeight: 48 });
   }
 
   update() {

@@ -59,10 +59,10 @@ export default class Zombie extends Entity {
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
-    const { playerEntity: player } = this.scene;
+    const { player } = this.scene;
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 200;
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
-    const twoPi = Math.PI * 2;
+    // const twoPi = Math.PI * 2;
     const isAlive = this.health > 0;
 
     // animations

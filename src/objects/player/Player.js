@@ -5,6 +5,8 @@ import PlayerInput from './PlayerInput';
 import Direction from '../enums/Direction';
 import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
+import HandGun from "../weapons/HandGun.js";
+import Sound from "../enums/Sound.js";
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -21,6 +23,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       weapons: [
         new BombGlove(this.scene, 500),
         new MachineGun(this.scene),
+        new HandGun(this.scene),
       ],
     };
 
@@ -169,6 +172,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         }
       }
     });
+
+
 
     this.scene.events.on('cycleWeapon', () => {
       this.cycleWeapons();

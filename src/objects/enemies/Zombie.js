@@ -65,7 +65,7 @@ export default class Zombie extends Entity {
   }
 
   static preload(scene) {
-    scene.load.spritesheet('zombieSpriteSheet', 'sprites/craftpix.net/zombie/zombie.png', { frameWidth: 48, frameHeight: 48 });
+    scene.load.spritesheet('zombieSpriteSheet', 'sprites/craftpix.net/zombie.png', { frameWidth: 48, frameHeight: 48 });
   }
 
   takeDamage(amount) {

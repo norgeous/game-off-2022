@@ -63,6 +63,10 @@ export default class Zombie extends Entity {
     });
   }
 
+  static preload(scene) {
+    scene.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', { frameWidth: 32, frameHeight: 32 });
+  }
+
   takeDamage(amount) {
     this.health -= amount;
     if (this.health<0) this.health = 0;

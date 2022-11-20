@@ -198,7 +198,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
   }
 
   static preload(scene) {
-    // scene.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
     scene.load.spritesheet('player', 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
   }
 

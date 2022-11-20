@@ -46,17 +46,17 @@ export default class HelloWorldScene extends Phaser.Scene {
 
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
-		this.zombieGroup = this.add.group({
-      maxSize: MAX_ZOMBIES,
-      classType: Zombie,
-      runChildUpdate: true,
-    });
-
-    setInterval(() => {
-      this.map.spawners.zombie.forEach(zombie => {
-        this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
-      });
-    }, 1000);
+    // zombie spawners
+		// this.zombieGroup = this.add.group({
+    //   maxSize: MAX_ZOMBIES,
+    //   classType: Zombie,
+    //   runChildUpdate: true,
+    // });
+    // setInterval(() => {
+    //   this.map.spawners.zombie.forEach(zombie => {
+    //     this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
+    //   });
+    // }, 1000);
     
     this.createPlayer();
     this.playerEntity = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);

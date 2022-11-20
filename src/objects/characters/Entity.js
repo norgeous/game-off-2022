@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import HealthBar from '../overlays/HealthBar';
+import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories } from '../enums/Collisions';
 
 const keepUprightStratergies = {
@@ -6,72 +8,103 @@ const keepUprightStratergies = {
   SPRINGY: 'SPRINGY',
 };
 
+const craftpixOffset = {
+  x: 10,
+  y: -7,
+};
+
 export default class Entity extends Phaser.GameObjects.Container {
-  constructor (scene, x, y) {
+  constructor (
+      scene,
+      x, y,
+      {
+        name = 'entity',
+        health = 100,
+        enableHealthBar = true,
+        spriteSheet = 'sprites/craftpix.net/biker.png',
+        animations = {},
+        physicsConfig = {},
+        enableKeepUpright = false,
+        keepUprightStratergy = keepUprightStratergies.SPRINGY,
+      },
+    ) {
+    
     super(scene, x, y);
 
     this.scene = scene;
-    this.sprite = null;
-    this.spriteObject = {
-      offset: {
-        x: 0,
-        y: 0,
-      },
-      defaultFrameRate: 3,
-      spriteSheet: '',
-    };
 
-    this.health = 100;
-    this.healthBar = null;
+    this.name = name;
+    this.health = health;
 
-    this.followPlayer = true;
-    this.healthCheck = true;
-    this.enableKeepUpright = false;
-    this.keepUprightStratergy = keepUprightStratergies.SPRINGY;
-  }
+    this.enableHealthBar = enableHealthBar;
+    this.enableKeepUpright = enableKeepUpright;
+    this.keepUprightStratergy = keepUprightStratergy;
 
-  loadPhysics(physicsConfig) {
-    this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig);
-    this.gameObject.setCollisionCategory(collisionCategories.enemy);
-  }
+    // health bar
+    if (enableHealthBar) {
+      this.healthBar = new HealthBar(scene, 0, 0 - 30, {
+        width: 40,
+        padding: 1,
+        maxHealth: this.health,
+      });
+      this.add([this.healthBar.bar]);
+    }
+    
+    // text
+    this.text = this.scene.add.text(0, 0 - 40, this.name, {
+      font: '12px Arial',
+      align: 'center',
+      color: 'white',
+      fontWeight: 'bold',
+    }).setOrigin(0.5);
+    this.add(this.text);
 
-  loadSprite() {
+    // sprite
     this.sprite = this.scene.add.sprite(
-      this.spriteObject.offset.x,
-      this.spriteObject.offset.y,
+      craftpixOffset.x,
+      craftpixOffset.y,
       this.name,
     );
-  }
 
-  flipXSprite(shouldFlip) {
-    this.sprite.flipX = shouldFlip;
-    if (shouldFlip) {
-      this.sprite.x = -this.spriteObject.offset.x;
-    } else {
-      this.sprite.x = this.spriteObject.offset.x;
-    }
+    // animations
+    Object.entries(animations).forEach(([animationKey, { start, end, fps, repeat = -1 }]) => {
+      console.log('inside forEach', start, spriteSheet)
+      this.scene.anims.create({
+        key: this.getKey(animationKey),
+        frames: this.sprite.anims.generateFrameNumbers(spriteSheet, { start, end }),
+        frameRate: fps,
+        repeat,
+      });
+    });
+    console.log({animations})
+
+    // physics object
+    this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig);
+    this.gameObject.setCollisionCategory(collisionCategories.enemy);
+    this.add(this.gameObject);
+
+    // container
+    this.scene.add.existing(this);
+
+    this.playAnimation(EntityAnimations.Idle);
   }
 
   getKey(key) {
     return `${this.name}_${key}`;
   }
 
-  addToContainer(array) {
-    this.add(array);
-    this.scene.add.existing(this);
+  playAnimation(key, ignoreIfPlaying = true) {
+    console.log(this.sprite.anims.animationManager.anims.entries[this.getKey(key)])
+    return this.sprite.play(this.getKey(key), ignoreIfPlaying);
   }
 
-  createAnimation(key, startFrame, endFrame, frameRate = 3,  repeat = -1) {
-    this.scene.anims.create({
-      key: this.getKey(key),
-      frameRate: frameRate,
-      frames: this.sprite.anims.generateFrameNumbers(this.spriteObject.spriteSheet, { start: startFrame, end: endFrame }),
-      repeat: repeat,
-    });
-  }
-
-  playAnimation(key, repeat = true) {
-    return this.sprite.play(this.getKey(key), repeat);
+  flipXSprite(shouldFlip) {
+    this.sprite.flipX = shouldFlip;
+    if (shouldFlip) {
+      this.sprite.x = -craftpixOffset.x;
+    } else {
+      this.sprite.x = craftpixOffset.x;
+    }
   }
 
   takeDamage(amount) {
@@ -86,9 +119,6 @@ export default class Entity extends Phaser.GameObjects.Container {
     if (this.healthBar) {
       this.healthBar.draw(this.health);
     }
-
-    // if (this.followPlayer) {
-    // }
 
     // flip sprite to match direction of movement
     this.flipXSprite(this.gameObject.body.velocity.x < 0.1);
@@ -110,11 +140,10 @@ export default class Entity extends Phaser.GameObjects.Container {
       if (this.keepUprightStratergy === keepUprightStratergies.INSTANT) {
         this.gameObject.rotation = 0;
       }
-
     }
 
     // kill if zero health
-    if (this.healthCheck && this.health <= 0) {
+    if (this.health <= 0) {
       this.sprite.destroy();
       this.text.destroy();
       this.destroy();

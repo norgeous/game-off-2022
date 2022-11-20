@@ -11,12 +11,12 @@ export default class Zombie extends Entity {
 
     this.scene = scene;
     this.name = 'zombie';
-    this.spriteObject.spriteSheet = 'zombieSpriteSheet';
+    // this.spriteObject.spriteSheet = 'zombieSpriteSheet';
 
     // zombie sprite
-    this.spriteObject.offset.x = 10;
-    this.spriteObject.offset.y = -7;
-    this.loadSprite();
+    // this.spriteObject.offset.x = 10;
+    // this.spriteObject.offset.y = -7;
+    // this.loadSprite();
     this.createAnimations();
     this.flipXSprite(Math.random() > 0.5); // initial face left / right randomly
 

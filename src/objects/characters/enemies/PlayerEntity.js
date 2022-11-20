@@ -1,56 +1,39 @@
 import Phaser from 'phaser';
-import HealthBar from '../../overlays/HealthBar';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
 
+const SPRITESHEET = 'sprites/craftpix.net/biker.png';
 
-export default class Player extends Entity {
+export default class PlayerEntity extends Entity {
   constructor (scene, x, y) {
-    super(scene, x+100, y);
+    super(
+      scene,
+      x + 100, y + 100,
+      {
+        name: 'Player', // this becomes this.name
+        spriteSheet: SPRITESHEET,
+        animations: {
+          [EntityAnimations.Idle]:   { start:  0, end: 3,  fps: 10 },
+          [EntityAnimations.Attack]: { start:  0, end: 5,  fps: 15 },
+          [EntityAnimations.Death]:  { start:  6, end: 11, fps: 10, repeat: 0 },
+          [EntityAnimations.Hurt]:   { start: 12, end: 13, fps: 10 },
+          [EntityAnimations.Walk]:   { start: 24, end: 29, fps: 10 },
+        },
+        physicsConfig: {
+          frictionAir: 0.001,
+          bounce: 0.1,
+          shape: { type: 'rectangle', width: 14, height: 32 },
+          chamfer: { radius: 4 },
+        },
+        enableKeepUpright: true,
+        keepUprightStratergy: 'INSTANT',
+      },
+    );
 
-    this.scene = scene;
-    this.name = 'player';
-    this.spriteObject.spriteSheet = 'player';
-
-    this.enableKeepUpright = true;
-    this.keepUprightStratergy = 'INSTANT';
-
-    // player sprite
-    this.spriteObject.offset.x = 10;
-    this.spriteObject.offset.y = -7;
-    this.loadSprite();
-    this.createAnimations();
-
-    this.playAnimation(EntityAnimations.Idle);
-
-    // health bar
-    this.healthBar = new HealthBar(scene, 0, 0 - 30, {
-      width: 40,
-      padding: 1,
-      maxHealth: this.health,
-    });
-
-    // text
-    this.text = this.scene.add.text(0, 0 - 40, 'Player', {
-      font: '12px Arial',
-      align: 'center',
-      color: 'white',
-      fontWeight: 'bold',
-    }).setOrigin(0.5);
-
-
-    this.addToContainer([this.sprite, this.healthBar.bar, this.text]);
-
-    this.loadPhysics({
-      frictionAir: 0.001,
-      bounce: 0.1,
-      shape: { type: 'rectangle', width: 14, height: 32 },
-      chamfer: { radius: 4 },
-    });
+    this.name = 'Player';
 
     this.gameObject.setOnCollide(data => {
-
       if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
         this.takeDamage(data.bodyB.damage);
       }
@@ -66,15 +49,7 @@ export default class Player extends Entity {
   }
 
   static preload(scene) {
-    scene.load.spritesheet(this.name, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
-  }
-
-  createAnimations() {
-    this.createAnimation(EntityAnimations.Idle,     0,  3, 10);
-    this.createAnimation(EntityAnimations.Attack,   0,  5, 15);
-    this.createAnimation(EntityAnimations.Death,    6, 11, 10, 0);
-    this.createAnimation(EntityAnimations.Hurt,    12, 13, 10);
-    this.createAnimation(EntityAnimations.Walking, 24, 29, 10);
+    scene.load.spritesheet(this.name, SPRITESHEET, { frameWidth: 48, frameHeight: 48 });
   }
 
   update() {
@@ -92,9 +67,6 @@ export default class Player extends Entity {
     const twoPi = Math.PI * 2;
     const isAlive = this.health > 0;
 
-    this.text.setText(isAlive ? 'aliver' : 'diver');
-
-
     // animations
     if (isAlive) {
       // alive
@@ -103,7 +75,7 @@ export default class Player extends Entity {
         // this.playAnimation(EntityAnimations.Attack);
       } else {
         // when moving play walking animation, otherwise play idle
-        this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walking);
+        this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walk);
       }
     } else {
       // dead

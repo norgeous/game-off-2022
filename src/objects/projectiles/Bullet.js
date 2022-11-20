@@ -20,8 +20,6 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
       },
     );
 
-    console.log({lifespan, soundKeyName});
-
     const velocityX = (direction === Direction.Right) ? 10 : -10;
     const velocityY = 0;
 
@@ -33,7 +31,7 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
 
     this.setVelocity(velocityX, velocityY);
 
-    scene.audio.playSfx(Sound.Pistol);
+    scene.audio.playSfx(soundKeyName);
     // self destroy after lifespan
     this.scene.time.delayedCall(lifespan, () => this.destroy());
   }

@@ -65,14 +65,15 @@ export default class Entity extends Phaser.GameObjects.Container {
       craftpixOffset.y,
       this.name,
     );
+    this.add(this.sprite);
 
     // animations
     Object.entries(animations).forEach(([animationKey, { start, end, fps, repeat = -1 }]) => {
-      console.log('inside forEach', start, spriteSheet)
+      console.log('inside forEach', {start, end, spriteSheet})
       this.scene.anims.create({
         key: this.getKey(animationKey),
-        frames: this.sprite.anims.generateFrameNumbers(spriteSheet, { start, end }),
         frameRate: fps,
+        frames: this.sprite.anims.generateFrameNumbers(spriteSheet, { start, end }),
         repeat,
       });
     });
@@ -86,7 +87,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     // container
     this.scene.add.existing(this);
 
-    this.playAnimation(EntityAnimations.Idle);
+    // this.playAnimation(EntityAnimations.Idle);
   }
 
   getKey(key) {

@@ -64,7 +64,7 @@ export default class Zombie extends Entity {
   }
 
   static preload(scene) {
-    scene.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', { frameWidth: 32, frameHeight: 32 });
+    scene.load.spritesheet('zombieSpriteSheet', 'sprites/craftpix.net/zombie/zombie.png', { frameWidth: 48, frameHeight: 48 });
   }
 
   takeDamage(amount) {
@@ -73,10 +73,11 @@ export default class Zombie extends Entity {
   }
 
   createAnimations() {
-    this.createAnimation(EntityAnimations.Idle, 10, 11, 3);
-    this.createAnimation(EntityAnimations.Walking, 0, 3, 5);
-    this.createAnimation(EntityAnimations.Attack, 4, 7, 15);
-    this.createAnimation(EntityAnimations.Death, 12, 15, 2, 0);
+    this.createAnimation(EntityAnimations.Attack, 0, 5, 15);
+    this.createAnimation(EntityAnimations.Death, 6, 11, 2, 0);
+    this.createAnimation(EntityAnimations.Hurt, 12, 13, 10);
+    this.createAnimation(EntityAnimations.Idle, 18, 21, 3);
+    this.createAnimation(EntityAnimations.Walking, 24, 29, 5);
   }
 
   update() {

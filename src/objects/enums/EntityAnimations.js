@@ -11,5 +11,5 @@ export default class EntityAnimations {
     static Attack = 'attack'
 
     static Death = 'death';
-    static TakeDamage = 'take_damage';
+    static Hurt = 'hurt';
 }

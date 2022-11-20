@@ -270,8 +270,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.smoothedControls.reset();
     }
 
-    let isMoving = (!this.value == 0);
-    if (!isMoving) {
+    // isMoving
+    if (this.value == 0) {
       if (this.playerController.direction == Direction.Left) {
         this.setFrame(this.spriteFrames.facingLeft);
       }
@@ -279,6 +279,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         this.setFrame(this.spriteFrames.facingRight);
       }
     }
+
     // Jumping & wall jumping
     // Add a slight delay between jumps since the sensors will still collide for a few frames after
     // a jump is initiated

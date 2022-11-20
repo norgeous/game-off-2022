@@ -77,6 +77,6 @@ export default class HelloWorldScene extends Phaser.Scene {
   update() {
     this.player.update();
     // this.playerEntity.update();
-    this.smoothMoveCameraTowards(this.player, 0.9);
+    // this.smoothMoveCameraTowards(this.player, 0.9);
   }
 }

@@ -55,7 +55,7 @@ export default class Zombie extends Entity {
     
     if (!this.gameObject.body) return;
 
-    const { angle, angularVelocity } = this.gameObject.body;
+    const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
@@ -73,7 +73,7 @@ export default class Zombie extends Entity {
         this.playAnimation(EntityAnimations.Attack);
       } else {
         // when moving play walking animation, otherwise play idle
-        this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walking);
+        this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walk);
       }
     } else {
       // dead

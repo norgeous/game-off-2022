@@ -18,6 +18,7 @@ export default class MachineGun extends AbstractWeapon {
       this.scene.player.y,
       this.scene.player.playerController.direction,
       1000,
+      'soundKeyNameMachineGun'
     );
   }
 }

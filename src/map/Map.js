@@ -1,4 +1,5 @@
 import { collisionCategories } from '../objects/enums/Collisions';
+import Sound from '../objects/enums/Sound';
 
 export default class Map {
   root = 'map';
@@ -16,12 +17,14 @@ export default class Map {
       map: mapFolderName ?? 'test',
       tileSheet: tileSheetName ?? 'tileset.png',
       mapData: mapDataName ?? 'mapData.json',
-      background: 'backgrounds'
+      background: 'backgrounds',
+      musicFile: Sound.MapMusicFileName
     };
     this.tileSetName = 'tiles' // TileSet name set in the Tiled program.
     this.parallax = {
       backgroundCount: backgroundCount,
     }
+    this.playMusicOnStart = true;
   }
 
   // Must be called inside a scene's preLoad()
@@ -33,6 +36,10 @@ export default class Map {
 
   getMapPath() {
     return this.root + '/' + this.fileNames.map;
+  }
+
+  getMusicPath() {
+    return `${this.root}/${this.fileNames.musicFile}`;
   }
 
   getBackgroundPath() {
@@ -111,7 +118,9 @@ export default class Map {
 
     this.height = this.layers.background.height;
     this.width = this.layers.background.width;
+
+    if (this.playMusicOnStart) {
+      this.Phaser.sound.play(Sound.MusicKey);
+    }
   }
-
-
 }

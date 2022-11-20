@@ -4,6 +4,7 @@ import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
 
+
 export default class Zombie extends Entity {
   constructor (scene, x, y) {
     super(scene, x, y);
@@ -106,6 +107,7 @@ export default class Zombie extends Entity {
       }
     } else {
       // dead
+      this.setCollidesWith(~collisionCategories.enemyDamage);
       this.gameObject.rotation = 0; // force upright for death animation
       this.text.setText('X');
       this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {

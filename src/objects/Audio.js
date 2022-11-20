@@ -24,6 +24,14 @@ export default class Audio  {
     this.scene.load.audio(Sound.Pistol, '/sounds/pistol.wav');
   }
 
+  create() {
+    this.createMusic(Sound.MusicKey);
+    this.createSfx(Sound.BombBlast);
+    this.createSfx(Sound.MachineGunFire);
+    this.createSfx(Sound.GunBurst);
+    this.createSfx(Sound.Pistol);
+  }
+
   createMusic(key, config = null) {
     this.music[key] = this.scene.sound.add(key, config ?? this.config.music);
   }

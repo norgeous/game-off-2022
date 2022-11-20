@@ -37,12 +37,9 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.matter.world.drawDebug = false;
 
     this.map.create();
-    this.audio.createMusic(Sound.MusicKey);
+    this.audio.create();
     //this.audio.playMusic(Sound.MusicKey);
-    this.audio.createSfx(Sound.BombBlast);
-    this.audio.createSfx(Sound.MachineGunFire);
-    this.audio.createSfx(Sound.GunBurst);
-    this.audio.createSfx(Sound.Pistol);
+
     //this.audio.playSfx('bomb_blast');
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 

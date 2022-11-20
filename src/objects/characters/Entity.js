@@ -85,7 +85,6 @@ export default class Entity extends Phaser.GameObjects.Container {
     // physics object
     this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig);
     this.gameObject.setCollisionCategory(collisionCategories.enemy);
-
   }
 
   getKey(key) {

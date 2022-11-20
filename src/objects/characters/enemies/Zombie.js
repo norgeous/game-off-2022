@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import HealthBar from '../../overlays/HealthBar';
+// import HealthBar from '../../overlays/HealthBar';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
@@ -7,46 +7,68 @@ import Entity from '../Entity.js';
 
 export default class Zombie extends Entity {
   constructor (scene, x, y) {
-    super(scene, x, y);
+    super(
+      scene,
+      x, y,
+      {
+        name: 'ZombieEntity', // this becomes this.name
+        spriteSheetKey: 'zombieSpriteSheet',
+        animations: {
+          [EntityAnimations.Idle]:   { start:  0, end: 3,  fps: 10 },
+          [EntityAnimations.Attack]: { start:  0, end: 5,  fps: 15 },
+          [EntityAnimations.Death]:  { start:  6, end: 11, fps: 10, repeat: 0 },
+          [EntityAnimations.Hurt]:   { start: 12, end: 13, fps: 10 },
+          [EntityAnimations.Walk]:   { start: 24, end: 29, fps: 10 },
+        },
+        physicsConfig: {
+          frictionAir: 0.001,
+          bounce: 0.1,
+          shape: { type: 'rectangle', width: 14, height: 32 },
+          chamfer: { radius: 4 },
+        },
+        enableKeepUpright: true,
+        keepUprightStratergy: 'INSTANT',
+      },
+    );
 
     this.scene = scene;
-    this.name = 'zombie';
+    // this.name = 'zombie';
     // this.spriteObject.spriteSheet = 'zombieSpriteSheet';
 
     // zombie sprite
     // this.spriteObject.offset.x = 10;
     // this.spriteObject.offset.y = -7;
     // this.loadSprite();
-    this.createAnimations();
+    // this.createAnimations();
     this.flipXSprite(Math.random() > 0.5); // initial face left / right randomly
 
-    this.playAnimation(EntityAnimations.Idle);
+    // this.playAnimation(EntityAnimations.Idle);
 
     // health bar
-    this.healthBar = new HealthBar(scene, 0, 0 - 30, {
-      width: 40,
-      padding: 1,
-      maxHealth: this.health,
-    });
+    // this.healthBar = new HealthBar(scene, 0, 0 - 30, {
+    //   width: 40,
+    //   padding: 1,
+    //   maxHealth: this.health,
+    // });
 
     // text
-    this.text = this.scene.add.text(0, 0 - 40, 'Zombie', {
-      font: '12px Arial',
-      align: 'center',
-      color: 'white',
-      fontWeight: 'bold',
-    }).setOrigin(0.5);
+    // this.text = this.scene.add.text(0, 0 - 40, 'Zombie', {
+    //   font: '12px Arial',
+    //   align: 'center',
+    //   color: 'white',
+    //   fontWeight: 'bold',
+    // }).setOrigin(0.5);
 
 
-    this.addToContainer([this.sprite, this.healthBar.bar, this.text]);
+    // this.addToContainer([this.sprite, this.healthBar.bar, this.text]);
 
-    this.loadPhysics({
-      frictionAir: 0.001,
-      bounce: 0.1,
-      shape: { type: 'rectangle', width: 14, height: 32 },
-      isStatic: false,
-      chamfer: { radius: 4 },
-    });
+    // this.loadPhysics({
+    //   frictionAir: 0.001,
+    //   bounce: 0.1,
+    //   shape: { type: 'rectangle', width: 14, height: 32 },
+    //   isStatic: false,
+    //   chamfer: { radius: 4 },
+    // });
 
     this.gameObject.setOnCollide(data => {
 
@@ -68,13 +90,13 @@ export default class Zombie extends Entity {
     scene.load.spritesheet('zombieSpriteSheet', 'sprites/craftpix.net/zombie.png', { frameWidth: 48, frameHeight: 48 });
   }
 
-  createAnimations() {
-    this.createAnimation(EntityAnimations.Attack,   0, 5,  15);
-    this.createAnimation(EntityAnimations.Death,    6, 11, 10, 0);
-    this.createAnimation(EntityAnimations.Hurt,    12, 13, 10);
-    this.createAnimation(EntityAnimations.Idle,    18, 21, 10);
-    this.createAnimation(EntityAnimations.Walking, 24, 29, 10);
-  }
+  // createAnimations() {
+  //   this.createAnimation(EntityAnimations.Attack,   0, 5,  15);
+  //   this.createAnimation(EntityAnimations.Death,    6, 11, 10, 0);
+  //   this.createAnimation(EntityAnimations.Hurt,    12, 13, 10);
+  //   this.createAnimation(EntityAnimations.Idle,    18, 21, 10);
+  //   this.createAnimation(EntityAnimations.Walking, 24, 29, 10);
+  // }
 
   update() {
     super.update();
@@ -85,7 +107,7 @@ export default class Zombie extends Entity {
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
-    const { player } = this.scene;
+    const { playerEntity: player } = this.scene;
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 200;
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
     const twoPi = Math.PI * 2;

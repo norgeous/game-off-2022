@@ -1,8 +1,7 @@
 import Phaser from 'phaser';
 import Map from '../map/Map';
-import Player from '../objects/characters/player/Player';
-import Zombie from '../objects/characters/enemies/Zombie';
 import PlayerEntity from '../objects/characters/enemies/PlayerEntity';
+import Zombie from '../objects/characters/enemies/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
 
@@ -20,7 +19,6 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.map.preload();
     
     Zombie.preload(this);
-    Player.preload(this);
     PlayerEntity.preload(this);
     // Bullet.preload(this);
     // Explosion.preload(this);
@@ -38,47 +36,41 @@ export default class HelloWorldScene extends Phaser.Scene {
       }, 100);
     });
 
-    this.matter.world.drawDebug = false;
+    this.matter.world.drawDebug = true;
+    this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
     this.map.create();
     this.audio.create();
-    //this.audio.playMusic(Sound.MusicKey);
-
-    this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
     // zombie spawners
-		// this.zombieGroup = this.add.group({
-    //   maxSize: MAX_ZOMBIES,
-    //   classType: Zombie,
-    //   runChildUpdate: true,
-    // });
-    // setInterval(() => {
-    //   this.map.spawners.zombie.forEach(zombie => {
-    //     this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
-    //   });
-    // }, 1000);
+		this.zombieGroup = this.add.group({
+      maxSize: MAX_ZOMBIES,
+      classType: Zombie,
+      runChildUpdate: true,
+    });
+    setInterval(() => {
+      this.map.spawners.zombie.forEach(zombie => {
+        this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
+      });
+    }, 1000);
     
-    this.createPlayer();
+    // this.createPlayer();
     this.playerEntity = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
+
+
+    this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
+    this.smoothMoveCameraTowards(this.playerEntity, 0); // snap to player
   }
 
-  createPlayer() {
-    this.player = new Player(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16, 'player', 4);
-    this.cam = this.cameras.main;
-
-    this.cam.setBounds(0, 0, this.map.width, this.map.height);
-    this.smoothMoveCameraTowards(this.player);
+  smoothMoveCameraTowards (target, smoothFactor = 0) {
+    const cam = this.cameras.main;
+    cam.scrollX = smoothFactor * cam.scrollX + (1 - smoothFactor) * (target.x - cam.width * 0.5);
+    cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (target.y - cam.height * 0.5);
   }
 
-  smoothMoveCameraTowards (target, smoothFactor) {
-    if (smoothFactor === undefined) { smoothFactor = 0; }
-    this.cam.scrollX = smoothFactor * this.cam.scrollX + (1 - smoothFactor) * (target.x - this.cam.width * 0.5);
-    this.cam.scrollY = smoothFactor * this.cam.scrollY + (1 - smoothFactor) * (target.y - this.cam.height * 0.5);
-  }
-
-  update(time, delta) {
-    this.player.update(time, delta);
+  update() {
+    // this.player.update(time, delta);
     this.playerEntity.update();
-    this.smoothMoveCameraTowards(this.player, 0.9);
+    this.smoothMoveCameraTowards(this.playerEntity, 0.9);
   }
 }

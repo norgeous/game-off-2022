@@ -53,28 +53,18 @@ export default class PlayerEntity extends Entity {
   update() {
     super.update();
 
-    // return;
-
     if (!this.gameObject.body) return;
 
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
-    const { player } = this.scene;
-    const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
     const isAlive = this.health > 0;
 
-    // animations
     if (isAlive) {
       // alive
-      if (veryCloseToPlayer) {
-        // attack
-        // this.playAnimation(EntityAnimations.Attack);
-      } else {
-        // when moving play walking animation, otherwise play idle
-        this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walk);
-      }
+      // when moving play walking animation, otherwise play idle
+      this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walk);
     } else {
       // dead
       this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
@@ -87,17 +77,5 @@ export default class PlayerEntity extends Entity {
         this.gameObject.destroy();
       });
     }
-
-    // // when close to player and not moving much, jump towards player
-    // if (isAlive && closeToPlayer && closeToStationary) {
-    //   const vectorTowardsPlayer = {
-    //     x: player.x - this.x,
-    //     y: player.y - this.y,
-    //   };
-    //   this.gameObject.setVelocity?.(
-    //     vectorTowardsPlayer.x < 0 ? -2 : 2,
-    //     -2,
-    //   );
-    // }
   }
 }

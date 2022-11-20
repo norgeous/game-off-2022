@@ -54,9 +54,7 @@ export default class HelloWorldScene extends Phaser.Scene {
       });
     }, 1000);
     
-    // this.createPlayer();
     this.playerEntity = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
-
 
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
     this.smoothMoveCameraTowards(this.playerEntity, 0); // snap to player
@@ -69,7 +67,6 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   update() {
-    // this.player.update(time, delta);
     this.playerEntity.update();
     this.smoothMoveCameraTowards(this.playerEntity, 0.9);
   }

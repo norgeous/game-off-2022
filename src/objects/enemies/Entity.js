@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { collisionCategories } from './enums/Collisions';
+import { collisionCategories } from '../enums/Collisions';
 
 export default class Entity extends Phaser.GameObjects.Container {
     constructor (scene, x, y, children) {

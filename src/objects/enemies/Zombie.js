@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import HealthBar from './HealthBar';
-import EntityAnimations from './enums/EntityAnimations';
-import { collisionCategories } from './enums/Collisions';
+import EntityAnimations from '../enums/EntityAnimations';
+import { collisionCategories } from '../enums/Collisions';
 import Entity from './Entity.js';
 
 export default class Zombie extends Entity {

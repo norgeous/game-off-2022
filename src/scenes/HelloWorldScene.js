@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import Map from '../map/Map';
 import Player from '../objects/player/Player';
-import Zombie from '../objects/Zombie';
+import Zombie from '../objects/enemies/Zombie';
 
 const MAX_ZOMBIES = 10;
 

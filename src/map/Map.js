@@ -24,6 +24,13 @@ export default class Map {
     }
   }
 
+  // Must be called inside a scene's preLoad()
+  preload() {
+    this.loadTileSheet();
+    this.loadBackgroundImages();
+    this.loadMapData();
+  }
+
   getMapPath() {
     return this.root + '/' + this.fileNames.map;
   }
@@ -93,13 +100,6 @@ export default class Map {
         .setPosition(0,0)
         .setSize(width, height)
     }
-  }
-
-  // Must be called inside a scene's preLoad()
-  preload() {
-    this.loadTileSheet();
-    this.loadBackgroundImages();
-    this.loadMapData();
   }
 
   create() {

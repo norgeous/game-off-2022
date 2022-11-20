@@ -30,6 +30,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       facingLeft: 0,
       facingRight: 5
     }
+
     // Smoothed horizontal controls helper. This gives us a value between -1 and 1 depending on how long
     // the player has been pressing left or right, respectively
     this.msSpeed = 0.0005;
@@ -189,6 +190,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     this.keys.fireKey.on('up', () => {
       this.weapon.fireRelease();
     },this);
+  }
+
+  static preload(scene) {
+    scene.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
   }
 
   cycleWeapons() {

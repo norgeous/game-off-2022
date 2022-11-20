@@ -1,14 +1,12 @@
 import Phaser from 'phaser';
+import MachineGun from '../weapons/MachineGun';
+import BombGlove from '../weapons/BombGlove';
 import PlayerInput from './PlayerInput';
-import Direction from '../../enums/Direction';
-import EntityAnimations from '../../enums/EntityAnimations';
-import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
-
-import HandGun from '../../weapons/HandGun';
-import BombGlove from '../../weapons/BombGlove';
-import MachineGun from '../../weapons/MachineGun';
-
-// import Sound from '../enums/Sound';
+import Direction from '../enums/Direction';
+import EntityAnimations from '../enums/EntityAnimations';
+import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
+import HandGun from "../weapons/HandGun.js";
+import Sound from "../enums/Sound.js";
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -35,7 +33,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       facingLeft: 0,
       facingRight: 5
     }
-
     // Smoothed horizontal controls helper. This gives us a value between -1 and 1 depending on how long
     // the player has been pressing left or right, respectively
     this.msSpeed = 0.0005;
@@ -112,7 +109,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       frictionAir: 1,
       bounce: 0.1,
       restitution: 1,
-      isStatic: true,
+      isStatic: true
     }
 
     // The player's body is going to be a compound body.
@@ -176,6 +173,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       }
     });
 
+
+
     this.scene.events.on('cycleWeapon', () => {
       this.cycleWeapons();
     });
@@ -197,10 +196,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     },this);
   }
 
-  static preload(scene) {
-    scene.load.spritesheet('player', 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
-  }
-
   cycleWeapons() {
     this.weaponInventory.index++;
 
@@ -213,19 +208,19 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
   createAnimations() {
     this.anims.create({
       key: EntityAnimations.MoveLeft,
-      frames: this.anims.generateFrameNumbers('player', { start: 24, end: 29 }),
+      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
       frameRate: 10,
       repeat: -1
     });
     this.anims.create({
       key: EntityAnimations.MoveRight,
-      frames: this.anims.generateFrameNumbers('player', { start: 24, end: 29 }),
+      frames: this.anims.generateFrameNumbers('player', { start: 5, end: 8 }),
       frameRate: 10,
       repeat: -1
     });
     this.anims.create({
       key: EntityAnimations.Idle,
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+      frames: this.anims.generateFrameNumbers('player', { start: 4, end: 4 }),
       frameRate: 10,
       repeat: -1
     });
@@ -279,7 +274,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         this.setFrame(this.spriteFrames.facingRight);
       }
     }
-
     // Jumping & wall jumping
     // Add a slight delay between jumps since the sensors will still collide for a few frames after
     // a jump is initiated

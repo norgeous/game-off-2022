@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
-import MachineGun from '../weapons/MachineGun';
-import BombGlove from '../weapons/BombGlove';
+import MachineGun from '../../weapons/MachineGun';
+import BombGlove from '../../weapons/BombGlove';
 import PlayerInput from './PlayerInput';
-import Direction from '../enums/Direction';
-import EntityAnimations from '../enums/EntityAnimations';
-import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
+import Direction from '../../enums/Direction';
+import EntityAnimations from '../../enums/EntityAnimations';
+import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -275,6 +275,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         this.setFrame(this.spriteFrames.facingRight);
       }
     }
+
     // Jumping & wall jumping
     // Add a slight delay between jumps since the sensors will still collide for a few frames after
     // a jump is initiated

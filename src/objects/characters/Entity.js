@@ -85,8 +85,7 @@ export default class Entity extends Phaser.GameObjects.Container {
       this.gameObject.destroy();
     }
 
-    if (this.followPlayer) {
-
-    }
+    // if (this.followPlayer) {
+    // }
   }
 }

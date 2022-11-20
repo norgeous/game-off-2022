@@ -8,7 +8,7 @@ export default class PlayerEntity extends Entity {
   constructor (scene, x, y) {
     super(
       scene,
-      x + 100, y + 100,
+      x + 100, y - 100,
       {
         name: 'PlayerEntity', // this becomes this.name
         spriteSheetKey: SPRITESHEETKEY,

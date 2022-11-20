@@ -5,20 +5,22 @@ import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
 
 
-export default class Zombie extends Entity {
+export default class Player extends Entity {
   constructor (scene, x, y) {
-    super(scene, x, y);
+    super(scene, x+100, y);
 
     this.scene = scene;
-    this.name = 'zombie';
-    this.spriteObject.spriteSheet = 'zombieSpriteSheet';
+    this.name = 'player';
+    this.spriteObject.spriteSheet = 'player';
 
-    // zombie sprite
+    this.enableKeepUpright = true;
+    this.keepUprightStratergy = 'INSTANT';
+
+    // player sprite
     this.spriteObject.offset.x = 10;
     this.spriteObject.offset.y = -7;
     this.loadSprite();
     this.createAnimations();
-    this.flipXSprite(Math.random() > 0.5); // initial face left / right randomly
 
     this.playAnimation(EntityAnimations.Idle);
 
@@ -30,7 +32,7 @@ export default class Zombie extends Entity {
     });
 
     // text
-    this.text = this.scene.add.text(0, 0 - 40, 'Zombie', {
+    this.text = this.scene.add.text(0, 0 - 40, 'Player', {
       font: '12px Arial',
       align: 'center',
       color: 'white',
@@ -44,7 +46,6 @@ export default class Zombie extends Entity {
       frictionAir: 0.001,
       bounce: 0.1,
       shape: { type: 'rectangle', width: 14, height: 32 },
-      isStatic: false,
       chamfer: { radius: 4 },
     });
 
@@ -65,20 +66,20 @@ export default class Zombie extends Entity {
   }
 
   static preload(scene) {
-    scene.load.spritesheet('zombieSpriteSheet', 'sprites/craftpix.net/zombie.png', { frameWidth: 48, frameHeight: 48 });
+    scene.load.spritesheet(this.name, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
   }
 
   createAnimations() {
-    this.createAnimation(EntityAnimations.Attack,   0, 5,  15);
+    this.createAnimation(EntityAnimations.Idle,     0,  3, 10);
+    this.createAnimation(EntityAnimations.Attack,   0,  5, 15);
     this.createAnimation(EntityAnimations.Death,    6, 11, 10, 0);
     this.createAnimation(EntityAnimations.Hurt,    12, 13, 10);
-    this.createAnimation(EntityAnimations.Idle,    18, 21, 10);
     this.createAnimation(EntityAnimations.Walking, 24, 29, 10);
   }
 
   update() {
     super.update();
-    
+
     if (!this.gameObject.body) return;
 
     const { angle, angularVelocity } = this.gameObject.body;
@@ -91,12 +92,15 @@ export default class Zombie extends Entity {
     const twoPi = Math.PI * 2;
     const isAlive = this.health > 0;
 
+    this.text.setText(isAlive ? 'aliver' : 'diver');
+
+
     // animations
     if (isAlive) {
       // alive
       if (veryCloseToPlayer) {
         // attack
-        this.playAnimation(EntityAnimations.Attack);
+        // this.playAnimation(EntityAnimations.Attack);
       } else {
         // when moving play walking animation, otherwise play idle
         this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walking);
@@ -104,7 +108,7 @@ export default class Zombie extends Entity {
     } else {
       // dead
       this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
-      this.rotation = 0; // force Entity upright for death animation
+      this.rotation = 0; // force upright for death animation
       this.text.setText('X');
       this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {
         this.sprite.destroy();
@@ -112,11 +116,6 @@ export default class Zombie extends Entity {
         this.destroy();
         this.gameObject.destroy();
       });
-    }
-
-    // flip zombie sprite when player is close to and left of zombie
-    if (isAlive && closeToPlayer) {
-      this.flipXSprite(player.x < this.x);
     }
 
     // force upright (springy)
@@ -127,17 +126,17 @@ export default class Zombie extends Entity {
       this.gameObject.setAngularVelocity(newAv);
     }
 
-    // when close to player and not moving much, jump towards player
-    if (isAlive && closeToPlayer && closeToStationary) {
-      const vectorTowardsPlayer = {
-        x: player.x - this.x,
-        y: player.y - this.y,
-      };
-      this.gameObject.setVelocity?.(
-        vectorTowardsPlayer.x < 0 ? -2 : 2,
-        -2,
-      );
-    }
+    // // when close to player and not moving much, jump towards player
+    // if (isAlive && closeToPlayer && closeToStationary) {
+    //   const vectorTowardsPlayer = {
+    //     x: player.x - this.x,
+    //     y: player.y - this.y,
+    //   };
+    //   this.gameObject.setVelocity?.(
+    //     vectorTowardsPlayer.x < 0 ? -2 : 2,
+    //     -2,
+    //   );
+    // }
 
     // (re)draw health bar
     this.healthBar.draw(this.health);

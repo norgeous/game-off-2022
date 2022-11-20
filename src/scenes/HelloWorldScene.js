@@ -1,7 +1,8 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 import Map from '../map/Map';
 import Player from '../objects/characters/player/Player';
 import Zombie from '../objects/characters/enemies/Zombie';
+import PlayerEntity from '../objects/characters/enemies/PlayerEntity';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
 
@@ -20,6 +21,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     
     Zombie.preload(this);
     Player.preload(this);
+    PlayerEntity.preload(this);
     // Bullet.preload(this);
     // Explosion.preload(this);
     this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
@@ -42,7 +44,6 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.audio.create();
     //this.audio.playMusic(Sound.MusicKey);
 
-    //this.audio.playSfx('bomb_blast');
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
 		this.zombieGroup = this.add.group({
@@ -58,10 +59,11 @@ export default class HelloWorldScene extends Phaser.Scene {
     }, 1000);
     
     this.createPlayer();
+    this.playerEntity = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
   }
 
   createPlayer() {
-    this.player = new Player(this, this.map.spawners.player.x+16, this.map.spawners.player.y-16, 'player', 4);
+    this.player = new Player(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16, 'player', 4);
     this.cam = this.cameras.main;
 
     this.cam.setBounds(0, 0, this.map.width, this.map.height);
@@ -76,6 +78,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update(time, delta);
+    this.playerEntity.update();
     this.smoothMoveCameraTowards(this.player, 0.9);
   }
 }

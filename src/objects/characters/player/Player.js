@@ -112,7 +112,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       frictionAir: 1,
       bounce: 0.1,
       restitution: 1,
-      isStatic: true
+      isStatic: true,
     }
 
     // The player's body is going to be a compound body.
@@ -175,8 +175,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         }
       }
     });
-
-
 
     this.scene.events.on('cycleWeapon', () => {
       this.cycleWeapons();

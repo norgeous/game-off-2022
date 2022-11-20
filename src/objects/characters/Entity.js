@@ -1,9 +1,14 @@
 import Phaser from 'phaser';
 import { collisionCategories } from '../enums/Collisions';
 
+const keepUprightStratergies = {
+  INSTANT: 'INSTANT',
+  SPRINGY: 'SPRINGY',
+};
+
 export default class Entity extends Phaser.GameObjects.Container {
-  constructor (scene, x, y, children) {
-    super(scene, x, y, children);
+  constructor (scene, x, y) {
+    super(scene, x, y);
 
     this.scene = scene;
     this.sprite = null;
@@ -21,6 +26,8 @@ export default class Entity extends Phaser.GameObjects.Container {
 
     this.followPlayer = true;
     this.healthCheck = true;
+    this.enableKeepUpright = false;
+    this.keepUprightStratergy = keepUprightStratergies.SPRINGY;
   }
 
   loadPhysics(physicsConfig) {
@@ -69,23 +76,49 @@ export default class Entity extends Phaser.GameObjects.Container {
 
   takeDamage(amount) {
     this.health -= amount;
+    if (this.health < 0) this.health = 0;
   }
 
   update() {
+    if (!this.gameObject.body) return;
+
+    // (re)draw health bar
     if (this.healthBar) {
-      // (re)draw health bar
       this.healthBar.draw(this.health);
     }
 
+    // if (this.followPlayer) {
+    // }
+
+    // flip sprite to match direction of movement
+    this.flipXSprite(this.gameObject.body.velocity.x < 0.1);
+    
+    // Keep Upright
+    if (this.enableKeepUpright) {
+
+      // SPRINGY
+      if (this.keepUprightStratergy === keepUprightStratergies.SPRINGY) {
+        const twoPi = Math.PI * 2;
+        const { angle, angularVelocity } = this.gameObject.body;
+        this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
+        const diff = 0 - angle;
+        const newAv = angularVelocity + (diff / 100);
+        this.gameObject.setAngularVelocity(newAv);
+      }
+
+      // INSTANT
+      if (this.keepUprightStratergy === keepUprightStratergies.INSTANT) {
+        this.gameObject.rotation = 0;
+      }
+
+    }
+
+    // kill if zero health
     if (this.healthCheck && this.health <= 0) {
-      // kill if zero health
       this.sprite.destroy();
       this.text.destroy();
       this.destroy();
       this.gameObject.destroy();
     }
-
-    // if (this.followPlayer) {
-    // }
   }
 }

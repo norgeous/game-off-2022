@@ -233,25 +233,28 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
 
   moveSprite(delta) {
     // Horizontal movement
-    let oldVelocityX;
-    let targetVelocityX;
-    let newVelocityX;
+    // let oldVelocityX;
+    // let targetVelocityX;
+    // let newVelocityX;
 
-    oldVelocityX = this.body.velocity.x;
+    // oldVelocityX = this.body.velocity.x;
 
     if (this.playerController.direction == Direction.Left) {
-      this.smoothedControls.moveLeft(delta);
-      this.anims.play(EntityAnimations.MoveLeft, true);
-      targetVelocityX = -this.playerController.speed.run;
-      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, -this.value);
+      // this.smoothedControls.moveLeft(delta);
+      // this.anims.play(EntityAnimations.MoveLeft, true);
+      // targetVelocityX = -this.playerController.speed.run;
+      // newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, -this.value);
+      this.setVelocityX(-1);
     } else {
-      this.smoothedControls.moveRight(delta);
-      this.anims.play(EntityAnimations.MoveRight, true);
-      targetVelocityX = this.playerController.speed.run;
-      newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, this.value);
+      // this.smoothedControls.moveRight(delta);
+      // this.anims.play(EntityAnimations.MoveRight, true);
+      // targetVelocityX = this.playerController.speed.run;
+      // newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, this.value);
+      this.setVelocityX(1);
     }
 
-    this.setVelocityX(newVelocityX);
+    // console.log('setvelocityX', this.playerController, newVelocityX)
+    // this.setVelocityX(newVelocityX);
   }
 
   update (time, delta) {
@@ -270,8 +273,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.smoothedControls.reset();
     }
 
-    // isMoving
-    if (this.value == 0) {
+    let isMoving = (!this.value == 0);
+    if (!isMoving) {
       if (this.playerController.direction == Direction.Left) {
         this.setFrame(this.spriteFrames.facingLeft);
       }

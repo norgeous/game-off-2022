@@ -2,7 +2,7 @@ import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
 
-const SPRITESHEET = 'sprites/craftpix.net/biker.png';
+const SPRITESHEETKEY = 'playerSprites';
 
 export default class PlayerEntity extends Entity {
   constructor (scene, x, y) {
@@ -11,7 +11,7 @@ export default class PlayerEntity extends Entity {
       x + 100, y + 100,
       {
         name: 'PlayerEntity', // this becomes this.name
-        spriteSheetKey: 'player',
+        spriteSheetKey: SPRITESHEETKEY,
         animations: {
           [EntityAnimations.Idle]:   { start:  0, end: 3,  fps: 10 },
           [EntityAnimations.Attack]: { start:  0, end: 5,  fps: 15 },
@@ -25,8 +25,10 @@ export default class PlayerEntity extends Entity {
           shape: { type: 'rectangle', width: 14, height: 32 },
           chamfer: { radius: 4 },
         },
-        enableKeepUpright: true,
-        keepUprightStratergy: 'INSTANT',
+        // enableKeepUpright: true,
+        // keepUprightStratergy: 'INSTANT',
+        enableKeepUpright: false,
+        keepUprightStratergy: 'SPRINGY',
       },
     );
 
@@ -38,7 +40,7 @@ export default class PlayerEntity extends Entity {
   }
 
   static preload(scene) {
-    scene.load.spritesheet('player', SPRITESHEET, { frameWidth: 48, frameHeight: 48 });
+    scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
   }
 
   update() {

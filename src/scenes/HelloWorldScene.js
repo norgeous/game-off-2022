@@ -21,7 +21,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     
     Zombie.preload(this);
     Player.preload(this);
-    // PlayerEntity.preload(this);
+    PlayerEntity.preload(this);
     // Bullet.preload(this);
     // Explosion.preload(this);
     this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
@@ -61,7 +61,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     
     // player
     this.player = new Player(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16)
-    // this.playerEntity = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
+    this.playerEntity = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
 
     // camera
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
@@ -69,6 +69,7 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   smoothMoveCameraTowards (target, smoothFactor = 0) {
+    console.log(target.x,target.y)
     const cam = this.cameras.main;
     cam.scrollX = smoothFactor * cam.scrollX + (1 - smoothFactor) * (target.x - cam.width * 0.5);
     cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (target.y - cam.height * 0.5);
@@ -76,7 +77,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   update() {
     this.player.update();
-    // this.playerEntity.update();
-    // this.smoothMoveCameraTowards(this.player, 0.9);
+    this.playerEntity.update();
+    this.smoothMoveCameraTowards(this.player, 0.9);
   }
 }

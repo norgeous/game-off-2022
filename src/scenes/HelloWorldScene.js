@@ -23,10 +23,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
     this.load.spritesheet('explosion', 'sprites/explosion.png', { frameWidth: 256, frameHeight: 256 });
     this.load.audio(Sound.MusicKey, `${this.map.getMapPath()}/${Sound.MapMusicFileName}`);
-    this.load.audio(Sound.BombBlast, '/sounds/musket-explosion.mp3');
-    this.load.audio(Sound.MachineGunFire, '/sounds/gun-burst.mp3');
-    this.load.audio(Sound.GunBurst, '/sounds/machine-gun.mp3');
-    this.load.audio(Sound.Pistol, '/sounds/pistol.wav');
+    this.audio.preLoad();
   }
 
   create() {

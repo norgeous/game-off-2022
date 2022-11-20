@@ -1,5 +1,6 @@
-export default class Audio {
-  static instance = this;
+import Sound from "./enums/Sound.js";
+
+export default class Audio  {
   constructor(scene) {
 
     this.scene = scene;
@@ -14,6 +15,13 @@ export default class Audio {
         volume: 1
       }
     }
+  }
+
+  preLoad() {
+    this.scene.load.audio(Sound.BombBlast, '/sounds/musket-explosion.mp3');
+    this.scene.load.audio(Sound.MachineGunFire, '/sounds/gun-burst.mp3');
+    this.scene.load.audio(Sound.GunBurst, '/sounds/machine-gun.mp3');
+    this.scene.load.audio(Sound.Pistol, '/sounds/pistol.wav');
   }
 
   createMusic(key, config = null) {
@@ -36,7 +44,5 @@ export default class Audio {
     }
   }
 
-  loadSound() {
 
-  }
 }

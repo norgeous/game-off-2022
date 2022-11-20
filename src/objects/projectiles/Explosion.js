@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Sound from '../enums/Sound';
 
 class Explosion {
   constructor (scene, x, y, { radius = 50, force = 50 }) {
@@ -21,6 +22,8 @@ class Explosion {
     // apply to player too, for grenade jumps
     this.applyExplosionForce(x, y, radius, force, scene.player);
     this.playExplodeAnimation(x, y, scene);
+
+    scene.audio.playSfx(Sound.BombBlast);
   }
 
   playExplodeAnimation(x, y, scene) {

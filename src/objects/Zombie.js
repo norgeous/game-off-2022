@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import HealthBar from './HealthBar';
 import EntityAnimations from './enums/EntityAnimations';
-import { collisionCategories } from './enums/Collisions';
+import {collisionCategories, collisionMaskEverything} from './enums/Collisions';
 import Entity from './Entity.js';
 
 export default class Zombie extends Entity {
@@ -88,7 +88,6 @@ export default class Zombie extends Entity {
     const twoPi = Math.PI * 2;
     const isAlive = this.health > 0;
 
-
     // animations
     if (isAlive) {
       // alive
@@ -101,6 +100,7 @@ export default class Zombie extends Entity {
       }
     } else {
       // dead
+      this.setCollidesWith(~collisionCategories.enemyDamage);
       this.gameObject.rotation = 0; // force upright for death animation
       this.text.setText('X');
       this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {

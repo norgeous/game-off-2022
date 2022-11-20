@@ -8,7 +8,7 @@ export default class PlayerEntity extends Entity {
   constructor (scene, x, y) {
     super(
       scene,
-      x + 100, y - 100,
+      x + 50, y - 100,
       {
         name: 'PlayerEntity', // this becomes this.name
         spriteSheetKey: SPRITESHEETKEY,
@@ -25,10 +25,8 @@ export default class PlayerEntity extends Entity {
           shape: { type: 'rectangle', width: 14, height: 32 },
           chamfer: { radius: 4 },
         },
-        // enableKeepUpright: true,
-        // keepUprightStratergy: 'INSTANT',
-        enableKeepUpright: false,
-        keepUprightStratergy: 'SPRINGY',
+        enableKeepUpright: true,
+        keepUprightStratergy: 'INSTANT',
       },
     );
 

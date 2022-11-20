@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
 import Map from '../map/Map';
+import Player from '../objects/characters/player/Player';
 import PlayerEntity from '../objects/characters/enemies/PlayerEntity';
 import Zombie from '../objects/characters/enemies/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
-import Player from '../objects/characters/player/Player';
 
 const MAX_ZOMBIES = 10;
 

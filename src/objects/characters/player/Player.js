@@ -1,12 +1,12 @@
 import Phaser from 'phaser';
-import MachineGun from '../weapons/MachineGun';
-import BombGlove from '../weapons/BombGlove';
+import MachineGun from '../../weapons/MachineGun';
+import BombGlove from '../../weapons/BombGlove';
 import PlayerInput from './PlayerInput';
-import Direction from '../enums/Direction';
-import EntityAnimations from '../enums/EntityAnimations';
-import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
-import HandGun from "../weapons/HandGun.js";
-import Sound from "../enums/Sound.js";
+import Direction from '../../enums/Direction';
+import EntityAnimations from '../../enums/EntityAnimations';
+import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
+import HandGun from '../../weapons/HandGun';
+// import Sound from '../../enums/Sound';
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {

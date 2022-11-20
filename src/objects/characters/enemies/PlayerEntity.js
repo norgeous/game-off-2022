@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
@@ -32,14 +31,6 @@ export default class PlayerEntity extends Entity {
     );
 
     this.gameObject.setOnCollide(data => {
-      if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
-        this.takeDamage(data.bodyB.damage);
-      }
-
-      if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
-        this.takeDamage(data.bodyB.damage);
-      }
-
       // environmental / fall damage
       const { depth } = data.collision;
       if (depth > 5) this.takeDamage(depth);

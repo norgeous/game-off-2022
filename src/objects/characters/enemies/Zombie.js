@@ -1,9 +1,7 @@
 import Phaser from 'phaser';
-// import HealthBar from '../../overlays/HealthBar';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
-
 
 export default class Zombie extends Entity {
   constructor (scene, x, y) {
@@ -26,52 +24,14 @@ export default class Zombie extends Entity {
           shape: { type: 'rectangle', width: 14, height: 32 },
           chamfer: { radius: 4 },
         },
-        enableKeepUpright: true,
-        keepUprightStratergy: 'INSTANT',
+        enableKeepUpright: false,
+        keepUprightStratergy: 'SPRINGY',
       },
     );
-
-    this.scene = scene;
-    // this.name = 'zombie';
-    // this.spriteObject.spriteSheet = 'zombieSpriteSheet';
-
-    // zombie sprite
-    // this.spriteObject.offset.x = 10;
-    // this.spriteObject.offset.y = -7;
-    // this.loadSprite();
-    // this.createAnimations();
+    
     this.flipXSprite(Math.random() > 0.5); // initial face left / right randomly
 
-    // this.playAnimation(EntityAnimations.Idle);
-
-    // health bar
-    // this.healthBar = new HealthBar(scene, 0, 0 - 30, {
-    //   width: 40,
-    //   padding: 1,
-    //   maxHealth: this.health,
-    // });
-
-    // text
-    // this.text = this.scene.add.text(0, 0 - 40, 'Zombie', {
-    //   font: '12px Arial',
-    //   align: 'center',
-    //   color: 'white',
-    //   fontWeight: 'bold',
-    // }).setOrigin(0.5);
-
-
-    // this.addToContainer([this.sprite, this.healthBar.bar, this.text]);
-
-    // this.loadPhysics({
-    //   frictionAir: 0.001,
-    //   bounce: 0.1,
-    //   shape: { type: 'rectangle', width: 14, height: 32 },
-    //   isStatic: false,
-    //   chamfer: { radius: 4 },
-    // });
-
     this.gameObject.setOnCollide(data => {
-
       if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
         this.takeDamage(data.bodyB.damage);
       }
@@ -89,14 +49,6 @@ export default class Zombie extends Entity {
   static preload(scene) {
     scene.load.spritesheet('zombieSpriteSheet', 'sprites/craftpix.net/zombie.png', { frameWidth: 48, frameHeight: 48 });
   }
-
-  // createAnimations() {
-  //   this.createAnimation(EntityAnimations.Attack,   0, 5,  15);
-  //   this.createAnimation(EntityAnimations.Death,    6, 11, 10, 0);
-  //   this.createAnimation(EntityAnimations.Hurt,    12, 13, 10);
-  //   this.createAnimation(EntityAnimations.Idle,    18, 21, 10);
-  //   this.createAnimation(EntityAnimations.Walking, 24, 29, 10);
-  // }
 
   update() {
     super.update();
@@ -134,19 +86,6 @@ export default class Zombie extends Entity {
         this.destroy();
         this.gameObject.destroy();
       });
-    }
-
-    // flip zombie sprite when player is close to and left of zombie
-    if (isAlive && closeToPlayer) {
-      this.flipXSprite(player.x < this.x);
-    }
-
-    // force upright (springy)
-    if (isAlive && closeToPlayer) {
-      this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
-      const diff = 0 - angle;
-      const newAv = (angularVelocity + (diff / 100));
-      this.gameObject.setAngularVelocity(newAv);
     }
 
     // when close to player and not moving much, jump towards player

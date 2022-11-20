@@ -4,6 +4,7 @@ import PlayerEntity from '../objects/characters/enemies/PlayerEntity';
 import Zombie from '../objects/characters/enemies/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
+import Player from '../objects/characters/player/Player';
 
 const MAX_ZOMBIES = 10;
 
@@ -39,7 +40,10 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.matter.world.drawDebug = true;
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
+    // load Tiled map
     this.map.create();
+    
+    // load audio
     this.audio.create();
 
     // zombie spawners
@@ -54,8 +58,11 @@ export default class HelloWorldScene extends Phaser.Scene {
       });
     }, 1000);
     
+    // player
+    this.player = new Player(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16)
     this.playerEntity = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
 
+    // camera
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
     this.smoothMoveCameraTowards(this.playerEntity, 0); // snap to player
   }
@@ -67,6 +74,7 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   update() {
+    this.player.update();
     this.playerEntity.update();
     this.smoothMoveCameraTowards(this.playerEntity, 0.9);
   }

@@ -69,14 +69,13 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   smoothMoveCameraTowards (target, smoothFactor = 0) {
-    console.log(target.x,target.y)
     const cam = this.cameras.main;
     cam.scrollX = smoothFactor * cam.scrollX + (1 - smoothFactor) * (target.x - cam.width * 0.5);
     cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (target.y - cam.height * 0.5);
   }
 
-  update() {
-    this.player.update();
+  update(time, delta) {
+    this.player.update(time, delta);
     this.playerEntity.update();
     this.smoothMoveCameraTowards(this.player, 0.9);
   }

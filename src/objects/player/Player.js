@@ -193,7 +193,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
   }
 
   static preload(scene) {
-    scene.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
+    // scene.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
+    scene.load.spritesheet('player', 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
   }
 
   cycleWeapons() {
@@ -208,19 +209,19 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
   createAnimations() {
     this.anims.create({
       key: EntityAnimations.MoveLeft,
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+      frames: this.anims.generateFrameNumbers('player', { start: 24, end: 29 }),
       frameRate: 10,
       repeat: -1
     });
     this.anims.create({
       key: EntityAnimations.MoveRight,
-      frames: this.anims.generateFrameNumbers('player', { start: 5, end: 8 }),
+      frames: this.anims.generateFrameNumbers('player', { start: 24, end: 29 }),
       frameRate: 10,
       repeat: -1
     });
     this.anims.create({
       key: EntityAnimations.Idle,
-      frames: this.anims.generateFrameNumbers('player', { start: 4, end: 4 }),
+      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
       frameRate: 10,
       repeat: -1
     });

@@ -1,7 +1,7 @@
 export default class Sound {
   // Music
   static MusicKey = 'music';
-  static MapMusicFileName = 'music.mp3';
+  static MapMusicFileName = 'music3.mp3';
 
   // Sounds
 

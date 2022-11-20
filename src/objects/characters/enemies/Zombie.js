@@ -24,7 +24,7 @@ export default class Zombie extends Entity {
           shape: { type: 'rectangle', width: 14, height: 32 },
           chamfer: { radius: 4 },
         },
-        enableKeepUpright: false,
+        enableKeepUpright: true,
         keepUprightStratergy: 'SPRINGY',
       },
     );

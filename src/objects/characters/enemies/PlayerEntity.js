@@ -47,23 +47,22 @@ export default class PlayerEntity extends Entity {
   }
 
   static preload(scene) {
-    console.log('preload', this.name)
     scene.load.spritesheet('player', SPRITESHEET, { frameWidth: 48, frameHeight: 48 });
   }
 
   update() {
     super.update();
 
+    // return;
+
     if (!this.gameObject.body) return;
 
-    const { angle, angularVelocity } = this.gameObject.body;
+    const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
     const { player } = this.scene;
-    const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 200;
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
-    const twoPi = Math.PI * 2;
     const isAlive = this.health > 0;
 
     // animations
@@ -89,14 +88,6 @@ export default class PlayerEntity extends Entity {
       });
     }
 
-    // force upright (springy)
-    if (isAlive && closeToPlayer) {
-      this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
-      const diff = 0 - angle;
-      const newAv = (angularVelocity + (diff / 100));
-      this.gameObject.setAngularVelocity(newAv);
-    }
-
     // // when close to player and not moving much, jump towards player
     // if (isAlive && closeToPlayer && closeToStationary) {
     //   const vectorTowardsPlayer = {
@@ -108,8 +99,5 @@ export default class PlayerEntity extends Entity {
     //     -2,
     //   );
     // }
-
-    // (re)draw health bar
-    this.healthBar.draw(this.health);
   }
 }

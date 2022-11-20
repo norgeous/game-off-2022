@@ -47,7 +47,7 @@ export default class Entity extends Phaser.GameObjects.Container {
         padding: 1,
         maxHealth: this.health,
       });
-      this.add([this.healthBar.bar]);
+      this.add(this.healthBar.bar);
     }
     
     // text
@@ -77,15 +77,15 @@ export default class Entity extends Phaser.GameObjects.Container {
       });
     });
 
-    // physics object
-    this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig);
-    this.gameObject.setCollisionCategory(collisionCategories.enemy);
-    this.add(this.gameObject);
+    this.playAnimation(EntityAnimations.Idle);
 
     // container
     this.scene.add.existing(this);
 
-    this.playAnimation(EntityAnimations.Idle);
+    // physics object
+    this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig);
+    this.gameObject.setCollisionCategory(collisionCategories.enemy);
+
   }
 
   getKey(key) {
@@ -93,7 +93,7 @@ export default class Entity extends Phaser.GameObjects.Container {
   }
 
   playAnimation(key, ignoreIfPlaying = true) {
-    console.log(this.sprite.anims.animationManager.anims.entries[this.getKey(key)])
+    // console.log(this.sprite.anims.animationManager.anims.entries[this.getKey(key)]);
     return this.sprite.play(this.getKey(key), ignoreIfPlaying);
   }
 
@@ -115,9 +115,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     if (!this.gameObject.body) return;
 
     // (re)draw health bar
-    if (this.healthBar) {
-      this.healthBar.draw(this.health);
-    }
+    this.healthBar?.draw(this.health);
 
     // flip sprite to match direction of movement
     this.flipXSprite(this.gameObject.body.velocity.x < 0.1);

@@ -12,11 +12,12 @@ export default class Zombie extends Entity {
     this.name = 'zombie';
     this.spriteObject.spriteSheet = 'zombieSpriteSheet';
 
+    // zombie sprite
+    this.spriteObject.offset.x = 10;
+    this.spriteObject.offset.y = -7;
     this.loadSprite();
     this.createAnimations();
-
-    // zombie sprite
-    this.sprite.flipX = Math.random() > 0.5; // initial face left / right randomly
+    this.flipXSprite(Math.random() > 0.5); // initial face left / right randomly
 
     this.playAnimation(EntityAnimations.Idle);
 
@@ -74,7 +75,7 @@ export default class Zombie extends Entity {
 
   createAnimations() {
     this.createAnimation(EntityAnimations.Attack, 0, 5, 15);
-    this.createAnimation(EntityAnimations.Death, 6, 11, 2, 0);
+    this.createAnimation(EntityAnimations.Death, 6, 11, 10, 0);
     this.createAnimation(EntityAnimations.Hurt, 12, 13, 10);
     this.createAnimation(EntityAnimations.Idle, 18, 21, 3);
     this.createAnimation(EntityAnimations.Walking, 24, 29, 5);
@@ -92,7 +93,6 @@ export default class Zombie extends Entity {
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
     const twoPi = Math.PI * 2;
     const isAlive = this.health > 0;
-
 
     // animations
     if (isAlive) {
@@ -116,6 +116,11 @@ export default class Zombie extends Entity {
       });
     }
 
+    // flip zombie sprite when player is close to and left of zombie
+    if (isAlive && closeToPlayer) {
+      this.flipXSprite(player.x < this.x);
+    }
+
     // force upright (springy)
     if (isAlive && closeToPlayer) {
       this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
@@ -134,11 +139,6 @@ export default class Zombie extends Entity {
         vectorTowardsPlayer.x < 0 ? -2 : 2,
         -2,
       );
-    }
-
-    // flip zombie sprite when player is close to and left of zombie
-    if (isAlive && closeToPlayer) {
-      this.sprite.flipX = player.x < this.x;
     }
 
     // (re)draw health bar

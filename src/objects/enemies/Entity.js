@@ -8,6 +8,10 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.scene = scene;
     this.sprite = null;
     this.spriteObject = {
+      offset: {
+        x: 0,
+        y: 0,
+      },
       defaultFrameRate: 3,
       spriteSheet: '',
     };
@@ -25,7 +29,20 @@ export default class Entity extends Phaser.GameObjects.Container {
   }
 
   loadSprite() {
-    this.sprite = this.scene.add.sprite(0, 0, this.name);
+    this.sprite = this.scene.add.sprite(
+      this.spriteObject.offset.x,
+      this.spriteObject.offset.y,
+      this.name,
+    );
+  }
+
+  flipXSprite(shouldFlip) {
+    this.sprite.flipX = shouldFlip;
+    if (shouldFlip) {
+      this.sprite.x = -this.spriteObject.offset.x;
+    } else {
+      this.sprite.x = this.spriteObject.offset.x;
+    }
   }
 
   getKey(key) {

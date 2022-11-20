@@ -4,7 +4,7 @@ import Direction from '../enums/Direction';
 import Sound from '../enums/Sound';
 
 class Bullet extends Phaser.Physics.Matter.Sprite {
-  constructor(scene, x, y, direction, lifespan, soundKeyName) {
+  constructor(scene, x, y, { direction, lifespan, soundKeyName }) {
     super(
       scene.matter.world,
       x,
@@ -20,7 +20,7 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
       },
     );
 
-    console.log(soundKeyName);
+    console.log({lifespan, soundKeyName});
 
     const velocityX = (direction === Direction.Right) ? 10 : -10;
     const velocityY = 0;

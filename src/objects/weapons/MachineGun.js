@@ -16,9 +16,11 @@ export default class MachineGun extends AbstractWeapon {
     this.bulletGroup.get(
       this.scene.player.x,
       this.scene.player.y,
-      this.scene.player.playerController.direction,
-      1000,
-      'soundKeyNameMachineGun'
+      {
+        direction: this.scene.player.playerController.direction,
+        lifespan: 1000,
+        soundKeyName: 'soundKeyNameMachineGun',
+      },
     );
   }
 }

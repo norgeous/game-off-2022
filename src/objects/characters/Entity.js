@@ -21,7 +21,7 @@ export default class Entity extends Phaser.GameObjects.Container {
         name = 'entity',
         health = 100,
         enableHealthBar = true,
-        spriteSheet = 'sprites/craftpix.net/biker.png',
+        spriteSheetKey = 'player',
         animations = {},
         physicsConfig = {},
         enableKeepUpright = false,
@@ -69,15 +69,13 @@ export default class Entity extends Phaser.GameObjects.Container {
 
     // animations
     Object.entries(animations).forEach(([animationKey, { start, end, fps, repeat = -1 }]) => {
-      console.log('inside forEach', {start, end, spriteSheet})
       this.scene.anims.create({
         key: this.getKey(animationKey),
         frameRate: fps,
-        frames: this.sprite.anims.generateFrameNumbers(spriteSheet, { start, end }),
+        frames: this.sprite.anims.generateFrameNumbers(spriteSheetKey, { start, end }),
         repeat,
       });
     });
-    console.log({animations})
 
     // physics object
     this.gameObject = this.scene.matter.add.gameObject(this, physicsConfig);
@@ -87,7 +85,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     // container
     this.scene.add.existing(this);
 
-    // this.playAnimation(EntityAnimations.Idle);
+    this.playAnimation(EntityAnimations.Idle);
   }
 
   getKey(key) {
@@ -151,4 +149,5 @@ export default class Entity extends Phaser.GameObjects.Container {
       this.gameObject.destroy();
     }
   }
+
 }

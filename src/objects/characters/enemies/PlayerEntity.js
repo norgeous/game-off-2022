@@ -11,8 +11,8 @@ export default class PlayerEntity extends Entity {
       scene,
       x + 100, y + 100,
       {
-        name: 'Player', // this becomes this.name
-        spriteSheet: SPRITESHEET,
+        name: 'PlayerEntity', // this becomes this.name
+        spriteSheetKey: 'player',
         animations: {
           [EntityAnimations.Idle]:   { start:  0, end: 3,  fps: 10 },
           [EntityAnimations.Attack]: { start:  0, end: 5,  fps: 15 },
@@ -31,8 +31,6 @@ export default class PlayerEntity extends Entity {
       },
     );
 
-    this.name = 'Player';
-
     this.gameObject.setOnCollide(data => {
       if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
         this.takeDamage(data.bodyB.damage);
@@ -49,7 +47,8 @@ export default class PlayerEntity extends Entity {
   }
 
   static preload(scene) {
-    scene.load.spritesheet(this.name, SPRITESHEET, { frameWidth: 48, frameHeight: 48 });
+    console.log('preload', this.name)
+    scene.load.spritesheet('player', SPRITESHEET, { frameWidth: 48, frameHeight: 48 });
   }
 
   update() {

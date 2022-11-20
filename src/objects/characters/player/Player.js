@@ -6,7 +6,7 @@ import Direction from '../../enums/Direction';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
 import HandGun from '../../weapons/HandGun';
-// import Sound from '../../enums/Sound';
+import Sound from '../../enums/Sound';
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {

@@ -4,6 +4,7 @@ import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories } from '../enums/Collisions';
 
 const keepUprightStratergies = {
+  NONE: 'NONE',
   INSTANT: 'INSTANT',
   SPRINGY: 'SPRINGY',
 };
@@ -118,23 +119,37 @@ export default class Entity extends Phaser.GameObjects.Container {
 
     // flip sprite to match direction of movement
     this.flipXSprite(this.gameObject.body.velocity.x < 0.1);
-    
-    // Keep Upright
-    if (this.enableKeepUpright) {
 
-      // SPRINGY
-      if (this.keepUprightStratergy === keepUprightStratergies.SPRINGY) {
-        const twoPi = Math.PI * 2;
-        const { angle, angularVelocity } = this.gameObject.body;
-        this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
-        const diff = 0 - angle;
-        const newAv = angularVelocity + (diff / 100);
-        this.gameObject.setAngularVelocity(newAv);
+
+    // SPRINGY
+    if (this.keepUprightStratergy === keepUprightStratergies.SPRINGY) {
+      const twoPi = Math.PI * 2;
+      const { angle, angularVelocity } = this.gameObject.body;
+      this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
+      const diff = 0 - angle;
+      const newAv = angularVelocity + (diff / 100);
+      this.gameObject.setAngularVelocity(newAv);
+    }
+
+    // INSTANT
+    if (this.keepUprightStratergy === keepUprightStratergies.INSTANT) {
+      if (this.gameObject.body.inertia !== Infinity) {
+        // save the old inertia
+        this.gameObject.body.inertia_old = this.gameObject.body.inertia;
+        this.gameObject.body.inverseInertia_old = this.gameObject.body.inverseInertia;
+        this.gameObject.setFixedRotation();
+
+        console.log(this.gameObject);
       }
+    }
 
-      // INSTANT
-      if (this.keepUprightStratergy === keepUprightStratergies.INSTANT) {
-        this.gameObject.rotation = 0;
+    // NONE
+    if (this.keepUprightStratergy === keepUprightStratergies.NONE) {
+      if (this.gameObject.body.inertia_old && this.gameObject.body.inverseInertia_old) {
+        this.gameObject.body.inertia = this.gameObject.body.inertia_old;
+        this.gameObject.body.inverseInertia = this.gameObject.body.inverseInertia_old;
+        delete this.gameObject.body.inertia_old;
+        delete this.gameObject.body.inverseInertia_old;
       }
     }
 

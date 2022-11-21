@@ -14,8 +14,8 @@ export default class Zombie extends Entity {
         name: 'ZombieEntity', // this becomes this.name
         spriteSheetKey: SPRITESHEETKEY,
         animations: {
-          [EntityAnimations.Idle]:   { start:  0, end: 3,  fps: 10 },
-          [EntityAnimations.Attack]: { start:  0, end: 5,  fps: 15 },
+          [EntityAnimations.Idle]:   { start: 18, end: 21, fps: 10 },
+          [EntityAnimations.Attack]: { start:  0, end:  5, fps: 15 },
           [EntityAnimations.Death]:  { start:  6, end: 11, fps: 10, repeat: 0 },
           [EntityAnimations.Hurt]:   { start: 12, end: 13, fps: 10 },
           [EntityAnimations.Walk]:   { start: 24, end: 29, fps: 10 },
@@ -64,7 +64,6 @@ export default class Zombie extends Entity {
     const { player } = this.scene;
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 200;
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
-    // const twoPi = Math.PI * 2;
     const isAlive = this.health > 0;
 
     // animations
@@ -101,8 +100,5 @@ export default class Zombie extends Entity {
         -2,
       );
     }
-
-    // (re)draw health bar
-    this.healthBar.draw(this.health);
   }
 }

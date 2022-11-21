@@ -38,7 +38,7 @@ export default class HelloWorldScene extends Phaser.Scene {
       }, 100);
     });
 
-    this.matter.world.drawDebug = true;
+    this.matter.world.drawDebug = false;
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
     // load Tiled map

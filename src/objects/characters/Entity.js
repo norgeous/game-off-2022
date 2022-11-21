@@ -78,6 +78,8 @@ export default class Entity extends Phaser.GameObjects.Container {
       });
     });
 
+    // console.log(this.scene.anims);
+
     this.playAnimation(EntityAnimations.Idle);
 
     // container
@@ -153,10 +155,17 @@ export default class Entity extends Phaser.GameObjects.Container {
 
     // kill if zero health
     if (this.health <= 0) {
-      this.sprite.destroy();
-      this.text.destroy();
-      this.destroy();
-      this.gameObject.destroy();
+      // dead
+      this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
+      this.rotation = 0; // force Entity upright for death animation
+      this.text.setText('X');
+      this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {
+        console.log('death animationcomplete');
+        this.sprite.destroy();
+        this.text.destroy();
+        this.destroy();
+        this.gameObject.destroy();
+      });
     }
   }
 

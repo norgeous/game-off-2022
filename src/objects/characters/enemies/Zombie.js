@@ -76,17 +76,6 @@ export default class Zombie extends Entity {
         // when moving play walking animation, otherwise play idle
         this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walk);
       }
-    } else {
-      // dead
-      this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
-      this.rotation = 0; // force Entity upright for death animation
-      this.text.setText('X');
-      this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {
-        this.sprite.destroy();
-        this.text.destroy();
-        this.destroy();
-        this.gameObject.destroy();
-      });
     }
 
     // when close to player and not moving much, jump towards player

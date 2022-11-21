@@ -138,8 +138,6 @@ export default class Entity extends Phaser.GameObjects.Container {
         this.gameObject.body.inertia_old = this.gameObject.body.inertia;
         this.gameObject.body.inverseInertia_old = this.gameObject.body.inverseInertia;
         this.gameObject.setFixedRotation();
-
-        console.log(this.gameObject);
       }
     }
 

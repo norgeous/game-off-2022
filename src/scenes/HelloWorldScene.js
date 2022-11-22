@@ -38,7 +38,7 @@ export default class HelloWorldScene extends Phaser.Scene {
       }, 100);
     });
 
-    this.matter.world.drawDebug = false;
+    this.matter.world.drawDebug = true;
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
     // load Tiled map
@@ -60,7 +60,9 @@ export default class HelloWorldScene extends Phaser.Scene {
     }, 1000);
     
     // player
-    this.player = new Player(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16)
+    this.player = new Player(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
+
+    // new player
     this.playerEntity = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
 
     // camera

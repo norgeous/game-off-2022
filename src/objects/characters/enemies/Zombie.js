@@ -33,9 +33,9 @@ export default class Zombie extends Entity {
     
     this.flipXSprite(Math.random() > 0.5); // initial face left / right randomly
 
-    this.gameObject.setOnCollide(data => {
-      if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
-        this.takeDamage(data.bodyB.damage);
+    this.hitbox.onCollideCallback = data => {
+      if (data.bodyA.collisionFilter.category === collisionCategories.enemyDamage) {
+        this.takeDamage(data.bodyA.damage);
       }
 
       if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
@@ -45,7 +45,7 @@ export default class Zombie extends Entity {
       // environmental / fall damage
       const { depth } = data.collision;
       if (depth > 5) this.takeDamage(depth);
-    });
+    };
   }
 
   static preload(scene) {

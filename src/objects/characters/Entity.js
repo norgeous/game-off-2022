@@ -83,19 +83,19 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
 
     // physics object
-    this.gameObject = this.scene.matter.add.gameObject(this);//, physicsConfig);
+    this.gameObject = this.scene.matter.add.gameObject(this, { ...physicsConfig });
     this.gameObject.setCollisionCategory(collisionCategories.enemy);
     
     // sensors
     const { Bodies, Body } = Phaser.Physics.Matter.Matter;
     const { width, height } = physicsConfig.shape;
-    const rect = Bodies.rectangle(0, 0, width, height, { ...physicsConfig });
+    this.hitbox = Bodies.rectangle(0, 0, width, height, { ...physicsConfig });
     const circleA = Bodies.circle(-width/2, 0, 4, { isSensor: true, label: 'left' });
     const circleB = Bodies.circle(width/2, 0, 4, { isSensor: true, label: 'right' });
     const circleC = Bodies.circle(0, -height/2, 4, { isSensor: true, label: 'top' });
     const circleD = Bodies.circle(0, height/2, 4, { isSensor: true, label: 'bottom' });
     const compoundBody = Body.create({
-      parts: [ rect, circleA, circleB, circleC, circleD ],
+      parts: [ this.hitbox, circleA, circleB, circleC, circleD ],
     });
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, y);

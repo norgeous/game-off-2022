@@ -30,11 +30,11 @@ export default class PlayerEntity extends Entity {
       },
     );
 
-    this.gameObject.setOnCollide(data => {
+    this.hitbox.onCollideCallback = data => {
       // environmental / fall damage
       const { depth } = data.collision;
       if (depth > 5) this.takeDamage(depth);
-    });
+    };
   }
 
   static preload(scene) {

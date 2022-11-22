@@ -23,7 +23,7 @@ export default class Zombie extends Entity {
         physicsConfig: {
           frictionAir: 0.001,
           bounce: 0.1,
-          shape: { type: 'rectangle', width: 14, height: 32 },
+          shape: { type: 'rectangle', width: 14, height: 34 },
           chamfer: { radius: 4 },
         },
         enableKeepUpright: true,

@@ -22,7 +22,7 @@ export default class PlayerEntity extends Entity {
         physicsConfig: {
           frictionAir: 0.001,
           bounce: 0.1,
-          shape: { type: 'rectangle', width: 14, height: 32 },
+          shape: { type: 'rectangle', width: 14, height: 34 },
           test: 1,
           chamfer: { radius: 4 },
           chamfer2: { radius: 4 },

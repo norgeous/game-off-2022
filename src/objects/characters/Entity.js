@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import HealthBar from '../overlays/HealthBar';
 import EntityAnimations from '../enums/EntityAnimations';
-import { collisionCategories } from '../enums/Collisions';
+import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
 
 const keepUprightStratergies = {
   NONE: 'NONE',
@@ -39,6 +39,13 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.enableHealthBar = enableHealthBar;
     this.enableKeepUpright = enableKeepUpright;
     this.keepUprightStratergy = keepUprightStratergy;
+
+    this.sensorData = {
+      left: false,
+      right: false,
+      top: false,
+      bottom: false,
+    };
 
     // health bar
     if (enableHealthBar) {
@@ -82,21 +89,30 @@ export default class Entity extends Phaser.GameObjects.Container {
     // container
     this.scene.add.existing(this);
 
-    // physics object
+    // base physics object
     this.gameObject = this.scene.matter.add.gameObject(this, { ...physicsConfig });
-    this.gameObject.setCollisionCategory(collisionCategories.enemy);
     
     // sensors
     const { Bodies, Body } = Phaser.Physics.Matter.Matter;
     const { width, height } = physicsConfig.shape;
-    this.hitbox = Bodies.rectangle(0, 0, width, height, { ...physicsConfig });
-    const circleA = Bodies.circle(-width/2, 0, 4, { isSensor: true, label: 'left' });
-    const circleB = Bodies.circle(width/2, 0, 4, { isSensor: true, label: 'right' });
-    const circleC = Bodies.circle(0, -height/2, 4, { isSensor: true, label: 'top' });
-    const circleD = Bodies.circle(0, height/2, 4, { isSensor: true, label: 'bottom' });
+    this.hitbox = Bodies.rectangle(0, 0, width, height, { ...physicsConfig, label: 'Entity' });
+    const left = Bodies.circle(-width/2, 0, 4, { isSensor: true, label: 'left' });
+    const right = Bodies.circle(width/2, 0, 4, { isSensor: true, label: 'right' });
+    const top = Bodies.circle(0, -height/2, 4, { isSensor: true, label: 'top' });
+    const bottom = Bodies.circle(0, height/2, 4, { isSensor: true, label: 'bottom' });
     const compoundBody = Body.create({
-      parts: [ this.hitbox, circleA, circleB, circleC, circleD ],
+      parts: [ this.hitbox, left, right, top, bottom ],
     });
+
+    left.onCollideActiveCallback = () => this.sensorData.left = true;
+    left.onCollideEndCallback = () => this.sensorData.left = false;
+    right.onCollideActiveCallback = () => this.sensorData.right = true;
+    right.onCollideEndCallback = () => this.sensorData.right = false;
+    top.onCollideActiveCallback = () => this.sensorData.top = true;
+    top.onCollideEndCallback = () => this.sensorData.top = false;
+    bottom.onCollideActiveCallback = () => this.sensorData.bottom = true;
+    bottom.onCollideEndCallback = () => this.sensorData.bottom = false;
+
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, y);
   }
@@ -131,6 +147,17 @@ export default class Entity extends Phaser.GameObjects.Container {
 
     // flip sprite to match direction of movement
     this.flipXSprite(this.gameObject.body.velocity.x < 0.1);
+
+
+
+    this.text.setText(
+      [
+        this.sensorData.left ? 'L' : '-',
+        this.sensorData.right ? 'R' : '-',
+        this.sensorData.top ? 'T' : '-',
+        this.sensorData.bottom ? 'B' : '-',
+      ].join('')
+    );
 
 
     // SPRINGY

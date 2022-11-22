@@ -114,8 +114,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     // The player's body is going to be a compound body.
     var playerBody = M.Bodies.rectangle(sx, sy, w * 0.75, h, physicsOptions);
     this.playerController.sensors.bottom = M.Bodies.rectangle(sx, h, sx, 5, { isSensor: true });
-    this.playerController.sensors.left = M.Bodies.rectangle(sx - w * 0.45, sy, 5, h * 0.25, { isSensor: true });
-    this.playerController.sensors.right = M.Bodies.rectangle(sx + w * 0.45, sy, 5, h * 0.25, { isSensor: true });
+    this.playerController.sensors.left = M.Bodies.rectangle(sx - w * 0.45, sy, 5, h * 0.25, { isSensor: true, label: 'player-left' });
+    this.playerController.sensors.right = M.Bodies.rectangle(sx + w * 0.45, sy, 5, h * 0.25, { isSensor: true, label: 'player-right' });
+
     var compoundBody = M.Body.create({
       parts: [
           playerBody,

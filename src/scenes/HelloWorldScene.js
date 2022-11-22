@@ -67,7 +67,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
     // camera
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
-    this.smoothMoveCameraTowards(this.player, 0); // snap to player
+    this.smoothMoveCameraTowards(this.playerEntity, 0); // snap to player
   }
 
   smoothMoveCameraTowards (target, smoothFactor = 0) {
@@ -79,6 +79,6 @@ export default class HelloWorldScene extends Phaser.Scene {
   update(time, delta) {
     this.player.update(time, delta);
     this.playerEntity.update();
-    this.smoothMoveCameraTowards(this.player, 0.9);
+    this.smoothMoveCameraTowards(this.playerEntity, 0.9);
   }
 }

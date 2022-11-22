@@ -1,6 +1,7 @@
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
+import PlayerInput from '../player/PlayerInput';
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -35,6 +36,9 @@ export default class PlayerEntity extends Entity {
       const { depth } = data.collision;
       if (depth > 5) this.takeDamage(depth);
     };
+
+    this.playerInput = new PlayerInput(scene);
+    this.keys = this.playerInput.keys;
   }
 
   static preload(scene) {
@@ -46,6 +50,10 @@ export default class PlayerEntity extends Entity {
 
     if (!this.gameObject.body) return;
 
+    if (this.keys.leftKey.isDown && !this.sensorData.left) this.gameObject.setVelocityX(-2.5);
+    if (this.keys.rightKey.isDown && !this.sensorData.right) this.gameObject.setVelocityX(2.5);
+    if (this.keys.jumpKey.isDown && this.sensorData.bottom) this.gameObject.setVelocityY(-10);
+    
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     const motion = speed + Math.abs(angularVelocity);

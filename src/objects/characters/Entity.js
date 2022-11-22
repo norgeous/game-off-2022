@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import HealthBar from '../overlays/HealthBar';
 import EntityAnimations from '../enums/EntityAnimations';
-import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
+import { collisionCategories } from '../enums/Collisions';
 
 const keepUprightStratergies = {
   NONE: 'NONE',
@@ -148,8 +148,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     // flip sprite to match direction of movement
     this.flipXSprite(this.gameObject.body.velocity.x < 0.1);
 
-
-
+    // debug sensors
     this.text.setText(
       [
         this.sensorData.left ? 'L' : '-',
@@ -158,7 +157,6 @@ export default class Entity extends Phaser.GameObjects.Container {
         this.sensorData.bottom ? 'B' : '-',
       ].join('')
     );
-
 
     // SPRINGY
     if (this.keepUprightStratergy === keepUprightStratergies.SPRINGY) {

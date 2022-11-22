@@ -38,7 +38,14 @@ export default class HelloWorldScene extends Phaser.Scene {
       }, 100);
     });
 
-    this.matter.world.drawDebug = true;
+    // matter debug
+    this.matter.world.drawDebug = false;
+    this.input.keyboard.on('keydown-ALT', () => {
+      this.matter.world.drawDebug = !this.matter.world.drawDebug;
+      this.matter.world.debugGraphic.visible = this.matter.world.drawDebug;
+    }, this);
+
+    // world bounds
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
     // load Tiled map
@@ -60,14 +67,14 @@ export default class HelloWorldScene extends Phaser.Scene {
     }, 1000);
     
     // player
-    this.player = new Player(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
+    // this.player = new Player(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
 
     // new player
-    this.playerEntity = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
+    this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
 
     // camera
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
-    this.smoothMoveCameraTowards(this.playerEntity, 0); // snap to player
+    this.smoothMoveCameraTowards(this.player, 0); // snap to player
   }
 
   smoothMoveCameraTowards (target, smoothFactor = 0) {
@@ -78,8 +85,8 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    this.player.update(time, delta);
-    this.playerEntity.update();
-    this.smoothMoveCameraTowards(this.playerEntity, 0.9);
+    // this.player.update(time, delta);
+    this.player.update();
+    this.smoothMoveCameraTowards(this.player, 0.9);
   }
 }

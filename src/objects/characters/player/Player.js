@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
 import MachineGun from '../../weapons/MachineGun';
 import BombGlove from '../../weapons/BombGlove';
+import HandGun from '../../weapons/HandGun';
 import PlayerInput from './PlayerInput';
 import Direction from '../../enums/Direction';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
-import HandGun from '../../weapons/HandGun';
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -179,6 +179,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.cycleWeapons();
     });
 
+    this.keys.fireKey.on('up', () => {
+      this.weapon.fireRelease();
+    },this);
+
     // Update over, so now we can determine if any direction is blocked
     this.scene.matter.world.on('afterupdate', () => {
       this.playerController.blocked.right = this.playerController.numTouching.right > 0 ? true : false;
@@ -186,14 +190,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.playerController.blocked.bottom = this.playerController.numTouching.bottom > 0 ? true : false;
     });
 
-    this.scene.input.keyboard.on('keydown-ALT', () => {
-      this.scene.matter.world.drawDebug = !this.scene.matter.world.drawDebug;
-      this.scene.matter.world.debugGraphic.visible = this.scene.matter.world.drawDebug;
-    }, this);
-
-    this.keys.fireKey.on('up', () => {
-      this.weapon.fireRelease();
-    },this);
   }
 
   static preload(scene) {

@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import Map from '../map/Map';
-import Player from '../objects/characters/player/Player';
 import PlayerEntity from '../objects/characters/enemies/PlayerEntity';
 import Zombie from '../objects/characters/enemies/Zombie';
 import Sound from '../objects/enums/Sound';
@@ -20,7 +19,6 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.map.preload();
     
     Zombie.preload(this);
-    Player.preload(this);
     PlayerEntity.preload(this);
     // Bullet.preload(this);
     // Explosion.preload(this);
@@ -65,9 +63,6 @@ export default class HelloWorldScene extends Phaser.Scene {
         this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
       });
     }, 1000);
-    
-    // player
-    // this.player = new Player(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
 
     // new player
     this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
@@ -85,7 +80,6 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    // this.player.update(time, delta);
     this.player.update();
     this.smoothMoveCameraTowards(this.player, 0.9);
   }

@@ -80,6 +80,9 @@ export default class Zombie extends Entity {
 
     // hearing
     this.aggravated = closeToPlayer;
+    if (this.scene.matter.world.drawDebug) this.circleOfHearing.setStrokeStyle(1, 0x00FF00);
+    else this.circleOfHearing.setStrokeStyle();
+  
     this.circleOfHearing.x = this.x;
     this.circleOfHearing.y = this.y;
     this.circleOfHearing.radius = hearingRange;
@@ -110,5 +113,10 @@ export default class Zombie extends Entity {
         -2,
       );
     }
+  }
+
+  destroy() {
+    this.circleOfHearing.destroy();
+    super.destroy();
   }
 }

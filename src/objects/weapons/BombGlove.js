@@ -7,7 +7,7 @@ export default class BombGlove extends AbstractWeapon {
       scene,
       {
         BulletClass: Bomb,
-        maxBullets: 1,
+        maxBullets: 2,
       },
     );
 

@@ -69,7 +69,7 @@
 - blood particle effect?
 - sounds
 - more enemies and boss enemy (maybe just tint / hue shift existing enemy)
-- improve spawing / spawners
+- improve spawing / spawners - only spawn when player is close and despawn zombies that are far away from player
   - they spawn exact same location and take damage on spawn
   - make them only spawn when player is nearby?
   - spawn animation?

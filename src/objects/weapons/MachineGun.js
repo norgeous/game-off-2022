@@ -1,6 +1,6 @@
 import AbstractWeapon from './AbstractWeapon';
 import Bullet from '../projectiles/Bullet';
-import Sound from "../enums/Sound.js";
+import Sound from '../enums/Sound';
 
 export default class MachineGun extends AbstractWeapon {
   constructor(scene) {
@@ -18,7 +18,7 @@ export default class MachineGun extends AbstractWeapon {
       this.scene.player.x,
       this.scene.player.y,
       {
-        direction: this.scene.player.playerController.direction,
+        direction: this.scene.player.direction,
         lifespan: 1000,
         soundKeyName: Sound.MachineGunFire,
       },

@@ -9,7 +9,7 @@ const keepUprightStratergies = {
   SPRINGY: 'SPRINGY',
 };
 
-const directions = {
+export const directions = {
   LEFT: 'LEFT',
   RIGHT: 'RIGHT',
 };

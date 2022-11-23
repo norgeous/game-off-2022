@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 import { collisionCategories } from '../enums/Collisions';
-import Direction from '../enums/Direction';
 import Explosion from './Explosion';
+// import Direction from '../enums/Direction';
+import { directions } from '../characters/Entity';
 
 class Bomb extends Phaser.GameObjects.Text {
   constructor(scene, x, y, direction) {
@@ -20,8 +21,8 @@ class Bomb extends Phaser.GameObjects.Text {
       restitution: .5,
     };
 
-    let velocityX = (direction === Direction.Right) ? 10 : -10;
-    let velocityY = -3;
+    const velocityX = (direction === directions.RIGHT) ? 10 : -10;
+    const velocityY = -3;
 
     this.gameObject = scene.matter.add.gameObject(this, gameObjectShape);
     this.gameObject

@@ -19,7 +19,7 @@ export default class BombGlove extends AbstractWeapon {
       this.bulletGroup.get(
         this.scene.player.x,
         this.scene.player.y,
-        this.scene.player.playerController.direction,
+        this.scene.player.direction,
         this.timer,
       );
     }

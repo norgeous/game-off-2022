@@ -30,22 +30,30 @@ export default class Zombie extends Entity {
         keepUprightStratergy: 'SPRINGY',
       },
     );
+
+    this.aggravated = false;
     
     this.flipXSprite(Math.random() > 0.5); // initial face left / right randomly
 
     this.hitbox.onCollideCallback = data => {
       if (data.bodyA.collisionFilter.category === collisionCategories.enemyDamage) {
         this.takeDamage(data.bodyA.damage);
+        this.aggravated = true;
       }
-
+      
       if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
         this.takeDamage(data.bodyB.damage);
+        this.aggravated = true;
       }
 
       // environmental / fall damage
       const { depth } = data.collision;
       if (depth > 5) this.takeDamage(depth);
     };
+
+    // circle of hearing debug
+    this.circleOfHearing = scene.add.circle(x, y, 200);
+    this.circleOfHearing.setStrokeStyle(1, 0x00FF00);
   }
 
   static preload(scene) {
@@ -62,9 +70,19 @@ export default class Zombie extends Entity {
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
     const { player } = this.scene;
-    const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 200;
+    const hearingRange = this.aggravated ? 500 : 200;
+    const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < hearingRange;
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
     const isAlive = this.health > 0;
+
+    // hearing
+    this.aggravated = closeToPlayer;
+    this.circleOfHearing.x = this.x;
+    this.circleOfHearing.y = this.y;
+    this.circleOfHearing.radius = hearingRange;
+
+    if (this.aggravated && player.x > this.x) this.direction = 'RIGHT';
+    if (this.aggravated && player.x < this.x) this.direction = 'LEFT';
 
     // animations
     if (isAlive) {

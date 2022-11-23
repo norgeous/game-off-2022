@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import Map from '../map/Map';
-import PlayerEntity from '../objects/characters/enemies/PlayerEntity';
-import Zombie from '../objects/characters/enemies/Zombie';
+import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
+import Zombie from '../objects/characters/enemy/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
 

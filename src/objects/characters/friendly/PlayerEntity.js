@@ -1,7 +1,7 @@
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
 import Entity from '../Entity.js';
-import PlayerInput from '../player/PlayerInput';
+import PlayerInput from './PlayerInput';
 
 import MachineGun from '../../weapons/MachineGun';
 import BombGlove from '../../weapons/BombGlove';

@@ -1,17 +1,13 @@
 import Phaser from 'phaser';
 import HealthBar from '../overlays/HealthBar';
 import EntityAnimations from '../enums/EntityAnimations';
+import Direction from '../enums/Direction';
 import { collisionCategories } from '../enums/Collisions';
 
 const keepUprightStratergies = {
   NONE: 'NONE',
   INSTANT: 'INSTANT',
   SPRINGY: 'SPRINGY',
-};
-
-export const directions = {
-  LEFT: 'LEFT',
-  RIGHT: 'RIGHT',
 };
 
 const craftpixOffset = {
@@ -47,7 +43,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.keepUprightStratergy = keepUprightStratergy;
 
     if (direction) this.direction = direction;
-    else this.direction = Math.random() > .5 ? directions.LEFT : directions.RIGHT;
+    else this.direction = Math.random() > .5 ? Direction.Left : Direction.Right;
 
     this.isStunned = false;
 
@@ -157,7 +153,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.healthBar?.draw(this.health);
 
     // flip sprite to match direction of movement
-    this.flipXSprite(this.direction === directions.LEFT);
+    this.flipXSprite(this.direction === Direction.Left);
 
     // debug sensors
     this.text.setText(

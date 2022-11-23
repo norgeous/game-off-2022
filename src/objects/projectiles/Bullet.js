@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
-// import Direction from '../enums/Direction';
-import { directions } from '../characters/Entity';
+import Direction from '../enums/Direction';
 
 class Bullet extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, { direction, lifespan, soundKeyName }) {
@@ -20,7 +19,7 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
       },
     );
 
-    const velocityX = (direction === directions.RIGHT) ? 10 : -10;
+    const velocityX = (direction === Direction.Right) ? 10 : -10;
     const velocityY = 0;
 
     this.body.damage = 10;

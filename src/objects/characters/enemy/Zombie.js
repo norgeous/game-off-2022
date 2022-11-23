@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
+import Direction from '../../enums/Direction';
 
 const SPRITESHEETKEY = 'zombieSpriteSheet';
 
@@ -87,8 +88,8 @@ export default class Zombie extends Entity {
     this.circleOfHearing.y = this.y;
     this.circleOfHearing.radius = hearingRange;
 
-    if (this.aggravated && player.x > this.x) this.direction = 'RIGHT';
-    if (this.aggravated && player.x < this.x) this.direction = 'LEFT';
+    if (this.aggravated && player.x > this.x) this.direction = Direction.Right;
+    if (this.aggravated && player.x < this.x) this.direction = Direction.Left;
 
     // animations
     if (isAlive) {

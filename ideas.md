@@ -22,6 +22,7 @@
   - maybe on take damage
 - deployment
   - if no database -> to github pages?
+- request fullscreen on first click?
 
 
 ## ui

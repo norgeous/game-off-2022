@@ -1,15 +1,17 @@
 export default class EntityAnimations {
-    // Movement
-    static Idle = 'idle';
+  // Movement
+  static Idle = 'idle';
 
-    static MoveLeft = 'left';
-    static MoveRight = 'right';
-    static MoveUp = 'up';
-    static MoveDown = 'down';
-    static Walking = 'walking';
+  static MoveLeft = 'left';
+  static MoveRight = 'right';
+  static MoveUp = 'up';
+  static MoveDown = 'down';
 
-    static Attack = 'attack'
+  // static Walking = 'walking';
+  static Walk = 'walk';
 
-    static Death = 'death';
-    static TakeDamage = 'take_damage';
+  static Attack = 'attack'
+
+  static Death = 'death';
+  static Hurt = 'hurt';
 }

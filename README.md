@@ -37,6 +37,8 @@ https://photonstorm.github.io/phaser3-docs/Phaser.Types.Physics.Matter.html#.Mat
 
 https://stackoverflow.com/questions/6039522/given-the-x-and-y-components-of-the-velocity-how-can-the-angle-be-computed
 
+https://phaser.io/examples/v3/view/physics/matterjs/compound-sensors
+
 ## Tile Extruder
 
 https://github.com/sporadic-labs/tile-extruder#readme

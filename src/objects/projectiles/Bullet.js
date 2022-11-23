@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
 import Direction from '../enums/Direction';
-import Sound from '../enums/Sound';
 
 class Bullet extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, { direction, lifespan, soundKeyName }) {

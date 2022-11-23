@@ -1,7 +1,7 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 import Map from '../map/Map';
-import Player from '../objects/player/Player';
-import Zombie from '../objects/Zombie';
+import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
+import Zombie from '../objects/characters/enemy/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
 
@@ -17,9 +17,11 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   preload() {
     this.map.preload();
-    this.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
-    this.load.spritesheet('zombieSpriteSheet', 'sprites/zombieSpriteSheet.png', { frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('mummy', 'https://labs.phaser.io/assets/sprites/metalslug_mummy37x45.png', { frameWidth: 37, frameHeight: 45 });
+    
+    Zombie.preload(this);
+    PlayerEntity.preload(this);
+    // Bullet.preload(this);
+    // Explosion.preload(this);
     this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
     this.load.spritesheet('explosion', 'sprites/explosion.png', { frameWidth: 256, frameHeight: 256 });
     this.load.audio(Sound.MusicKey, `${this.map.getMapPath()}/${Sound.MapMusicFileName}`);
@@ -34,46 +36,51 @@ export default class HelloWorldScene extends Phaser.Scene {
       }, 100);
     });
 
+    // matter debug
     this.matter.world.drawDebug = false;
+    this.input.keyboard.on('keydown-ALT', () => {
+      this.matter.world.drawDebug = !this.matter.world.drawDebug;
+      this.matter.world.debugGraphic.visible = this.matter.world.drawDebug;
+    }, this);
 
-    this.map.create();
-    this.audio.create();
-    //this.audio.playMusic(Sound.MusicKey);
-
-    //this.audio.playSfx('bomb_blast');
+    // world bounds
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
+    // load Tiled map
+    this.map.create();
+    
+    // load audio
+    this.audio.create();
+
+    // zombie spawners
 		this.zombieGroup = this.add.group({
       maxSize: MAX_ZOMBIES,
       classType: Zombie,
       runChildUpdate: true,
     });
-
     setInterval(() => {
       this.map.spawners.zombie.forEach(zombie => {
         this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
       });
     }, 1000);
-    
-    this.createPlayer();
+
+    // new player
+    this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
+
+    // camera
+    this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
+    this.smoothMoveCameraTowards(this.player, 0); // snap to player
   }
 
-  createPlayer() {
-    this.player = new Player(this, this.map.spawners.player.x+16, this.map.spawners.player.y-16, 'player', 4);
-    this.cam = this.cameras.main;
-
-    this.cam.setBounds(0, 0, this.map.width, this.map.height);
-    this.smoothMoveCameraTowards(this.player);
-  }
-
-  smoothMoveCameraTowards (target, smoothFactor) {
-    if (smoothFactor === undefined) { smoothFactor = 0; }
-    this.cam.scrollX = smoothFactor * this.cam.scrollX + (1 - smoothFactor) * (target.x - this.cam.width * 0.5);
-    this.cam.scrollY = smoothFactor * this.cam.scrollY + (1 - smoothFactor) * (target.y - this.cam.height * 0.5);
+  smoothMoveCameraTowards (target, smoothFactor = 0) {
+    if (!target.body) return;
+    const cam = this.cameras.main;
+    cam.scrollX = smoothFactor * cam.scrollX + (1 - smoothFactor) * (target.x - cam.width * 0.5);
+    cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (target.y - cam.height * 0.5);
   }
 
   update(time, delta) {
-    this.player.update(time, delta);
+    this.player.update();
     this.smoothMoveCameraTowards(this.player, 0.9);
   }
 }

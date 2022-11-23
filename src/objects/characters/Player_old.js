@@ -1,12 +1,11 @@
 import Phaser from 'phaser';
 import MachineGun from '../weapons/MachineGun';
 import BombGlove from '../weapons/BombGlove';
-import PlayerInput from './PlayerInput';
+import HandGun from '../weapons/HandGun';
+import PlayerInput from '../characters/friendly/PlayerInput';
 import Direction from '../enums/Direction';
 import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
-import HandGun from "../weapons/HandGun.js";
-import Sound from "../enums/Sound.js";
 
 export default class Player extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, texture, frame) {
@@ -115,8 +114,9 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     // The player's body is going to be a compound body.
     var playerBody = M.Bodies.rectangle(sx, sy, w * 0.75, h, physicsOptions);
     this.playerController.sensors.bottom = M.Bodies.rectangle(sx, h, sx, 5, { isSensor: true });
-    this.playerController.sensors.left = M.Bodies.rectangle(sx - w * 0.45, sy, 5, h * 0.25, { isSensor: true });
-    this.playerController.sensors.right = M.Bodies.rectangle(sx + w * 0.45, sy, 5, h * 0.25, { isSensor: true });
+    this.playerController.sensors.left = M.Bodies.rectangle(sx - w * 0.45, sy, 5, h * 0.25, { isSensor: true, label: 'player-left' });
+    this.playerController.sensors.right = M.Bodies.rectangle(sx + w * 0.45, sy, 5, h * 0.25, { isSensor: true, label: 'player-right' });
+
     var compoundBody = M.Body.create({
       parts: [
           playerBody,
@@ -179,6 +179,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.cycleWeapons();
     });
 
+    this.keys.fireKey.on('up', () => {
+      this.weapon.fireRelease();
+    },this);
+
     // Update over, so now we can determine if any direction is blocked
     this.scene.matter.world.on('afterupdate', () => {
       this.playerController.blocked.right = this.playerController.numTouching.right > 0 ? true : false;
@@ -186,14 +190,11 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.playerController.blocked.bottom = this.playerController.numTouching.bottom > 0 ? true : false;
     });
 
-    this.scene.input.keyboard.on('keydown-ALT', () => {
-      this.scene.matter.world.drawDebug = !this.scene.matter.world.drawDebug;
-      this.scene.matter.world.debugGraphic.visible = this.scene.matter.world.drawDebug;
-    }, this);
+  }
 
-    this.keys.fireKey.on('up', () => {
-      this.weapon.fireRelease();
-    },this);
+  static preload(scene) {
+    // scene.load.spritesheet('player', 'https://labs.phaser.io/assets/sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
+    scene.load.spritesheet('player', 'sprites/dude-cropped.png', { frameWidth: 32, frameHeight: 42 });
   }
 
   cycleWeapons() {
@@ -239,13 +240,16 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.anims.play(EntityAnimations.MoveLeft, true);
       targetVelocityX = -this.playerController.speed.run;
       newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, -this.value);
+      // this.setVelocityX(-1);
     } else {
       this.smoothedControls.moveRight(delta);
       this.anims.play(EntityAnimations.MoveRight, true);
       targetVelocityX = this.playerController.speed.run;
       newVelocityX = Phaser.Math.Linear(oldVelocityX, targetVelocityX, this.value);
+      // this.setVelocityX(1);
     }
 
+    // console.log('setvelocityX', this.playerController, newVelocityX)
     this.setVelocityX(newVelocityX);
   }
 
@@ -265,15 +269,16 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
       this.smoothedControls.reset();
     }
 
-    let isMoving = (!this.value == 0);
-    if (!isMoving) {
-      if (this.playerController.direction == Direction.Left) {
-        this.setFrame(this.spriteFrames.facingLeft);
-      }
-      if (this.playerController.direction == Direction.Right) {
-        this.setFrame(this.spriteFrames.facingRight);
-      }
-    }
+    // let isMoving = (this.value === 0);
+    // if (!isMoving) {
+    //   if (this.playerController.direction == Direction.Left) {
+    //     this.setFrame(this.spriteFrames.facingLeft);
+    //   }
+    //   if (this.playerController.direction == Direction.Right) {
+    //     this.setFrame(this.spriteFrames.facingRight);
+    //   }
+    // }
+
     // Jumping & wall jumping
     // Add a slight delay between jumps since the sensors will still collide for a few frames after
     // a jump is initiated

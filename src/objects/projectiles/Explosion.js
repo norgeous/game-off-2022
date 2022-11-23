@@ -17,27 +17,30 @@ class Explosion {
     });
 
     // find close zombies and apply force to them
-    scene.zombieGroup.getChildren().forEach(zombie => this.applyExplosionForce(x, y, radius, force, zombie));
+    scene.zombieGroup.getChildren().forEach(zombie => this.applyExplosionForce(scene, x, y, radius, force, zombie));
 
     // apply to player too, for grenade jumps
-    this.applyExplosionForce(x, y, radius, force, scene.player);
-    this.playExplodeAnimation(x, y, scene);
+    this.applyExplosionForce(scene, x, y, radius, force, scene.player);
+    this.playExplodeAnimation(scene, x, y);
 
     scene.audio.playSfx(Sound.BombBlast);
   }
 
-  playExplodeAnimation(x, y, scene) {
+  playExplodeAnimation(scene, x, y) {
     this.sprite = scene.add.sprite(x, y, 'bomb_explosion');
     this.sprite.play('explosion').on('animationcomplete', () => {
       this.sprite.destroy()
     });
   }
 
-  applyExplosionForce (x, y, radius, force, gameObject) {
+  applyExplosionForce (scene, x, y, radius, force, gameObject) {
     const distance = Phaser.Math.Distance.BetweenPoints({ x, y }, gameObject);
     const isInsideRadius = distance <= radius;
 
     if (isInsideRadius) {
+      gameObject.isStunned = true;
+      scene.time.delayedCall(1000, () => gameObject.isStunned = false);
+
       const blastVector = {
         x: (gameObject.x - x),
         y: (gameObject.y - y),

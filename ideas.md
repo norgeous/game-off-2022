@@ -16,7 +16,7 @@
 - score system, high scores?
 - points system? 
   - points for killing zombies?
-  -  leaderboard
+  - leaderboard
 - screen shake
   - on bomb explode
   - maybe on take damage
@@ -34,27 +34,25 @@
 
 ## player
 
-- replace default phaser player character with survivor
 - inventory overlay?
 - health hud?
-- cliche phrases tts
-- sounds
+- cliche phrases tts / sounds
 - make it obvious when player gets hurt
   - screen maybe goes red
-  - sounds 
-  - flash animation 
+  - sounds
+  - flash animation
 
 
 ## weapons
 
+- weapon sprites
+- firing up/down. directional shooting (8 way metal slug style?)
 - bullet spread
 - machine gun fire rate needs adjusting
 - sounds
-- firing up/down. directional shooting (8 way metal slug style?)
 - particle effects
-  - ricochet effects when bouncing off terrain + sound
+  - ricochet effects when bouncing off terrain (+ sound?)
   - muzzle flash on bullet spawn location
-- weapon sprites.
 - weapon animations
   - impact 
   - explode
@@ -64,10 +62,10 @@
 
 ## enemies
 
+- player take damage from zombie's attacks
 - hide inactive health bars after a few seconds
 - blood particle effect?
 - sounds
-- player take damage from zombie's attacks
 - more enemies and boss enemy (maybe just tint / hue shift existing enemy)
 - improve spawing / spawners
   - they spawn exact same location and take damage on spawn
@@ -75,15 +73,12 @@
   - spawn animation?
     - climb out of hole in wall or ground?
     - reverse frames of death anim
-
+- add civilians / animals
 
 ## sound and music
 
-- background music
 - sounds
   - weapons 
-    - onShoot
-    - onExplode
     - onHitEnemy
 - player 
 - enemies

@@ -9,6 +9,11 @@ const keepUprightStratergies = {
   SPRINGY: 'SPRINGY',
 };
 
+const directions = {
+  LEFT: 'LEFT',
+  RIGHT: 'RIGHT',
+};
+
 const craftpixOffset = {
   x: 10,
   y: -7,
@@ -27,6 +32,7 @@ export default class Entity extends Phaser.GameObjects.Container {
       physicsConfig = {},
       enableKeepUpright = false,
       keepUprightStratergy = keepUprightStratergies.SPRINGY,
+      direction = undefined,
     },
   ) {
     super(scene, x, y);
@@ -39,6 +45,8 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.enableHealthBar = enableHealthBar;
     this.enableKeepUpright = enableKeepUpright;
     this.keepUprightStratergy = keepUprightStratergy;
+    if (direction) this.direction = direction;
+    else this.direction = Math.random() > .5 ? directions.LEFT : directions.RIGHT;
 
     this.sensorData = {
       left: false,
@@ -146,7 +154,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.healthBar?.draw(this.health);
 
     // flip sprite to match direction of movement
-    this.flipXSprite(this.gameObject.body.velocity.x < 0.1);
+    this.flipXSprite(this.direction === directions.LEFT);
 
     // debug sensors
     this.text.setText(

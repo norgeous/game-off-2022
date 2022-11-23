@@ -33,6 +33,7 @@ export default class PlayerEntity extends Entity {
         },
         enableKeepUpright: true,
         keepUprightStratergy: 'INSTANT',
+        direction: 'RIGHT',
       },
     );
 

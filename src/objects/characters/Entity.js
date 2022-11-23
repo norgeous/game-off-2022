@@ -49,6 +49,8 @@ export default class Entity extends Phaser.GameObjects.Container {
     if (direction) this.direction = direction;
     else this.direction = Math.random() > .5 ? directions.LEFT : directions.RIGHT;
 
+    this.isStunned = false;
+
     this.sensorData = {
       left: false,
       right: false,
@@ -164,11 +166,12 @@ export default class Entity extends Phaser.GameObjects.Container {
         this.sensorData.right ? 'R' : '-',
         this.sensorData.top ? 'T' : '-',
         this.sensorData.bottom ? 'B' : '-',
+        this.isStunned ? '😵‍💫' : '-',
       ].join('')
     );
 
     // SPRINGY
-    if (this.keepUprightStratergy === keepUprightStratergies.SPRINGY) {
+    if (this.keepUprightStratergy === keepUprightStratergies.SPRINGY && !this.isStunned) {
       const twoPi = Math.PI * 2;
       const { angle, angularVelocity } = this.gameObject.body;
       this.gameObject.rotation = this.gameObject.rotation % twoPi; // modulo spins
@@ -178,18 +181,19 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
 
     // INSTANT
-    if (this.keepUprightStratergy === keepUprightStratergies.INSTANT) {
+    if (this.keepUprightStratergy === keepUprightStratergies.INSTANT && !this.isStunned) {
       if (this.gameObject.body.inertia !== Infinity) {
         // save the old inertia
         this.gameObject.body.inertia_old = this.gameObject.body.inertia;
         this.gameObject.body.inverseInertia_old = this.gameObject.body.inverseInertia;
-        this.gameObject.setFixedRotation();
+        this.gameObject.setAngularVelocity(0);
         this.gameObject.rotation = 0;
+        this.gameObject.setFixedRotation();
       }
     }
 
     // NONE
-    if (this.keepUprightStratergy === keepUprightStratergies.NONE) {
+    if (this.keepUprightStratergy === keepUprightStratergies.NONE || this.isStunned) {
       if (this.gameObject.body.inertia_old && this.gameObject.body.inverseInertia_old) {
         this.gameObject.body.inertia = this.gameObject.body.inertia_old;
         this.gameObject.body.inverseInertia = this.gameObject.body.inverseInertia_old;

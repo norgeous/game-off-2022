@@ -100,7 +100,7 @@ export default class Zombie extends Entity {
     }
 
     // when close to player and not moving much, jump towards player
-    if (isAlive && closeToPlayer && closeToStationary) {
+    if (isAlive && !this.isStunned && closeToPlayer && closeToStationary) {
       const vectorTowardsPlayer = {
         x: player.x - this.x,
         y: player.y - this.y,

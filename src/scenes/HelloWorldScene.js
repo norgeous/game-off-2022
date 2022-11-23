@@ -1,9 +1,13 @@
 import Phaser from 'phaser';
 import Map from '../map/Map';
-import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
-import Zombie from '../objects/characters/enemy/Zombie';
+
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
+
+import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
+import MachineGun from '../objects/weapons/MachineGun';
+import Zombie from '../objects/characters/enemy/Zombie';
+
 
 const MAX_ZOMBIES = 10;
 
@@ -18,8 +22,9 @@ export default class HelloWorldScene extends Phaser.Scene {
   preload() {
     this.map.preload();
     
-    Zombie.preload(this);
     PlayerEntity.preload(this);
+    MachineGun.preload(this);
+    Zombie.preload(this);
     // Bullet.preload(this);
     // Explosion.preload(this);
     this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');

@@ -65,11 +65,14 @@ export default class Zombie extends Entity {
     
     if (!this.gameObject.body) return;
 
+    const { player } = this.scene;
+
+    if (!player.active) return;
+
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
-    const { player } = this.scene;
     const hearingRange = this.aggravated ? 500 : 200;
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < hearingRange;
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;

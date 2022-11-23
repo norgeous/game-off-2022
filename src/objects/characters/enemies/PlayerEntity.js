@@ -80,6 +80,9 @@ export default class PlayerEntity extends Entity {
 
     if (!this.gameObject.body) return;
 
+    if (this.keys.leftKey.isDown) this.direction = 'LEFT';
+    if (this.keys.rightKey.isDown) this.direction = 'RIGHT';
+
     if (this.keys.leftKey.isDown && !this.sensorData.left) this.gameObject.setVelocityX(-2.5);
     if (this.keys.rightKey.isDown && !this.sensorData.right) this.gameObject.setVelocityX(2.5);
     if (this.keys.jumpKey.isDown && this.sensorData.bottom) this.gameObject.setVelocityY(-10);

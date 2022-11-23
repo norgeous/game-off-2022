@@ -23,6 +23,7 @@
 - deployment
   - if no database -> to github pages?
 - request fullscreen on first click?
+- health pickups
 
 
 ## ui

@@ -37,6 +37,8 @@ export default class PlayerEntity extends Entity {
       },
     );
 
+    this.gameObject.setCollisionCategory(collisionCategories.player);
+
     this.hitbox.onCollideCallback = data => {
       // environmental / fall damage
       const { depth } = data.collision;
@@ -108,7 +110,6 @@ export default class PlayerEntity extends Entity {
       this.playAnimation(closeToStationary ? EntityAnimations.Idle : EntityAnimations.Walk);
     } else {
       // dead
-      this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
       this.rotation = 0; // force upright for death animation
       this.text.setText('X');
       this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {

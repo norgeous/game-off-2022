@@ -45,6 +45,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.enableHealthBar = enableHealthBar;
     this.enableKeepUpright = enableKeepUpright;
     this.keepUprightStratergy = keepUprightStratergy;
+
     if (direction) this.direction = direction;
     else this.direction = Math.random() > .5 ? directions.LEFT : directions.RIGHT;
 

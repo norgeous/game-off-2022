@@ -14,12 +14,10 @@ export default class AbstractWeapon {
     });
 
     this.sprite = this.scene.add.sprite(
-      15,
-      -1,
+      15, -1, // offset to player center
       SPRITESHEETKEY,
       frame,
     );
-    // this.sprite.setOffset(-10, -10);
     entity.add(this.sprite); // add gun sprite into entity container
   }
 
@@ -27,12 +25,12 @@ export default class AbstractWeapon {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/guns.png', { frameWidth: 32, frameHeight: 32 });
   }
 
-  fire(directionData) {
+  fire() {
     this.bulletGroup.get(
       this.entity.x,
       this.entity.y,
       {
-        direction: this.scene.player.direction,
+        direction: this.entity.direction,
         lifespan: 1000, // TODO: bullet should know how long it lives, not have it passed in
         soundKeyName: Sound.MachineGunFire, // TODO: gun should make sound, not bullet
       },

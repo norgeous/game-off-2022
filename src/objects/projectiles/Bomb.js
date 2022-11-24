@@ -4,7 +4,7 @@ import Explosion from './Explosion';
 import Direction from '../enums/Direction';
 
 class Bomb extends Phaser.GameObjects.Text {
-  constructor(scene, x, y, { direction, lifespan, soundKeyName }) {
+  constructor(scene, x, y, { direction }) {
     super(
       scene,
       x,

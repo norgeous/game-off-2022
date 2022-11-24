@@ -1,4 +1,4 @@
-import Sound from "./enums/Sound.js";
+import Sound from './enums/Sound';
 
 export default class Audio  {
   constructor(scene) {
@@ -51,6 +51,8 @@ export default class Audio  {
       this.sfx[key].play();
     }
   }
-
-
+  
+  playSfxNow(key) {
+    this.scene.sound.add(key).play();
+  }
 }

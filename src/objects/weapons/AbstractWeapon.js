@@ -1,5 +1,3 @@
-import Sound from '../enums/Sound';
-
 export const fireTypes = {
   SEMI: 'SEMI',
   BURST: 'BURST',
@@ -53,25 +51,24 @@ export default class AbstractWeapon {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/guns.png', { frameWidth: 32, frameHeight: 32 });
   }
 
-  fire() {
+  pullTrigger() {
+    if (this.bulletsFiredThisPull >= maxBulletsPerPull[this.fireType]) return;
+
+    // try to create bullet
     const bullet = this.bulletGroup.create(
       this.entity.x + this.gunSprite.x,
       this.entity.y + this.gunSprite.y,
       {
         direction: this.entity.direction,
-        lifespan: 1000, // TODO: bullet should know how long it lives, not have it passed in
-        soundKeyName: Sound.MachineGunFire, // TODO: gun should make sound, not bullet
       },
     );
+    
+    if (!bullet) return;
 
-    // sound
-    if (this.soundKeyName && bullet) this.scene.sound.add(this.soundKeyName).play();
-  }
-
-  pullTrigger() {
-    if (this.bulletsFiredThisPull >= maxBulletsPerPull[this.fireType]) return;
-    this.fire();
     this.bulletsFiredThisPull++;
+
+    // gun fire sound
+    if (this.soundKeyName) this.scene.audio.playSfxNow(this.soundKeyName);
   }
 
   releaseTrigger() {

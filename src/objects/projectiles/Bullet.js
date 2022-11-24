@@ -3,9 +3,10 @@ import { collisionCategories, collisionMaskEverything } from '../enums/Collision
 import Direction from '../enums/Direction';
 
 const SPRITESHEETKEY = 'bullet1';
+const LIFESPAN = 1000;
 
 class Bullet extends Phaser.Physics.Matter.Sprite {
-  constructor(scene, x, y, { direction, lifespan, soundKeyName }) {
+  constructor(scene, x, y, { direction }) {
     super(
       scene.matter.world,
       x,
@@ -32,10 +33,8 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
 
     this.setVelocity(velocityX, velocityY);
 
-    scene.audio.playSfx(soundKeyName);
-
     // self destroy after lifespan
-    this.scene.time.delayedCall(lifespan, () => this.destroy());
+    this.scene.time.delayedCall(LIFESPAN, () => this.destroy());
   }
 
   static preload(scene) {

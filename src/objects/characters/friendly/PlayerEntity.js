@@ -2,12 +2,7 @@ import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
 import Entity from '../Entity.js';
 import PlayerInput from '../../components/PlayerInput';
-
 import WeaponInventory from '../../components/WeaponInventory';
-
-// import MachineGun from '../../weapons/MachineGun';
-// import BombGlove from '../../weapons/BombGlove';
-// import HandGun from '../../weapons/HandGun';
 import Direction from '../../enums/Direction';
 
 const SPRITESHEETKEY = 'playerSprites';

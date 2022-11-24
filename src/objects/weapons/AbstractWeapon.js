@@ -54,8 +54,8 @@ export default class AbstractWeapon {
 
   fire() {
     this.bulletGroup.get(
-      this.entity.x,
-      this.entity.y,
+      this.entity.x + this.sprite.x,
+      this.entity.y + this.sprite.y,
       {
         direction: this.entity.direction,
         lifespan: 1000, // TODO: bullet should know how long it lives, not have it passed in

@@ -1,5 +1,6 @@
 import AbstractWeapon, { fireTypes } from './AbstractWeapon';
 import Bullet from '../projectiles/Bullet';
+import Sound from '../enums/Sound';
 
 export default class HandGun extends AbstractWeapon {
   constructor(scene, { entity }) {
@@ -11,6 +12,7 @@ export default class HandGun extends AbstractWeapon {
         frame: 15, // white gun
         entity,
         fireType: fireTypes.AUTO,
+        soundKeyName: Sound.Pistol,
       },
     );
   }

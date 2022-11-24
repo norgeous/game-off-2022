@@ -15,10 +15,11 @@ const maxBulletsPerPull = {
 const SPRITESHEETKEY = 'gunSprites';
 
 export default class AbstractWeapon {
-  constructor(scene, { frame = 0, maxBullets, BulletClass, entity, fireType }) {
+  constructor(scene, { frame = 0, maxBullets, BulletClass, entity, fireType, soundKeyName = undefined }) {
     this.scene = scene;
     this.entity = entity;
     this.fireType = fireType;
+    this.soundKeyName = soundKeyName;
 
     this.bulletsFiredThisPull = 0;
 
@@ -53,7 +54,7 @@ export default class AbstractWeapon {
   }
 
   fire() {
-    this.bulletGroup.get(
+    const bullet = this.bulletGroup.create(
       this.entity.x + this.gunSprite.x,
       this.entity.y + this.gunSprite.y,
       {
@@ -62,6 +63,9 @@ export default class AbstractWeapon {
         soundKeyName: Sound.MachineGunFire, // TODO: gun should make sound, not bullet
       },
     );
+
+    // sound
+    if (this.soundKeyName && bullet) this.scene.sound.add(this.soundKeyName).play();
   }
 
   pullTrigger() {

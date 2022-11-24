@@ -29,23 +29,23 @@ export default class AbstractWeapon {
     });
 
     // arm sprite
-    this.sprite2 = this.scene.add.sprite(
+    this.armSprite = this.scene.add.sprite(
       6, -5, // offset to player center
       'hands',
       2,
     );
-    entity.add(this.sprite2);
-    entity.sendToBack(this.sprite2); // sets z-index
+    entity.add(this.armSprite);
+    entity.sendToBack(this.armSprite); // sets z-index
 
     // gun sprite
-    this.sprite = this.scene.add.sprite(
+    this.gunSprite = this.scene.add.sprite(
       17, -9, // offset to player center
       SPRITESHEETKEY,
       frame,
     );
-    // this.sprite.rotation = Math.PI / 2;
-    entity.add(this.sprite); // add gun sprite into entity container
-    entity.sendToBack(this.sprite); // sets z-index
+    // this.gunSprite.rotation = Math.PI / 2;
+    entity.add(this.gunSprite); // add gun sprite into entity container
+    entity.sendToBack(this.gunSprite); // sets z-index
   }
 
   static preload(scene) {
@@ -54,8 +54,8 @@ export default class AbstractWeapon {
 
   fire() {
     this.bulletGroup.get(
-      this.entity.x + this.sprite.x,
-      this.entity.y + this.sprite.y,
+      this.entity.x + this.gunSprite.x,
+      this.entity.y + this.gunSprite.y,
       {
         direction: this.entity.direction,
         lifespan: 1000, // TODO: bullet should know how long it lives, not have it passed in

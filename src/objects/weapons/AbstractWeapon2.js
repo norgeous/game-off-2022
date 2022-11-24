@@ -69,6 +69,7 @@ export default class AbstractWeapon {
     this.fire();
     this.bulletsFiredThisPull++;
   }
+
   releaseTrigger() {
     this.bulletsFiredThisPull = 0;
   }

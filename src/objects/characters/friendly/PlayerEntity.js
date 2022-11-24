@@ -73,7 +73,8 @@ export default class PlayerEntity extends Entity {
     if (this.keys.rightKey.isDown && !this.sensorData.right) this.gameObject.setVelocityX(2.5);
     if (this.keys.jumpKey.isDown && this.sensorData.bottom) this.gameObject.setVelocityY(-10);
 
-    if (this.keys.fireKey.isDown) this.weapons.currentWeapon.fire();
+    if (this.keys.fireKey.isDown) this.weapons.currentWeapon.pullTrigger();
+    if (!this.keys.fireKey.isDown) this.weapons.currentWeapon.releaseTrigger();
 
     // ladder collisions
     if (this.body.velocity.y < -4 || this.keys.downKey.isDown) {

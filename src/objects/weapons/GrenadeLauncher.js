@@ -7,7 +7,7 @@ export default class GrenadeLauncher extends AbstractWeapon {
       scene,
       {
         BulletClass: Bomb,
-        maxBullets: 3,
+        maxBullets: 2,
         frame: 24, // red gun
         entity,
         fireType: fireTypes.SEMI,

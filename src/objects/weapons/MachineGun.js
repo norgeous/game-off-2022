@@ -8,9 +8,7 @@ export default class MachineGun extends AbstractWeapon {
       {
         BulletClass: Bullet,
         maxBullets: 10,
-        // frame: 15, // blue gun
-        // frame: 18, // blue gun
-        frame: 24, // red gun
+        frame: 18, // blue gun
         entity,
       },
     );

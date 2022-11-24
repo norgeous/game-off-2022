@@ -1,14 +1,14 @@
 import AbstractWeapon from './AbstractWeapon2';
-import Bullet from '../projectiles/Bullet';
+import Bomb from '../projectiles/Bomb';
 
-export default class HandGun extends AbstractWeapon {
+export default class GrenadeLauncher extends AbstractWeapon {
   constructor(scene, { entity }) {
     super(
       scene,
       {
-        BulletClass: Bullet,
+        BulletClass: Bomb,
         maxBullets: 1,
-        frame: 15, // white gun
+        frame: 24, // red gun
         entity,
       },
     );

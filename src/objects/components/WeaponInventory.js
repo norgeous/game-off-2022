@@ -1,12 +1,12 @@
 import MachineGun from '../../objects/weapons/MachineGun';
-import BombGlove from '../../objects/weapons/BombGlove';
+import GrenadeLauncher from '../weapons/GrenadeLauncher';
 import HandGun from '../../objects/weapons/HandGun';
 
 export default class WeaponInventory {
   inventory = [
     MachineGun,
-    // HandGun,
-    // BombGlove,
+    GrenadeLauncher,
+    HandGun,
   ];
   index = 0;
 

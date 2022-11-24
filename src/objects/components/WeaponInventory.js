@@ -24,7 +24,7 @@ export default class WeaponInventory {
 
   createCurrentWeapon () {
     this.currentWeapon?.destroy();
-    this.currentWeapon = new this.inventory[this.index](this.scene, this.entity.x, this.entity.y, {entity:this.entity});
+    this.currentWeapon = new this.inventory[this.index](this.scene, { entity: this.entity });
   }
 
   next() {

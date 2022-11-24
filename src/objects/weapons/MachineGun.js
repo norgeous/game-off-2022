@@ -14,7 +14,9 @@ export default class MachineGun extends AbstractWeapon {
       },
     );
 
-    var test = scene.add.sprite(200, 200, SPRITESHEETKEY);
+    var test = scene.add.sprite(scene.player.x, scene.player.y, SPRITESHEETKEY);
+
+    this.scene.add.existing(this);
   }
 
   static preload(scene) {

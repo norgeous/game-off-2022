@@ -13,12 +13,22 @@ export default class AbstractWeapon {
       runChildUpdate: true,
     });
 
+    // arm sprite
+    this.sprite2 = this.scene.add.sprite(
+      6, -5, // offset to player center
+      'hands',
+      2,
+    );
+    entity.add(this.sprite2);
+    entity.sendToBack(this.sprite2); // sets z-index
+
+    // gun sprite
     this.sprite = this.scene.add.sprite(
-      15, -1, // offset to player center
+      17, -9, // offset to player center
       SPRITESHEETKEY,
       frame,
     );
-
+    // this.sprite.rotation = Math.PI / 2;
     entity.add(this.sprite); // add gun sprite into entity container
     entity.sendToBack(this.sprite); // sets z-index
   }

@@ -57,6 +57,7 @@ export default class PlayerEntity extends Entity {
 
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
+    scene.load.spritesheet('hands', 'sprites/craftpix.net/biker_hands.png', { frameWidth: 32, frameHeight: 32 });
     WeaponInventory.preload(scene);
   }
 

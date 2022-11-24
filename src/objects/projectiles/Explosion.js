@@ -23,7 +23,7 @@ class Explosion {
     this.applyExplosionForce(scene, x, y, radius, force, scene.player);
     this.playExplodeAnimation(scene, x, y);
 
-    scene.audio.playSfx(Sound.BombBlast);
+    scene.audio.playSfxNow(Sound.BombBlast);
   }
 
   playExplodeAnimation(scene, x, y) {

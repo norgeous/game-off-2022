@@ -3,17 +3,11 @@ import Sound from '../enums/Sound';
 
 const SPRITESHEETKEY = 'gunSprites';
 
-export default class AbstractWeapon extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y, { frame = 0, maxBullets, BulletClass, entity }) {
-    super(
-      scene,
-      x,
-      y,
-      SPRITESHEETKEY,
-      frame,
-    );
-
+export default class AbstractWeapon {
+  constructor(scene, { frame = 0, maxBullets, BulletClass, entity }) {
     this.scene = scene;
+    this.entity = entity;
+
 
     this.bulletGroup = this.scene.add.group({
       maxSize: maxBullets,
@@ -21,13 +15,34 @@ export default class AbstractWeapon extends Phaser.GameObjects.Sprite {
       runChildUpdate: true,
     });
 
-    scene.add.existing(this);
+    scene.add.existing(this.bulletGroup);
 
 
-    this.setDepth(1);
+    // this.setDepth(1); // make bullets below gun
+
+
+    // text
+    // this.text2 = this.scene.add.text(0, 0 - 60, 'AW', {
+    //   font: '12px Arial',
+    //   align: 'center',
+    //   color: 'white',
+    //   fontWeight: 'bold',
+    // }).setOrigin(0.5);
+
+    // scene.add.existing(this.text2);
+    // entity.add(this.text2)
 
     // entity.add(this);
-    // console.log({ entity })
+    // console.log(entity.getAll())
+
+
+    this.sprite = this.scene.add.sprite(
+      0,
+      0,
+      SPRITESHEETKEY,
+      frame,
+    );
+    entity.add(this.sprite);
   }
 
   static preload(scene) {
@@ -35,10 +50,10 @@ export default class AbstractWeapon extends Phaser.GameObjects.Sprite {
   }
 
   fire(directionData) {
-    console.log('fire', this.x, this.y);
+    console.log('fire', this.entity.x, this.entity.y);
     this.bulletGroup.get(
-      this.x,
-      this.y,
+      this.entity.x,
+      this.entity.y,
       {
         direction: this.scene.player.direction,
         lifespan: 1000, // TODO: bullet should know how long it lives, not have it passed in

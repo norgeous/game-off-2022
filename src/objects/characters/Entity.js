@@ -28,7 +28,7 @@ export default class Entity extends Phaser.GameObjects.Container {
       physicsConfig = {},
       enableKeepUpright = false,
       keepUprightStratergy = keepUprightStratergies.SPRINGY,
-      direction = undefined,
+      direction = Math.random() > .5 ? Direction.Left : Direction.Right,
     },
   ) {
     super(scene, x, y);
@@ -42,9 +42,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.enableKeepUpright = enableKeepUpright;
     this.keepUprightStratergy = keepUprightStratergy;
 
-    if (direction) this.direction = direction;
-    else this.direction = Math.random() > .5 ? Direction.Left : Direction.Right;
-
+    this.direction = direction;
     this.isStunned = false;
 
     this.sensorData = {

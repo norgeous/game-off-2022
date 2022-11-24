@@ -8,7 +8,6 @@ export default class MachineGun extends AbstractWeapon {
   constructor(scene, x, y, { entity }) {
     super(
       scene,
-      x, y,
       {
         BulletClass: Bullet,
         maxBullets: 10,

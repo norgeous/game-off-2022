@@ -50,7 +50,6 @@ export default class AbstractWeapon {
   }
 
   fire(directionData) {
-    console.log('fire', this.entity.x, this.entity.y);
     this.bulletGroup.get(
       this.entity.x,
       this.entity.y,
@@ -63,5 +62,8 @@ export default class AbstractWeapon {
   }
 
   update() {}
-
+  
+  destroy() {
+    this.sprite.destroy();
+  }
 }

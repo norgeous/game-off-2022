@@ -33,8 +33,6 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
     scene.audio.playSfx(soundKeyName);
     // self destroy after lifespan
     this.scene.time.delayedCall(lifespan, () => this.destroy());
-
-    console.log('bukket consrected');
   }
 
   update() {

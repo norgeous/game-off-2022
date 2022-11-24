@@ -1,4 +1,4 @@
-import AbstractWeapon, { fireTypes } from './AbstractWeapon2';
+import AbstractWeapon, { fireTypes } from './AbstractWeapon';
 import Bullet from '../projectiles/Bullet';
 
 export default class HandGun extends AbstractWeapon {

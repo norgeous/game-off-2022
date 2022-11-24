@@ -1,4 +1,4 @@
-import AbstractWeapon, { fireTypes } from './AbstractWeapon2';
+import AbstractWeapon, { fireTypes } from './AbstractWeapon';
 import Bomb from '../projectiles/Bomb';
 
 export default class GrenadeLauncher extends AbstractWeapon {

@@ -77,6 +77,7 @@ export default class AbstractWeapon {
   update() {}
   
   destroy() {
-    this.sprite.destroy();
+    this.armSprite.destroy();
+    this.gunSprite.destroy();
   }
 }

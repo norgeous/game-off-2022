@@ -1,4 +1,4 @@
-import AbstractWeapon from './AbstractWeapon2';
+import AbstractWeapon, { fireTypes } from './AbstractWeapon2';
 import Bomb from '../projectiles/Bomb';
 
 export default class GrenadeLauncher extends AbstractWeapon {
@@ -7,9 +7,10 @@ export default class GrenadeLauncher extends AbstractWeapon {
       scene,
       {
         BulletClass: Bomb,
-        maxBullets: 1,
+        maxBullets: 3,
         frame: 24, // red gun
         entity,
+        fireType: fireTypes.SEMI,
       },
     );
   }

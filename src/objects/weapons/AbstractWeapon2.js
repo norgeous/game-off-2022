@@ -1,9 +1,14 @@
 import Sound from '../enums/Sound';
 
+export const fireTypes = {
+  AUTO: 'AUTO',
+  SEMI: 'SEMI',
+};
+
 const SPRITESHEETKEY = 'gunSprites';
 
 export default class AbstractWeapon {
-  constructor(scene, { frame = 0, maxBullets, BulletClass, entity }) {
+  constructor(scene, { frame = 0, maxBullets, BulletClass, entity, fireType }) {
     this.scene = scene;
     this.entity = entity;
 

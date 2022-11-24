@@ -1,4 +1,4 @@
-import AbstractWeapon from './AbstractWeapon2';
+import AbstractWeapon, { fireTypes } from './AbstractWeapon2';
 import Bullet from '../projectiles/Bullet';
 
 export default class HandGun extends AbstractWeapon {
@@ -10,6 +10,7 @@ export default class HandGun extends AbstractWeapon {
         maxBullets: 1,
         frame: 15, // white gun
         entity,
+        fireType: fireTypes.AUTO,
       },
     );
   }

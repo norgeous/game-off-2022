@@ -52,7 +52,13 @@ export default class Audio  {
     }
   }
   
-  playSfxNow(key) {
-    this.scene.sound.add(key).play();
+  playSfxNow(key, config = {}) {
+    this.scene.sound.add(
+      key,
+      {
+        ...this.config.sfx,
+        ...config,
+      },
+    ).play();
   }
 }

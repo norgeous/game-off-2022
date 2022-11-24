@@ -28,4 +28,6 @@ export default class AbstractWeapon {
   preLoad() {}
 
   update() {}
+
+  destroy() {}
 }

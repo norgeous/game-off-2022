@@ -1,11 +1,13 @@
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
 import Entity from '../Entity.js';
-import PlayerInput from './PlayerInput';
+import PlayerInput from '../../components/PlayerInput';
 
-import MachineGun from '../../weapons/MachineGun';
-import BombGlove from '../../weapons/BombGlove';
-import HandGun from '../../weapons/HandGun';
+import WeaponInventory from '../../components/WeaponInventory';
+
+// import MachineGun from '../../weapons/MachineGun';
+// import BombGlove from '../../weapons/BombGlove';
+// import HandGun from '../../weapons/HandGun';
 import Direction from '../../enums/Direction';
 
 const SPRITESHEETKEY = 'playerSprites';
@@ -47,34 +49,15 @@ export default class PlayerEntity extends Entity {
 
     this.playerInput = new PlayerInput(scene);
     this.keys = this.playerInput.keys;
-
-    // weapons
-    this.weaponInventory = {
-      index: 0,
-      weapons: [
-        new BombGlove(this.scene, 500),
-        new MachineGun(this.scene),
-        new HandGun(this.scene),
-      ],
-    };
-    this.weapon = this.weaponInventory.weapons[0];
-    this.scene.events.on('cycleWeapon', () => this.cycleWeapons());
-    this.keys.fireKey.on('up', () => this.weapon.fireRelease(), this);
-
     this.playerController = { direction: Direction.Right };
+    
+    this.weapons = new WeaponInventory(scene, this);
+    this.scene.events.on('cycleWeapon', () => this.weapons.next());
   }
 
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
-  }
-
-  cycleWeapons() {
-    this.weaponInventory.index++;
-
-    if (this.weaponInventory.index > this.weaponInventory.weapons.length-1) {
-      this.weaponInventory.index = 0;
-    }
-    this.weapon = this.weaponInventory.weapons[this.weaponInventory.index];
+    WeaponInventory.preload(scene);
   }
 
   update() {
@@ -89,7 +72,7 @@ export default class PlayerEntity extends Entity {
     if (this.keys.rightKey.isDown && !this.sensorData.right) this.gameObject.setVelocityX(2.5);
     if (this.keys.jumpKey.isDown && this.sensorData.bottom) this.gameObject.setVelocityY(-10);
 
-    if (this.keys.fireKey.isDown) this.weapon.fire();
+    if (this.keys.fireKey.isDown) this.weapons.currentWeapon.fire();
 
     // ladder collisions
     if (this.body.velocity.y < -4 || this.keys.downKey.isDown) {

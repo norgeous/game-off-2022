@@ -14,7 +14,7 @@ export default class BombGlove extends AbstractWeapon {
     this.timer = timerMs;
   }
 
-  fire() {
+  fire(directionData) {
     if (this.firstShot) {
       this.bulletGroup.get(
         this.scene.player.x,

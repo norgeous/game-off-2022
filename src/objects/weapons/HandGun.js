@@ -13,7 +13,7 @@ export default class HandGun extends AbstractWeapon {
     );
   }
 
-  fire() {
+  fire(directionData) {
     this.bulletGroup.get(
       this.scene.player.x,
       this.scene.player.y,

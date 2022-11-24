@@ -1,37 +1,42 @@
-import AbstractWeapon from './AbstractWeapon';
+import AbstractWeapon from './AbstractWeapon2';
 import Bullet from '../projectiles/Bullet';
-import Sound from '../enums/Sound';
+// import Sound from '../enums/Sound';
 
-const SPRITESHEETKEY = 'gunSprites';
+// const SPRITESHEETKEY = 'gunSprites';
 
 export default class MachineGun extends AbstractWeapon {
-  constructor(scene) {
+  constructor(scene, x, y, { entity }) {
     super(
       scene,
+      x, y,
       {
         BulletClass: Bullet,
         maxBullets: 10,
+        frame: 24,
+        entity,
       },
     );
 
-    var test = scene.add.sprite(scene.player.x, scene.player.y, SPRITESHEETKEY);
+    console.log('createdMAchineGun');
 
-    this.scene.add.existing(this);
+    // const test = scene.add.sprite(scene.player.x, scene.player.y, SPRITESHEETKEY);
+
+    // this.scene.add.existing(this);
   }
 
-  static preload(scene) {
-    scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/guns.png', { frameWidth: 32, frameHeight: 32 });
-  }
+  // static preload(scene) {
+  //   scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/guns.png', { frameWidth: 32, frameHeight: 32 });
+  // }
 
-  fire() {
-    this.bulletGroup.get(
-      this.scene.player.x,
-      this.scene.player.y,
-      {
-        direction: this.scene.player.direction,
-        lifespan: 1000,
-        soundKeyName: Sound.MachineGunFire,
-      },
-    );
-  }
+  // fire(directionData) {
+  //   this.bulletGroup.get(
+  //     this.scene.player.x,
+  //     this.scene.player.y,
+  //     {
+  //       direction: this.scene.player.direction,
+  //       lifespan: 1000,
+  //       soundKeyName: Sound.MachineGunFire,
+  //     },
+  //   );
+  // }
 }

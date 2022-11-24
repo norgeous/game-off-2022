@@ -13,6 +13,7 @@ export default class MachineGun extends AbstractWeapon {
         entity,
         fireType: fireTypes.BURST,
         soundKeyName: Sound.MachineGunFire,
+        // soundKeyName: Sound.Pistol,
       },
     );
   }

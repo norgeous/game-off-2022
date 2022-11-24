@@ -18,7 +18,9 @@ export default class AbstractWeapon {
       SPRITESHEETKEY,
       frame,
     );
+
     entity.add(this.sprite); // add gun sprite into entity container
+    entity.sendToBack(this.sprite); // sets z-index
   }
 
   static preload(scene) {

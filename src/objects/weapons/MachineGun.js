@@ -10,7 +10,7 @@ export default class MachineGun extends AbstractWeapon {
         maxBullets: 10,
         frame: 18, // blue gun
         entity,
-        fireType: fireTypes.AUTO,
+        fireType: fireTypes.BURST,
       },
     );
   }

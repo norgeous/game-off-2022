@@ -1,8 +1,15 @@
 import Sound from '../enums/Sound';
 
 export const fireTypes = {
-  AUTO: 'AUTO',
   SEMI: 'SEMI',
+  BURST: 'BURST',
+  AUTO: 'AUTO',
+};
+
+const maxBulletsPerPull = {
+  SEMI: 1,
+  BURST: 3,
+  AUTO: Infinity,
 };
 
 const SPRITESHEETKEY = 'gunSprites';
@@ -11,6 +18,9 @@ export default class AbstractWeapon {
   constructor(scene, { frame = 0, maxBullets, BulletClass, entity, fireType }) {
     this.scene = scene;
     this.entity = entity;
+    this.fireType = fireType;
+
+    this.bulletsFiredThisPull = 0;
 
     this.bulletGroup = this.scene.add.group({
       maxSize: maxBullets,
@@ -52,6 +62,15 @@ export default class AbstractWeapon {
         soundKeyName: Sound.MachineGunFire, // TODO: gun should make sound, not bullet
       },
     );
+  }
+
+  pullTrigger() {
+    if (this.bulletsFiredThisPull >= maxBulletsPerPull[this.fireType]) return;
+    this.fire();
+    this.bulletsFiredThisPull++;
+  }
+  releaseTrigger() {
+    this.bulletsFiredThisPull = 0;
   }
 
   update() {}

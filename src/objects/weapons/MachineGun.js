@@ -14,4 +14,9 @@ export default class MachineGun extends AbstractWeapon {
       },
     );
   }
+
+  static preload(scene) {
+    AbstractWeapon.preload(scene);
+    Bullet.preload(scene);
+  }
 }

@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
 import Direction from '../enums/Direction';
 
+const SPRITESHEETKEY = 'bullet1';
+
 class Bullet extends Phaser.Physics.Matter.Sprite {
   constructor(scene, x, y, { direction, lifespan, soundKeyName }) {
     super(
@@ -31,8 +33,13 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
     this.setVelocity(velocityX, velocityY);
 
     scene.audio.playSfx(soundKeyName);
+
     // self destroy after lifespan
     this.scene.time.delayedCall(lifespan, () => this.destroy());
+  }
+
+  static preload(scene) {
+    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
   }
 
   update() {

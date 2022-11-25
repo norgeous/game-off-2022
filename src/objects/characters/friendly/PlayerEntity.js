@@ -36,12 +36,6 @@ export default class PlayerEntity extends Entity {
 
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
-    this.hitbox.onCollideCallback = data => {
-      // environmental / fall damage
-      const { depth } = data.collision;
-      if (depth > 5) this.takeDamage(depth);
-    };
-
     this.playerInput = new PlayerInput(scene);
     this.keys = this.playerInput.keys;
     this.playerController = { direction: Direction.Right };

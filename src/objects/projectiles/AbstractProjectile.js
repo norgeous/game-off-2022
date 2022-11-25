@@ -62,7 +62,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
       const target = bodies.find(body => body.collisionFilter.category !== collisionCategories.enemyDamage);
 
       // trigger the takeDamage function on target (if it exists)
-      target.gameObject.takeDamage?.(collisionDamage);
+      target.gameObject?.takeDamage?.(collisionDamage);
 
       if ((target.gameObject.body.collisionFilter.category & destroyOnCollideMask) > 0) this.complete();
     });

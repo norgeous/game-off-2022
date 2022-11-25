@@ -11,7 +11,7 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
       scene.matter.world,
       x,
       y,
-      'bullet1',
+      SPRITESHEETKEY,
       0,
       {
         chamfer: { radius: 4 },
@@ -30,6 +30,8 @@ class Bullet extends Phaser.Physics.Matter.Sprite {
 
     // collide with everything except other bullets, ladders and player
     this.setCollidesWith(collisionMaskEverything &~ collisionCategories.enemyDamage &~ collisionCategories.ladders &~ collisionCategories.player);
+
+    // this.setOnCollide(() => {});
 
     this.setVelocity(velocityX, velocityY);
 

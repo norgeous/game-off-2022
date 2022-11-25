@@ -15,7 +15,7 @@ export default class Bullet extends AbstractProjectile {
           ignoreGravity: true,
           restitution: 1,
           chamfer: { radius: 4 },
-          mass: .1,
+          mass: .1, // heavy
         },
         enableLockRotationToMovementVector: true,
         exitSpeed: 10,

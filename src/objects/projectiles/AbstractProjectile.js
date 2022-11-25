@@ -18,7 +18,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
       isExplosive = true,
       explosionRadius = 120,
       explosionForce = 10,
-      enableExplodeOnContactEnemy = true,
+      enableDestroyOnContactEnemy = true,
       enableLockRotationToMovementVector = true,
     }
   ) {
@@ -33,7 +33,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
         restitution: 0.99,
         frictionAir: 0,
         ignoreGravity: true,
-        mass: .01,
+        // mass: .01,
         ...matterBodyConfig,
       },
     );
@@ -49,18 +49,18 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
 
     // apply exit speed and angle to velocity
     console.log(exitSpeed, exitAngle, bulletSpread);
-    // this.setVelocity(velocityX, velocityY);
+    this.setVelocity(exitSpeed, 0);
  
     // collide with everything except other bullets, ladders and player
     this.setCollisionCategory(collisionCategories.enemyDamage);
     this.setCollidesWith(collisionMaskEverything &~ collisionCategories.enemyDamage &~ collisionCategories.ladders &~ collisionCategories.player);
     this.setOnCollide(() => {
-      console.log('projectile collided with something!', enableExplodeOnContactEnemy);
+      console.log('projectile collided with something!', enableDestroyOnContactEnemy);
     });
 
     // self destroy after lifespan
     if (lifespan) {
-      this.scene.time.delayedCall(lifespan, () => this.destroy());
+      this.scene.time.delayedCall(lifespan, () => this.complete());
     }
   }
 
@@ -73,7 +73,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
   destroyIfTooSlow() {
     // if bullet moving too slowly, destroy it
     const speed = Math.hypot(this.body.velocity.x, this.body.velocity.y);
-    if (speed < 4) this.destroy();
+    if (speed <= this.minDestroySpeed) this.complete();
   }
 
   update() {
@@ -81,8 +81,8 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
     this.destroyIfTooSlow();
   }
 
-  destroy() {
-    if (this.isExplosive) {
+  complete() {
+    if (this.active && this.isExplosive) {
       new Explosion(
         this.scene,
         this.x, this.y,
@@ -92,6 +92,6 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
         },
       );
     }
-    super.destroy();
+    this.destroy();
   }
 }

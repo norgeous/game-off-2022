@@ -10,8 +10,19 @@ class Grenade extends AbstractProjectile {
       y,
       {
         spriteSheetKey: SPRITESHEETKEY,
+        lifespan: 1_000,
+        minDestroySpeed: 0.1,
+        matterBodyConfig: {
+          ignoreGravity: false,
+          restitution: 0.5,
+          chamfer: { radius: 10 },
+        },
+        enableLockRotationToMovementVector: false,
+        exitSpeed: 10,
       },
     );
+
+    this.setDisplaySize(10, 10);
   }
 
   static preload(scene) {

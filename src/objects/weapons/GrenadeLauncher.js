@@ -14,4 +14,8 @@ export default class GrenadeLauncher extends AbstractWeapon {
       },
     );
   }
+
+  static preload(scene) {
+    Grenade.preload(scene);
+  }
 }

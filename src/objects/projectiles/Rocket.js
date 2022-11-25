@@ -6,21 +6,19 @@ export default class Rocket extends AbstractProjectile {
   constructor(scene, x, y) {
     super(
       scene,
-      x,
-      y,
+      x, y,
       {
         spriteSheetKey: SPRITESHEETKEY,
         lifespan: 1_000,
         minDestroySpeed: 0.1,
         matterBodyConfig: {
           ignoreGravity: true,
-          restitution: 1,
           chamfer: { radius: 4 },
         },
         enableLockRotationToMovementVector: true,
-        exitSpeed: 10,
-        collisionDamage: 100,
-        explosionDamage: 10,
+        exitSpeed: 12,
+        collisionDamage: 50,
+        explosionDamage: 50,
       },
     );
   }

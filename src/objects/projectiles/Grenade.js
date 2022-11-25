@@ -7,8 +7,7 @@ export default class Grenade extends AbstractProjectile {
   constructor(scene, x, y) {
     super(
       scene,
-      x,
-      y,
+      x, y,
       {
         spriteSheetKey: SPRITESHEETKEY,
         lifespan: 1_000,
@@ -21,6 +20,8 @@ export default class Grenade extends AbstractProjectile {
         enableLockRotationToMovementVector: false,
         exitSpeed: 10,
         destroyOnCollideMask: collisionCategories.enemy, // destroy when collide with enemies, but bounce on ground
+        collisionDamage: 10,
+        explosionDamage: 10,
       },
     );
 

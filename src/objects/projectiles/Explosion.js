@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import Sound from '../enums/Sound';
 
 class Explosion {
-  constructor (scene, x, y, { radius = 50, force = 50, damage = 50 }) {
+  constructor (scene, x, y, { radius = 50, force = 50, damage = 20 }) {
     // draw a circle at size of explosion radius
     const circle = scene.add.circle(x, y, radius);
     circle.setStrokeStyle(1, 0xFF0000);
@@ -17,10 +17,10 @@ class Explosion {
     });
 
     // find close zombies and apply force to them
-    scene.zombieGroup.getChildren().forEach(zombie => this.applyExplosionForce(scene, x, y, radius, force, zombie));
+    scene.zombieGroup.getChildren().forEach(zombie => this.applyExplosionForce(scene, x, y, radius, force, damage, zombie));
 
     // apply to player too, for grenade jumps
-    this.applyExplosionForce(scene, x, y, radius, force, scene.player);
+    this.applyExplosionForce(scene, x, y, radius, force, damage, scene.player);
     this.playExplodeAnimation(scene, x, y);
 
     scene.audio.playSfxNow(Sound.BombBlast);
@@ -33,11 +33,12 @@ class Explosion {
     });
   }
 
-  applyExplosionForce (scene, x, y, radius, force, gameObject) {
+  applyExplosionForce (scene, x, y, radius, force, damage, gameObject) {
     const distance = Phaser.Math.Distance.BetweenPoints({ x, y }, gameObject);
     const isInsideRadius = distance <= radius;
 
     if (isInsideRadius) {
+      gameObject.takeDamage(damage);
       gameObject.isStunned = true;
       scene.time.delayedCall(1000, () => gameObject.isStunned = false);
 

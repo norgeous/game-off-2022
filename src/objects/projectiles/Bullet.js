@@ -19,6 +19,7 @@ export default class Bullet extends AbstractProjectile {
         enableLockRotationToMovementVector: true,
         exitSpeed: 10,
         isExplosive: false,
+        collisionDamage: 20,
       },
     );
   }

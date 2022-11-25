@@ -7,8 +7,7 @@ class Bomb extends Phaser.GameObjects.Text {
   constructor(scene, x, y, { direction }) {
     super(
       scene,
-      x,
-      y,
+      x, y,
       '💣',
       { font: '50px Arial', align: 'center' },
     );

@@ -18,16 +18,15 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
       isExplosive = true,
       explosionRadius = 120,
       explosionForce = 10,
-      explosionDamage = 100,
-      collisionDamage = 10,
+      explosionDamage = 0,
+      collisionDamage = 0,
       destroyOnCollideMask = collisionMaskEverything,
       enableLockRotationToMovementVector = true,
     }
   ) {
     super(
       scene.matter.world,
-      x,
-      y,
+      x, y,
       spriteSheetKey,
       0,
       {

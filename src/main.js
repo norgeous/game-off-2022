@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import Platformer from './scenes/Platformer'
+// import Platformer from './scenes/Platformer'
 import HelloWorldScene from './scenes/HelloWorldScene'
 
 const config = {
@@ -17,7 +17,7 @@ const config = {
   },
   scene: [
     HelloWorldScene,
-    Platformer,
+    // Platformer,
   ],
 }
 

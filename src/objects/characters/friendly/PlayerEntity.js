@@ -52,6 +52,7 @@ export default class PlayerEntity extends Entity {
 
   update() {
     super.update();
+    this.playerInput.update();
 
     if (!this.gameObject.body) return;
 

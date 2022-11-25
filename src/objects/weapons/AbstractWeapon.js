@@ -1,3 +1,5 @@
+import Direction from '../enums/Direction';
+
 export const fireTypes = {
   SEMI: 'SEMI',
   BURST: 'BURST',
@@ -18,7 +20,7 @@ export default class AbstractWeapon {
     this.entity = entity;
     this.fireType = fireType;
     this.soundKeyName = soundKeyName;
-
+    this.gunDirection = Direction.Right;
     this.bulletsFiredThisPull = 0;
 
     this.bulletGroup = this.scene.add.group({
@@ -51,15 +53,21 @@ export default class AbstractWeapon {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/guns.png', { frameWidth: 32, frameHeight: 32 });
   }
 
+  calculateGunDirection() {
+    this.gunDirection = Direction.Left;
+    console.log(this.entity.playerInput.direction);
+  }
+
   pullTrigger() {
     if (this.bulletsFiredThisPull >= maxBulletsPerPull[this.fireType]) return;
 
     // try to create bullet
+    this.calculateGunDirection();
     const bullet = this.bulletGroup.create(
       this.entity.x + this.gunSprite.x,
       this.entity.y + this.gunSprite.y,
       {
-        direction: this.entity.direction,
+        direction: this.gunDirection,
       },
     );
     

@@ -8,7 +8,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
     x, y,
     {
       spriteSheetKey,
-      matterBodyConfig,
+      matterBodyConfig = {},
       exitSpeed = 10,
       exitAngle = 0,
       bulletSpread = (2 * Math.PI) / 20,

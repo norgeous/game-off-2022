@@ -1,12 +1,12 @@
 import AbstractWeapon, { fireTypes } from './AbstractWeapon';
-import Bomb from '../projectiles/Bomb';
+import Grenade from '../projectiles/Grenade';
 
 export default class GrenadeLauncher extends AbstractWeapon {
   constructor(scene, { entity }) {
     super(
       scene,
       {
-        BulletClass: Bomb,
+        BulletClass: Grenade,
         maxBullets: 2,
         frame: 24, // red gun
         entity,

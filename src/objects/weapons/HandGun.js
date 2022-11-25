@@ -9,7 +9,7 @@ export default class HandGun extends AbstractWeapon {
       {
         BulletClass: Bullet,
         maxBullets: 1,
-        frame: 15, // white gun
+        frame: 0, // tiny pistol
         entity,
         fireType: fireTypes.AUTO,
         soundKeyName: Sound.Pistol,

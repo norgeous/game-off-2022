@@ -2,7 +2,7 @@ import AbstractProjectile from './AbstractProjectile';
 
 const SPRITESHEETKEY = 'orb-green';
 
-class Grenade extends AbstractProjectile {
+export default class Grenade extends AbstractProjectile {
   constructor(scene, x, y) {
     super(
       scene,
@@ -14,7 +14,7 @@ class Grenade extends AbstractProjectile {
         minDestroySpeed: 0.1,
         matterBodyConfig: {
           ignoreGravity: false,
-          restitution: 0.5,
+          restitution: 0.7,
           chamfer: { radius: 10 },
         },
         enableLockRotationToMovementVector: false,
@@ -29,5 +29,3 @@ class Grenade extends AbstractProjectile {
     scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/orb-green.png');
   }
 }
-
-export default Grenade;

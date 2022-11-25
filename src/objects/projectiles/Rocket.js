@@ -1,8 +1,8 @@
 import AbstractProjectile from './AbstractProjectile';
 
-const SPRITESHEETKEY = 'bullet1';
+const SPRITESHEETKEY = 'rocket';
 
-export default class Bullet extends AbstractProjectile {
+export default class Rocket extends AbstractProjectile {
   constructor(scene, x, y) {
     super(
       scene,
@@ -24,6 +24,6 @@ export default class Bullet extends AbstractProjectile {
   }
 
   static preload(scene) {
-    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
+    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/bullets/bullet10.png');
   }
 }

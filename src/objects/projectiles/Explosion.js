@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Sound from '../enums/Sound';
+import Events from "../enums/Events.js";
 
 class Explosion {
   constructor (scene, x, y, { radius = 50, force = 50, damage = 20 }) {
@@ -28,7 +29,7 @@ class Explosion {
 
   playExplodeAnimation(scene, x, y) {
     this.sprite = scene.add.sprite(x, y, 'bomb_explosion');
-    this.sprite.play('explosion').on('animationcomplete', () => {
+    this.sprite.play('explosion').on(Events.ON_ANIMATION_COMPLETE, () => {
       this.sprite.destroy()
     });
   }

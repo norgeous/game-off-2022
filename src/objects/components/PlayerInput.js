@@ -8,7 +8,7 @@ export default class PlayerInput {
             downKey: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
             leftKey: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
             rightKey: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
-            jumpKey: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P),
+            jumpKey: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
             fireKey: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L),
             cycleWeaponsKey: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
         };

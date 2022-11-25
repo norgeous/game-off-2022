@@ -202,7 +202,7 @@ export default class Entity extends Phaser.GameObjects.Container {
       this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
       this.rotation = 0; // force Entity upright for death animation
       this.text.setText('X');
-      this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {
+      this.playAnimation(EntityAnimations.Death).on(Events.ON_ANIMATION_COMPLETE, () => {
         this.sprite.destroy();
         this.text.destroy();
         this.destroy();

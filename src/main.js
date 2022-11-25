@@ -2,7 +2,6 @@ import Phaser from 'phaser'
 import Platformer from './scenes/Platformer'
 import HelloWorldScene from './scenes/HelloWorldScene'
 import Config from './objects/Config';
-import TestScene from './scenes/TestScene';
 import Area1 from "./scenes/theForest/Area1.js";
 import Area2 from "./scenes/theForest/Area2.js";
 import Area3 from "./scenes/theForest/Area3.js";

@@ -4,6 +4,8 @@ import Entity from '../Entity.js';
 import PlayerInput from '../../components/PlayerInput';
 import WeaponInventory from '../../components/WeaponInventory';
 import Direction from '../../enums/Direction';
+import Config from "../../Config.js";
+import Events from "../../enums/Events.js";
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -35,6 +37,27 @@ export default class PlayerEntity extends Entity {
     );
 
     this.gameObject.setCollisionCategory(collisionCategories.player);
+
+
+    this.hitbox.onCollideCallback = data => {
+
+      if (data.bodyA.collisionFilter.category === collisionCategories.door) {
+        if (this.scene.cameras.main.fadeEffect.isRunning) return;
+        let nextMap = data.bodyA.gameObject.data.list.loadLevel;
+        console.log(`loading map: ${nextMap}`);
+        this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
+          this.scene.scene.launch(nextMap);
+        });
+      }
+
+      if (data.bodyB.collisionFilter.category === collisionCategories.door) {
+
+      }
+      // environmental / fall damage
+      const { depth } = data.collision;
+      if (depth > 5) this.takeDamage(depth);
+    };
+
 
     this.playerInput = new PlayerInput(scene);
     this.keys = this.playerInput.keys;

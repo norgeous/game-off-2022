@@ -22,7 +22,7 @@ class Grenade extends AbstractProjectile {
       },
     );
 
-    this.setDisplaySize(10, 10);
+    this.setDisplaySize(6, 6);
   }
 
   static preload(scene) {

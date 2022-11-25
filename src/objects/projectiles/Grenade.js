@@ -1,4 +1,5 @@
 import AbstractProjectile from './AbstractProjectile';
+import { collisionCategories } from '../enums/Collisions';
 
 const SPRITESHEETKEY = 'orb-green';
 
@@ -19,6 +20,7 @@ export default class Grenade extends AbstractProjectile {
         },
         enableLockRotationToMovementVector: false,
         exitSpeed: 10,
+        destroyOnCollideMask: collisionCategories.enemy, // destroy when collide with enemies, but bounce on ground
       },
     );
 

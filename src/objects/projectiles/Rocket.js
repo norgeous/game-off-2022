@@ -19,6 +19,8 @@ export default class Rocket extends AbstractProjectile {
         },
         enableLockRotationToMovementVector: true,
         exitSpeed: 10,
+        collisionDamage: 100,
+        explosionDamage: 10,
       },
     );
   }

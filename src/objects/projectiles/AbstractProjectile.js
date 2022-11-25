@@ -12,13 +12,15 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
       exitSpeed = 10,
       exitAngle = 0,
       bulletSpread = (2 * Math.PI) / 20,
-      damage = 10,
+      // damage = 10,
       lifespan = 1000,
       minDestroySpeed = 4,
       isExplosive = true,
       explosionRadius = 120,
       explosionForce = 10,
-      enableDestroyOnContactEnemy = true,
+      explosionDamage = 100,
+      collisionDamage = 10,
+      destroyOnCollideMask = collisionMaskEverything,
       enableLockRotationToMovementVector = true,
     }
   ) {
@@ -37,25 +39,34 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
         ...matterBodyConfig,
       },
     );
-
     this.scene = scene;
-    this.damage = damage;
-    this.body.damage = damage;
+    // this.damage = damage;
+    // this.body.damage = damage;
     this.minDestroySpeed = minDestroySpeed;
     this.enableLockRotationToMovementVector = enableLockRotationToMovementVector;
     this.isExplosive = isExplosive;
     this.explosionRadius = explosionRadius;
     this.explosionForce = explosionForce;
+    this.explosionDamage = explosionDamage;
 
     // apply exit speed and angle to velocity
     console.log(exitSpeed, exitAngle, bulletSpread);
     this.setVelocity(exitSpeed, 0);
  
-    // collide with everything except other bullets, ladders and player
     this.setCollisionCategory(collisionCategories.enemyDamage);
+ 
+    // collide with everything except other bullets, ladders and player
     this.setCollidesWith(collisionMaskEverything &~ collisionCategories.enemyDamage &~ collisionCategories.ladders &~ collisionCategories.player);
-    this.setOnCollide(() => {
-      console.log('projectile collided with something!', enableDestroyOnContactEnemy);
+ 
+    // when projectile collides with anything
+    this.setOnCollide(data => {
+      const bodies = [data.bodyA, data.bodyB];
+      const target = bodies.find(body => body.collisionFilter.category !== collisionCategories.enemyDamage);
+
+      // trigger the takeDamage function on target (if it exists)
+      target.gameObject.takeDamage?.(collisionDamage);
+
+      if ((target.gameObject.body.collisionFilter.category & destroyOnCollideMask) > 0) this.complete();
     });
 
     // self destroy after lifespan
@@ -89,6 +100,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
         {
           radius: this.explosionRadius,
           force: this.explosionForce,
+          damage: this.explosionDamage,
         },
       );
     }

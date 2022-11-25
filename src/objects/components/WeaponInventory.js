@@ -40,7 +40,7 @@ export default class WeaponInventory {
   // }
 
   fireCurrent(directionData) {
-    this.currentWeapon.fire(directionData);
+    this.currentWeapon.pullTrigger(directionData);
   }
 
   add(WeaponClass) {

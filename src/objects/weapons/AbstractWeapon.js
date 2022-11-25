@@ -20,8 +20,11 @@ export default class AbstractWeapon {
     this.entity = entity;
     this.fireType = fireType;
     this.soundKeyName = soundKeyName;
-    this.gunDirection = Direction.Right;
     this.bulletsFiredThisPull = 0;
+    this.gunDirection = {
+      x: 1,
+      y: 0,
+    };
 
     this.bulletGroup = this.scene.add.group({
       maxSize: maxBullets,
@@ -54,8 +57,14 @@ export default class AbstractWeapon {
   }
 
   calculateGunDirection() {
-    this.gunDirection = Direction.Left;
-    console.log(this.entity.playerInput.direction);
+    const pid = this.entity.playerInput.direction;
+    const sd = this.entity.sensorData;
+
+    this.gunDirection.x = pid.x;
+    this.gunDirection.y = pid.y;
+
+    // if on floor, prevent pointing downwards
+    if (this.gunDirection.y === 1 && sd.bottom) this.gunDirection.y = 0;
   }
 
   pullTrigger() {

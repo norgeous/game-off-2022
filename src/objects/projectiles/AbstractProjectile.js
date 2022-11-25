@@ -46,7 +46,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
     this.explosionDamage = explosionDamage;
 
     // apply exit speed and angle to velocity
-    // console.log(exitSpeed, direction, bulletSpread);
+    console.log(exitSpeed, direction, bulletSpread);
     
     // const deg45multiplier = 0.7071;
     this.setVelocity(exitSpeed, 0);

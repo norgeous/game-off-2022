@@ -12,7 +12,8 @@ export default class MachineGun extends AbstractWeapon {
         frame: 18, // blue gun
         entity,
         fireType: fireTypes.BURST,
-        soundKeyName: Sound.MachineGunFire,
+        soundKeyName: Sound.GunBurst,
+        // soundKeyName: Sound.MachineGunFire,
         // soundKeyName: Sound.Pistol,
       },
     );

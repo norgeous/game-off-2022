@@ -9,11 +9,11 @@ export default class Audio  {
 
     this.config = {
       music: {
-        volume: 0.05
+        volume: 0.01,
       },
       sfx: {
-        volume: 1
-      }
+        volume: 1,
+      },
     }
   }
 
@@ -22,6 +22,8 @@ export default class Audio  {
     this.scene.load.audio(Sound.MachineGunFire, '/sounds/gun-burst.mp3');
     this.scene.load.audio(Sound.GunBurst, '/sounds/machine-gun.mp3');
     this.scene.load.audio(Sound.Pistol, '/sounds/pistol.wav');
+    this.scene.load.audio(Sound.RocketLaunch, 'https://labs.phaser.io/assets/audio/SoundEffects/lazer_wall_off.mp3');
+    this.scene.load.audio(Sound.GrenadeLaunch, 'https://labs.phaser.io/assets/audio/SoundEffects/pusher.wav');
   }
 
   create() {

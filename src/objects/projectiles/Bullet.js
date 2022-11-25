@@ -6,8 +6,7 @@ export default class Bullet extends AbstractProjectile {
   constructor(scene, x, y) {
     super(
       scene,
-      x,
-      y,
+      x, y,
       {
         spriteSheetKey: SPRITESHEETKEY,
         lifespan: 1_000,
@@ -19,6 +18,7 @@ export default class Bullet extends AbstractProjectile {
         },
         enableLockRotationToMovementVector: true,
         exitSpeed: 10,
+        isExplosive: false,
       },
     );
   }

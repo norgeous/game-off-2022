@@ -1,11 +1,8 @@
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
 import Entity from '../Entity.js';
-import PlayerInput from './PlayerInput';
-
-import MachineGun from '../../weapons/MachineGun';
-import BombGlove from '../../weapons/BombGlove';
-import HandGun from '../../weapons/HandGun';
+import PlayerInput from '../../components/PlayerInput';
+import WeaponInventory from '../../components/WeaponInventory';
 import Direction from '../../enums/Direction';
 
 const SPRITESHEETKEY = 'playerSprites';
@@ -33,48 +30,24 @@ export default class PlayerEntity extends Entity {
         },
         enableKeepUpright: true,
         keepUprightStratergy: 'INSTANT',
-        direction: 'RIGHT',
+        direction: Direction.Right,
       },
     );
 
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
-    this.hitbox.onCollideCallback = data => {
-      // environmental / fall damage
-      const { depth } = data.collision;
-      if (depth > 5) this.takeDamage(depth);
-    };
-
     this.playerInput = new PlayerInput(scene);
     this.keys = this.playerInput.keys;
-
-    // weapons
-    this.weaponInventory = {
-      index: 0,
-      weapons: [
-        new BombGlove(this.scene, 500),
-        new MachineGun(this.scene),
-        new HandGun(this.scene),
-      ],
-    };
-    this.weapon = this.weaponInventory.weapons[0];
-    this.scene.events.on('cycleWeapon', () => this.cycleWeapons());
-    this.keys.fireKey.on('up', () => this.weapon.fireRelease(), this);
-
     this.playerController = { direction: Direction.Right };
+    
+    this.weapons = new WeaponInventory(scene, this);
+    this.scene.events.on('cycleWeapon', () => this.weapons.next());
   }
 
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
-  }
-
-  cycleWeapons() {
-    this.weaponInventory.index++;
-
-    if (this.weaponInventory.index > this.weaponInventory.weapons.length-1) {
-      this.weaponInventory.index = 0;
-    }
-    this.weapon = this.weaponInventory.weapons[this.weaponInventory.index];
+    scene.load.spritesheet('hands', 'sprites/craftpix.net/biker_hands.png', { frameWidth: 32, frameHeight: 32 });
+    WeaponInventory.preload(scene);
   }
 
   update() {
@@ -89,7 +62,8 @@ export default class PlayerEntity extends Entity {
     if (this.keys.rightKey.isDown && !this.sensorData.right) this.gameObject.setVelocityX(2.5);
     if (this.keys.jumpKey.isDown && this.sensorData.bottom) this.gameObject.setVelocityY(-10);
 
-    if (this.keys.fireKey.isDown) this.weapon.fire();
+    if (this.keys.fireKey.isDown) this.weapons.currentWeapon.pullTrigger();
+    if (!this.keys.fireKey.isDown) this.weapons.currentWeapon.releaseTrigger();
 
     // ladder collisions
     if (this.body.velocity.y < -4 || this.keys.downKey.isDown) {

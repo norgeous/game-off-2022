@@ -1,14 +1,13 @@
 import Phaser from 'phaser';
-import { collisionCategories } from '../enums/Collisions';
+import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
 import Explosion from './Explosion';
 import Direction from '../enums/Direction';
 
 class Bomb extends Phaser.GameObjects.Text {
-  constructor(scene, x, y, direction) {
+  constructor(scene, x, y, { direction }) {
     super(
       scene,
-      x,
-      y,
+      x, y,
       '💣',
       { font: '50px Arial', align: 'center' },
     );
@@ -31,10 +30,15 @@ class Bomb extends Phaser.GameObjects.Text {
       .setDisplaySize(10, 10)
       // .setIgnoreGravity(true)
       .setVelocity(velocityX, velocityY);
+
     this.gameObject.body.damage = 10;
     this.gameObject.x = x ?? 100;
     this.gameObject.y = y ?? 1250;
+
     this.gameObject.setCollisionCategory(collisionCategories.enemyDamage);
+
+    // collide with everything except other bullets, ladders and player
+    this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.enemyDamage &~ collisionCategories.ladders &~ collisionCategories.player);
 
     // self destroy after lifespan
     this.scene.time.delayedCall(1000, () => {

@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 import Map from '../map/Map';
-import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
-import Zombie from '../objects/characters/enemy/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
+import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
+import MachineGun from '../objects/weapons/MachineGun';
+import Zombie from '../objects/characters/enemy/Zombie';
 
 const MAX_ZOMBIES = 10;
 
@@ -18,11 +19,11 @@ export default class HelloWorldScene extends Phaser.Scene {
   preload() {
     this.map.preload();
     
-    Zombie.preload(this);
     PlayerEntity.preload(this);
+    Zombie.preload(this);
+    MachineGun.preload(this);
     // Bullet.preload(this);
     // Explosion.preload(this);
-    this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
     this.load.spritesheet('explosion', 'sprites/explosion.png', { frameWidth: 256, frameHeight: 256 });
     this.load.audio(Sound.MusicKey, `${this.map.getMapPath()}/${Sound.MapMusicFileName}`);
     this.audio.preLoad();
@@ -62,7 +63,7 @@ export default class HelloWorldScene extends Phaser.Scene {
       this.map.spawners.zombie.forEach(zombie => {
         this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
       });
-    }, 1000);
+    }, 500);
 
     // new player
     this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);

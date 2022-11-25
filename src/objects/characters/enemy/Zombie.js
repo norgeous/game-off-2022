@@ -32,25 +32,11 @@ export default class Zombie extends Entity {
       },
     );
 
+    this.gameObject.setCollisionCategory(collisionCategories.enemy);
+
     this.aggravated = false;
     
     this.flipXSprite(Math.random() > 0.5); // initial face left / right randomly
-
-    this.hitbox.onCollideCallback = data => {
-      if (data.bodyA.collisionFilter.category === collisionCategories.enemyDamage) {
-        this.takeDamage(data.bodyA.damage);
-        this.aggravated = true;
-      }
-      
-      if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
-        this.takeDamage(data.bodyB.damage);
-        this.aggravated = true;
-      }
-
-      // environmental / fall damage
-      const { depth } = data.collision;
-      if (depth > 5) this.takeDamage(depth);
-    };
 
     // circle of hearing debug
     this.circleOfHearing = scene.add.circle(x, y, 200);
@@ -59,6 +45,11 @@ export default class Zombie extends Entity {
 
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/zombie.png', { frameWidth: 48, frameHeight: 48 });
+  }
+
+  takeDamage(amount) {
+    super.takeDamage(amount);
+    this.aggravated = true;
   }
 
   update() {

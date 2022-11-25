@@ -1,8 +1,8 @@
 import AbstractProjectile from './AbstractProjectile';
 
-const SPRITESHEETKEY = 'bullet1';
+const SPRITESHEETKEY = 'rocket';
 
-export default class Bullet extends AbstractProjectile {
+export default class Rocket extends AbstractProjectile {
   constructor(scene, x, y) {
     super(
       scene,
@@ -13,19 +13,17 @@ export default class Bullet extends AbstractProjectile {
         minDestroySpeed: 0.1,
         matterBodyConfig: {
           ignoreGravity: true,
-          restitution: 1,
           chamfer: { radius: 4 },
-          mass: .1,
         },
         enableLockRotationToMovementVector: true,
-        exitSpeed: 10,
-        isExplosive: false,
-        collisionDamage: 20,
+        exitSpeed: 12,
+        collisionDamage: 50,
+        explosionDamage: 50,
       },
     );
   }
 
   static preload(scene) {
-    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
+    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/bullets/bullet10.png');
   }
 }

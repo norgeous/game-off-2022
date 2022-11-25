@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 import MachineGun from '../weapons/MachineGun';
-import BombGlove from '../weapons/BombGlove';
+import BombGlove from '../weapons/GrenadeLauncher';
 import HandGun from '../weapons/HandGun';
-import PlayerInput from '../characters/friendly/PlayerInput';
+import PlayerInput from '../components/PlayerInput';
 import Direction from '../enums/Direction';
 import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';

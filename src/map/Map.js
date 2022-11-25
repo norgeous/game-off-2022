@@ -1,5 +1,8 @@
-import { collisionCategories } from '../objects/enums/Collisions';
+import {collisionCategories, collisionMaskEverything} from '../objects/enums/Collisions';
 import Sound from '../objects/enums/Sound';
+import Config from '../objects/Config';
+import Direction from "../objects/enums/Direction.js";
+import * as phaser from "phaser";
 
 export default class Map {
   root = 'map';
@@ -20,6 +23,7 @@ export default class Map {
       background: 'backgrounds',
       musicFile: Sound.MapMusicFileName
     };
+    this.mapKey = `${mapFolderName}-${mapDataName}`;
     this.tileSetName = 'tiles' // TileSet name set in the Tiled program.
     this.parallax = {
       backgroundCount: backgroundCount,
@@ -65,20 +69,31 @@ export default class Map {
     }
   }
   // Must be called inside a scene's preLoad()
-  loadMapData(key = 'tilemap') {
-    this.tileMap = this.Phaser.load.tilemapTiledJSON(key, this.getMapDataPath());
+  loadMapData() {
+    this.tileMap = this.Phaser.load.tilemapTiledJSON(this.mapKey, this.getMapDataPath());
   }
 
   loadLayers() {
-  //  this.layers.backgroundColour = this.map.createLayer('BackgroundColour', this.tileset)
-    this.layers.foreground = this.map.createLayer('Forground', this.tileset)
+    this.layers.backgroundColour = this.map.createLayer('BackgroundColour', this.tileset)
     this.layers.background = this.map.createLayer('Background', this.tileset)
+    this.layers.foreground = this.map.createLayer('Forground', this.tileset)
     this.layers.ladders = this.map.createLayer('Ladders', this.tileset)
 
     this.spawners = {
       player: this.map.findObject('Spawner', obj => obj.name === 'player'),
       zombie: this.map.filterObjects('Spawner', obj => obj.name === 'zombie'),
     };
+
+    let gameObject = this.map.createFromObjects('Spawner', {
+      name: 'exit'
+    });
+    gameObject = this.Phaser.matter.add.gameObject(gameObject[0], {isStatic: true});
+    gameObject.setCollisionCategory(collisionCategories.door);
+    gameObject.setCollidesWith(collisionCategories.player);
+
+    //this.Phaser.scene.add(this.spawners.exit[0]);
+
+    // base physics object
 
     this.layers.background.setCollisionByProperty({ collides: true });
     this.layers.foreground.setCollisionByProperty({ collides: true });
@@ -110,7 +125,7 @@ export default class Map {
   }
 
   create() {
-    this.map = this.Phaser.make.tilemap({ key:  'tilemap'})
+    this.map = this.Phaser.make.tilemap({ key:  this.mapKey })
     this.tileset = this.map.addTilesetImage(this.tileSetName, 'tileSheet', 32, 32, 1, 2)
 
     this.loadBackgrounds();
@@ -119,7 +134,7 @@ export default class Map {
     this.height = this.layers.background.height;
     this.width = this.layers.background.width;
 
-    if (this.playMusicOnStart) {
+    if (Config.PLAY_MUSIC) {
       this.Phaser.sound.play(Sound.MusicKey);
     }
   }

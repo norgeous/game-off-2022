@@ -202,10 +202,7 @@ export default class Entity extends Phaser.GameObjects.Container {
       this.rotation = 0; // force Entity upright for death animation
       this.text.setText('X');
       this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {
-        this.sprite.destroy();
-        this.text.destroy();
         this.destroy();
-        this.gameObject.destroy();
       });
     }
   }

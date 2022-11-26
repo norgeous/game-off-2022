@@ -35,6 +35,24 @@ export default class PlayerEntity extends Entity {
 
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
+
+    // arm sprite
+    this.armSprite = this.scene.add.sprite(
+      6, -5, // offset to player center
+      'hands',
+      2,
+    );
+    this.add(this.armSprite);
+    this.sendToBack(this.armSprite); // sets z-index
+
+    this.armSprite.setFrame(4);
+    // 0 = down
+    // 1 = down right
+    // 2 = right
+    // 3 = up right
+    // 4 = up
+
+
     this.weapons = new WeaponInventory(scene, this);
 
     // this does keyboard and on screen dpad and buttons

@@ -44,7 +44,6 @@ export default class PlayerEntity extends Entity {
       scene,
       {
         onUpdateDirection: newJoypadDirection => {
-          console.log('onUpdateDirection');
           this.joypadDirection = newJoypadDirection;
           if (newJoypadDirection.x) this.facing = newJoypadDirection.x;
         },

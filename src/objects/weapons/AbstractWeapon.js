@@ -60,7 +60,7 @@ export default class AbstractWeapon {
     const { joypadDirection, sensorData, facing } = this.entity;
 
     // intially set the gunDirection as joypad direction
-    this.gunDirection = joypadDirection;
+    this.gunDirection = { ...joypadDirection };
 
     // if left or right is NOT pressed, substitue in facing direction
     if (this.gunDirection.x === 0) this.gunDirection.x = facing;

@@ -75,13 +75,13 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.joypad = new VirtualJoypad(
       this,
       {
-        onUpdateDirection: dir => { console.log('main scene got direction', dir) },
-        onPressJump: () => {},
-        onReleaseJump: () => {},
-        onPressFire: () => {},
-        onReleaseFire: () => {},
-        onPressSwitch: () => {},
-        onReleaseSwitch: () => {},
+        onUpdateDirection: dir => { console.log('got direction', dir) },
+        onPressJump: () => { console.log('jump') },
+        onReleaseJump: () => { console.log('jump release') },
+        onPressFire: () => { console.log('fire') },
+        onReleaseFire: () => { console.log('fire release') },
+        onPressSwitch: () => { console.log('switch w') },
+        onReleaseSwitch: () => { console.log('switch w release') },
       },
     );
 

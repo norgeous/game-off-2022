@@ -25,9 +25,9 @@ export default class VirtualJoypad {
     this.joystick.on('update', () => this.changeDirection(), this);
 
     // on screen buttons
-    this.switchButton = new Button(scene, { text: '💱' });
-    this.jumpButton = new Button(scene, { text: '🦘' });
-    this.fireButton = new Button(scene, { text: '🔥' });
+    this.jumpButton = new Button(scene, { text: '🦘', onClick: onPressJump, onClickRelease: onReleaseJump });
+    this.fireButton = new Button(scene, { text: '🔥', onClick: onPressFire, onClickRelease: onReleaseFire });
+    this.switchButton = new Button(scene, { text: '💱', onClick: onPressSwitch, onClickRelease: onReleaseSwitch });
 
     // set on screen positions of joystick and buttons
     this.reposition();
@@ -40,7 +40,7 @@ export default class VirtualJoypad {
       right: this.registerKeyboardEvents('D', () => this.changeDirection(), () => this.changeDirection()),
     };
 
-    // keyboard jump, fire and switch
+    // keyboard jump, fire and switch events
     this.registerKeyboardEvents('SPACE', onPressJump, onReleaseJump);
     this.registerKeyboardEvents('E', onPressFire, onReleaseFire);
     this.registerKeyboardEvents('Q', onPressSwitch, onReleaseSwitch);

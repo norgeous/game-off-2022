@@ -1,8 +1,11 @@
 import Phaser from 'phaser';
 
 export default class Button extends Phaser.GameObjects.Container {
-  constructor(scene, { text }) {
+  constructor(scene, { text, onClick, onClickRelease }) {
     super(scene, 0, 0);
+
+    this.onClick = onClick;
+    this.onClickRelease = onClickRelease;
 
     this.circle = scene.add.circle(0, 0, 10, 0xcccccc)
       .setScrollFactor(0)
@@ -30,6 +33,7 @@ export default class Button extends Phaser.GameObjects.Container {
   enterButtonHoverState() {
     this.circle.setFillStyle(0x00FFFF);
     this.text.setStyle({ color: '#ff0'});
+    this.onClickRelease();
   }
 
   enterButtonRestState() {
@@ -40,5 +44,6 @@ export default class Button extends Phaser.GameObjects.Container {
   enterButtonActiveState() {
     this.circle.setFillStyle(0xFF0000);
     this.text.setStyle({ color: '#f7f' });
+    this.onClick();
   }
 }

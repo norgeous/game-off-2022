@@ -13,11 +13,11 @@ export default class Joystick {
     
     // .on('update', this.dumpJoyStickState, this);
 
-    this.text = scene.add.text(5, 5, 'joystick debug', {
-      font: '10px Arial',
-      color: 'white',
-    });
-    this.text.setScrollFactor(0);
+    // this.text = scene.add.text(5, 5, 'joystick debug', {
+    //   font: '10px Arial',
+    //   color: 'white',
+    // });
+    // this.text.setScrollFactor(0);
 
     this.joystickCursorKeys = this.joystick.createCursorKeys();
 

@@ -12,8 +12,14 @@ export default class Button extends Phaser.GameObjects.Container {
       .setInteractive({ useHandCursor: true })
       .on('pointerover', () => this.enterButtonHoverState() )
       .on('pointerout', () => this.enterButtonRestState() )
-      .on('pointerdown', () => this.enterButtonActiveState() )
-      .on('pointerup', () => this.enterButtonHoverState());
+      .on('pointerdown', () => {
+        this.onClick();
+        this.enterButtonActiveState();
+      })
+      .on('pointerup', () => {
+        this.onClickRelease();
+        this.enterButtonHoverState();
+      });
     this.add(this.circle);
 
     this.text = scene.add.text(0, 0, text, {
@@ -33,7 +39,6 @@ export default class Button extends Phaser.GameObjects.Container {
   enterButtonHoverState() {
     this.circle.setFillStyle(0x00FFFF);
     this.text.setStyle({ color: '#ff0'});
-    this.onClickRelease();
   }
 
   enterButtonRestState() {
@@ -44,6 +49,5 @@ export default class Button extends Phaser.GameObjects.Container {
   enterButtonActiveState() {
     this.circle.setFillStyle(0xFF0000);
     this.text.setStyle({ color: '#f7f' });
-    this.onClick();
   }
 }

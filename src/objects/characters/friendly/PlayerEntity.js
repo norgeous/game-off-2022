@@ -6,6 +6,14 @@ import WeaponInventory from '../../components/WeaponInventory';
 
 const SPRITESHEETKEY = 'playerSprites';
 
+const directionTocraftpixArmFrame = d => ({
+  '0:1': 0, // down
+  '1:1': 1, // down right
+  '1:0': 2, // right
+  '1:-1': 3, // up right
+  '0:-1': 4, // up
+})[`${Math.abs(d.x)}:${d.y}`];
+
 export default class PlayerEntity extends Entity {
   constructor (scene, x, y) {
     super(
@@ -45,12 +53,6 @@ export default class PlayerEntity extends Entity {
     this.add(this.armSprite);
     this.sendToBack(this.armSprite); // sets z-index
 
-    this.armSprite.setFrame(4);
-    // 0 = down
-    // 1 = down right
-    // 2 = right
-    // 3 = up right
-    // 4 = up
 
 
     this.weapons = new WeaponInventory(scene, this);
@@ -63,6 +65,8 @@ export default class PlayerEntity extends Entity {
       {
         onUpdateDirection: newJoypadDirection => {
           this.joypadDirection = newJoypadDirection;
+          this.armSprite.setFrame(directionTocraftpixArmFrame(newJoypadDirection));
+
           if (newJoypadDirection.x) this.facing = newJoypadDirection.x;
         },
         onPressJump: () => {

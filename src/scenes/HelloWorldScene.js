@@ -5,7 +5,7 @@ import Audio from '../objects/Audio';
 import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
 import MachineGun from '../objects/weapons/MachineGun';
 import Zombie from '../objects/characters/enemy/Zombie';
-import VirtualJoystick from '../objects/components/VirtualJoystick';
+import VirtualJoypad from '../objects/components/VirtualJoyPad';
 
 const MAX_ZOMBIES = 10;
 
@@ -20,7 +20,7 @@ export default class HelloWorldScene extends Phaser.Scene {
   preload() {
     this.map.preload();
     
-    VirtualJoystick.preload(this);
+    VirtualJoypad.preload(this);
     PlayerEntity.preload(this);
     Zombie.preload(this);
     MachineGun.preload(this);
@@ -70,7 +70,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     // new player
     this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
 
-    this.vj = new VirtualJoystick(this);
+    this.joypad = new VirtualJoypad(this);
 
 
     // camera

@@ -1,4 +1,4 @@
-export default class VirtualJoystick {
+export default class VirtualJoypad {
   constructor(scene) {
     this.scene = scene;
 
@@ -12,18 +12,16 @@ export default class VirtualJoystick {
       // forceMin: 100,
       // enable: true
     })
+      .setScrollFactor(0)
       .on('update', this.dumpJoyStickState, this);
-    this.joyStick.setScrollFactor(0);
 
     this.text = this.scene.add.text(0, 0, 'DEBUGTEXT', {
       font: '10px Arial',
       color: 'white',
-      // align: 'center',
-      // fontWeight: 'bold',
     });
     this.text.setScrollFactor(0);
 
-    this.dumpJoyStickState();
+    // this.dumpJoyStickState();
   }
 
   static preload(scene) {

@@ -14,13 +14,13 @@ export default class Joystick {
       // .setDepth(1000)
       .on('update', this.dumpJoyStickState, this);
 
-    this.text = scene.add.text(0, 0, 'DEBUGTEXT', {
+    this.text = scene.add.text(0, 0, 'joystick debug', {
       font: '10px Arial',
       color: 'white',
     });
     this.text.setScrollFactor(0);
 
-    // this.dumpJoyStickState();
+    this.dumpJoyStickState();
   }
 
   static preload(scene) {

@@ -10,12 +10,6 @@ export default class VirtualJoypad {
     this.jumpButton = new Button(scene, { text: 'J' });
     this.fireButton = new Button(scene, { text: 'F' });
 
-    this.text = scene.add.text(0, 0, 'DEBUGTEXT', {
-      font: '10px Arial',
-      color: 'white',
-    });
-    this.text.setScrollFactor(0);
-
     this.reposition();
   }
 

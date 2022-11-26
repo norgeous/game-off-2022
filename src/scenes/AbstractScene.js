@@ -21,6 +21,7 @@ export default class AbstractScene extends Phaser.Scene {
     Zombie.preload(this);
     PlayerEntity.preload(this);
     this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
+    this.load.image('floatingPlatform', 'sprites/floatingPlatform.png');
     this.load.spritesheet('explosion', 'sprites/explosion.png', { frameWidth: 256, frameHeight: 256 });
     this.load.audio(Sound.MusicKey, `${this.map.getMapPath()}/${Sound.MapMusicFileName}`);
     this.audio.preLoad();

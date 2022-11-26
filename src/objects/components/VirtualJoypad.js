@@ -9,11 +9,11 @@ export default class VirtualJoypad {
     {
       onUpdateDirection,
       onPressJump,
-      onReleaseJump,
+      onReleaseJump = () => {},
       onPressFire,
       onReleaseFire,
       onPressSwitch,
-      onReleaseSwitch,
+      onReleaseSwitch = () => {},
     }) {
     this.scene = scene;
     this.onUpdateDirection = onUpdateDirection;

@@ -41,24 +41,23 @@ export default class PlayerEntity extends Entity {
     // this.keys = this.playerInput.keys;
     // this.playerController = { direction: Direction.Right };
 
+    this.weapons = new WeaponInventory(scene, this);
+
     this.joypad = new VirtualJoypad(
       scene,
       {
         onUpdateDirection: dir => { console.log('got direction', dir) },
         onPressJump: () => {
-          if (this.sensorData.bottom) {
-            this.gameObject.setVelocityY(-10);
-          }
+          if (this.sensorData.bottom) this.gameObject.setVelocityY(-10);
         },
-        onReleaseJump: () => { console.log('jump release') },
+        // onReleaseJump: () => { console.log('jump release') },
         onPressFire: () => { console.log('fire') },
         onReleaseFire: () => { console.log('fire release') },
-        onPressSwitch: () => { console.log('switch w') },
-        onReleaseSwitch: () => { console.log('switch w release') },
+        onPressSwitch: () => this.weapons.next(),
+        // onReleaseSwitch: () => { console.log('switch w release') },
       },
     );
     
-    this.weapons = new WeaponInventory(scene, this);
     this.scene.events.on('cycleWeapon', () => this.weapons.next());
   }
 

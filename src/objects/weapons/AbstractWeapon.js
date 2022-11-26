@@ -65,7 +65,7 @@ export default class AbstractWeapon {
 
     // // if on floor, prevent pointing downwards
     // if (this.gunDirection.y === 1 && sd.bottom) this.gunDirection.y = 0;
-    console.log(this.entity.playerInput.direction);
+    console.log(this.entity.joypadDirection);
   }
 
   pullTrigger() {

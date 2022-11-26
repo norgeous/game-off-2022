@@ -1,6 +1,6 @@
 import Entity from '../Entity';
 import EntityAnimations from '../../enums/EntityAnimations';
-import { collisionCategories } from '../../enums/Collisions';
+import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
 
 import VirtualJoypad from '../../components/VirtualJoypad';
 import WeaponInventory from '../../components/WeaponInventory';
@@ -37,17 +37,14 @@ export default class PlayerEntity extends Entity {
 
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
-    // this.playerInput = new PlayerInput(scene, this.sensorData);
-    // this.keys = this.playerInput.keys;
-    // this.playerController = { direction: Direction.Right };
-
     this.weapons = new WeaponInventory(scene, this);
 
     // this does keyboard and on screen dpad and buttons
+    this.joypadDirection = { x: 0, y: 0 };
     this.joypad = new VirtualJoypad(
       scene,
       {
-        onUpdateDirection: dir => { console.log('got direction', dir) },
+        onUpdateDirection: direction => this.joypadDirection = direction,
         onPressJump: () => {
           if (this.sensorData.bottom) this.gameObject.setVelocityY(-10);
         },
@@ -55,9 +52,7 @@ export default class PlayerEntity extends Entity {
         onReleaseFire: () => this.weapons.currentWeapon.releaseTrigger(),
         onPressSwitch: () => this.weapons.next(),
       },
-    );
-    
-    this.scene.events.on('cycleWeapon', () => this.weapons.next());
+    );    
   }
 
   static preload(scene) {
@@ -69,32 +64,18 @@ export default class PlayerEntity extends Entity {
 
   update() {
     super.update();
-    // this.playerInput.update();
 
     if (!this.gameObject.body) return;
 
-    // if (this.keys.leftKey.isDown) this.direction = Direction.Left;
-    // if (this.keys.rightKey.isDown) this.direction = Direction.Right;
-
-    // if (this.keys.leftKey.isDown && !this.sensorData.left) this.gameObject.setVelocityX(-2.5);
-    // if (this.keys.rightKey.isDown && !this.sensorData.right) this.gameObject.setVelocityX(2.5);
-    // if (this.keys.jumpKey.isDown && this.sensorData.bottom) this.gameObject.setVelocityY(-10);
-
-    // if (this.keys.fireKey.isDown) this.weapons.currentWeapon.pullTrigger();
-    // if (!this.keys.fireKey.isDown) this.weapons.currentWeapon.releaseTrigger();
-
-
-
-
-
-
+    // player left / right movement
+    if (this.joypadDirection.x) this.gameObject.setVelocityX(this.joypadDirection.x * 2.5);
 
     // ladder collisions
-    // if (this.body.velocity.y < -4 || this.keys.downKey.isDown) {
-    //   this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
-    // } else {
-    //   this.gameObject.setCollidesWith(collisionMaskEverything);
-    // }
+    if (this.body.velocity.y < -4 || this.joypadDirection.y > 0) {
+      this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
+    } else {
+      this.gameObject.setCollidesWith(collisionMaskEverything);
+    }
     
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);

@@ -41,6 +41,13 @@ export default class AbstractWeapon {
     entity.add(this.armSprite);
     entity.sendToBack(this.armSprite); // sets z-index
 
+    this.armSprite.setFrame(4);
+    // 0 = down
+    // 1 = down right
+    // 2 = right
+    // 3 = up right
+    // 4 = up
+
     // gun sprite
     this.gunSprite = this.scene.add.sprite(
       17, -9, // offset to player center

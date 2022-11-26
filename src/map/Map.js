@@ -94,25 +94,27 @@ export default class Map {
       end: this.map.filterObjects('MovingPlatform', obj => obj.name === 'End'),
     };
 
-    this.movingPlatforms.start.forEach((element, index, array) => {
-      const start = element;
-      const end = this.movingPlatforms.end[index];
-      let duration = Config.FLOATING_PLATFORM_DEFAULT_TIME;
-      if (start.properties) {
-        // requires duration to always be first in phaser. object/array manipulation would be better to grab all objects with key name == 'duration'
-        duration = start.properties[0].value;
-      }
-      let imageKey;
-      if (start.properties) {
-        imageKey = start.properties[1].value ? '' : Config.FLOATING_PLATFORM_DEFAULT_IMAGE_KEY;
-      }
-      if (start && end) {
-        let dif = -(start.y - end.y);
-        this.platform = new MovingPlatform(this.Phaser, start.x, start.y, imageKey, {
-          isStatic: true
-        }, -(start.y - end.y), duration)
-      }
-    })
+    if (this.movingPlatforms.start) {
+      this.movingPlatforms.start.forEach((element, index, array) => {
+        const start = element;
+        const end = this.movingPlatforms.end[index];
+        let duration = Config.FLOATING_PLATFORM_DEFAULT_TIME;
+        if (start.properties) {
+          // requires duration to always be first in phaser. object/array manipulation would be better to grab all objects with key name == 'duration'
+          duration = start.properties[0].value;
+        }
+        let imageKey;
+        if (start.properties) {
+          imageKey = start.properties[1].value ? '' : Config.FLOATING_PLATFORM_DEFAULT_IMAGE_KEY;
+        }
+        if (start && end) {
+          let dif = -(start.y - end.y);
+          this.platform = new MovingPlatform(this.Phaser, start.x, start.y, imageKey, {
+            isStatic: true
+          }, -(start.y - end.y), duration)
+        }
+      })
+    }
 
     this.layers.background.setCollisionByProperty({ collides: true });
     this.layers.foreground.setCollisionByProperty({ collides: true });

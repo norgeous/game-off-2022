@@ -946,6 +946,17 @@
                  "id":7,
                  "name":"Start",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"PhaserImageKey",
+                         "type":"string",
+                         "value":""
+                        }, 
+                        {
+                         "name":"duration",
+                         "type":"int",
+                         "value":0
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":0,
@@ -1606,32 +1617,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":1410.51515151516,
-                 "y":2179.84848484849
-                }, 
-                {
-                 "class":"",
-                 "gid":84,
-                 "height":32,
-                 "id":4,
-                 "name":"zombie",
-                 "rotation":0,
-                 "visible":true,
-                 "width":32,
-                 "x":512,
-                 "y":1280
-                }, 
-                {
-                 "class":"",
-                 "gid":84,
-                 "height":32,
-                 "id":5,
-                 "name":"zombie",
-                 "rotation":0,
-                 "visible":true,
-                 "width":32,
-                 "x":1760,
-                 "y":1280
+                 "x":1946.8787878788,
+                 "y":1355.60606060606
                 }, 
                 {
                  "class":"",
@@ -1650,6 +1637,18 @@
                  "width":32,
                  "x":1815.39393939394,
                  "y":1360.39393939394
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":9,
+                 "name":"zombie",
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":2059.75757575758,
+                 "y":1323.39393939394
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1658,7 +1657,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":9,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
@@ -2644,7 +2643,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2653,7 +2652,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2662,7 +2661,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2725,7 +2724,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":true
+                         "value":false
                         }]
                 }, 
                 {
@@ -2734,7 +2733,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":true
+                         "value":false
                         }]
                 }, 
                 {
@@ -2806,7 +2805,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2815,7 +2814,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2824,7 +2823,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -2834,6 +2833,11 @@
                          "name":"collides",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"entityDamage",
+                         "type":"float",
+                         "value":1
                         }]
                 }, 
                 {
@@ -2843,6 +2847,11 @@
                          "name":"collides",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"entityDamage",
+                         "type":"float",
+                         "value":1
                         }]
                 }, 
                 {
@@ -3319,7 +3328,12 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":true
+                         "value":false
+                        }, 
+                        {
+                         "name":"entityDamage",
+                         "type":"float",
+                         "value":1
                         }]
                 }, 
                 {
@@ -3355,7 +3369,12 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":true
+                         "value":false
+                        }, 
+                        {
+                         "name":"entityDamage",
+                         "type":"float",
+                         "value":1
                         }]
                 }, 
                 {

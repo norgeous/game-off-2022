@@ -14,6 +14,7 @@ export default class AbstractScene extends Phaser.Scene {
     this.map = null;
     this.player = null;
     this.audio = new Audio(this);
+    this.spawner = null;
   }
 
   preload() {
@@ -46,7 +47,7 @@ export default class AbstractScene extends Phaser.Scene {
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);
 
     // load Tiled map
-    this.map?.create();
+    this.map.create();
 
     // load audio
     this.audio.create();
@@ -58,7 +59,7 @@ export default class AbstractScene extends Phaser.Scene {
       runChildUpdate: true,
     });
     if (Config.SPAWN_ENEMIES) {
-      setInterval(() => {
+      this.spawner = setInterval(() => {
         this.map.spawners.zombie.forEach(zombie => {
           this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
         });

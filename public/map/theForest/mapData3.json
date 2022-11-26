@@ -1567,7 +1567,7 @@
                  "gid":84,
                  "height":32,
                  "id":1,
-                 "name":"player",
+                 "name":"zombie",
                  "properties":[
                         {
                          "name":"loadLevel",
@@ -1577,7 +1577,7 @@
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":9076.63636363636,
+                 "x":8819.0606060606,
                  "y":1264.01515151515
                 }, 
                 {
@@ -1597,6 +1597,24 @@
                  "width":32,
                  "x":6682,
                  "y":2857
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":30,
+                 "name":"player",
+                 "properties":[
+                        {
+                         "name":"loadLevel",
+                         "type":"string",
+                         "value":"ForestArea4"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":9099.15151515152,
+                 "y":1290.06060606061
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1686,7 +1704,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":30,
+ "nextobjectid":31,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

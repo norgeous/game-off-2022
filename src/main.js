@@ -21,8 +21,8 @@ const config = {
     },
   },
   scene: [
-    Area3,
     Area1,
+    Area3,
     Area2,
     Area4,
     HelloWorldScene,

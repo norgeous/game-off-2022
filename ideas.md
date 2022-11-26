@@ -8,7 +8,6 @@
   - more tiles sets (perhaps forest > city > inside building)
   - introduce 1 zombie first, later hoards of zombies
   - doors
-- on-screen analog or d-pad and jump+fire buttons (for mobile)
 - post-processing + lighting (might be worth spending a day on?)
 - show keyboard bindings somewhere on screen (IMPORTANT)
 - settings menu?
@@ -48,7 +47,6 @@
 ## weapons
 
 - weapon sprites
-- firing up/down. directional shooting (8 way metal slug style?)
 - bullet spread
 - machine gun fire rate needs adjusting
 - sounds

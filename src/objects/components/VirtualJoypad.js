@@ -1,28 +1,79 @@
+import Phaser from 'phaser';
 import Joystick from '../overlays/Joystick';
 import Button from '../overlays/Button';
 
+// callback based on screen pad and joystick and keyboard handler
 export default class VirtualJoypad {
-  constructor(scene) {
+  constructor(
+    scene,
+    {
+      onUpdateDirection,
+      onPressJump,
+      onReleaseJump,
+      onPressFire,
+      onReleaseFire,
+      onPressSwitch,
+      onReleaseSwitch,
+    }) {
     this.scene = scene;
+    this.onUpdateDirection = onUpdateDirection;
 
+    // on screen joystick
     const joystick = new Joystick(scene);
     this.joystick = joystick.joystick; // the displayed stick
     this.joystickCursorKeys = joystick.joystickCursorKeys; // the cursor key data
+    this.joystick.on('update', () => this.changeDirection(), this);
 
-    this.joystick.on('update', () => {
-      console.log('got new joystick keys', this.joystickCursorKeys)
-    }, this);
-
-
+    // on screen buttons
     this.switchButton = new Button(scene, { text: '💱' });
     this.jumpButton = new Button(scene, { text: '🦘' });
     this.fireButton = new Button(scene, { text: '🔥' });
 
+    // set on screen positions of joystick and buttons
     this.reposition();
+
+    // both wasd and joystickCursorKeys share this format!
+    this.wasd = {
+      up: this.registerKeyboardEvents('W', () => this.changeDirection(), () => this.changeDirection()),
+      left: this.registerKeyboardEvents('A', () => this.changeDirection(), () => this.changeDirection()),
+      down: this.registerKeyboardEvents('S', () => this.changeDirection(), () => this.changeDirection()),
+      right: this.registerKeyboardEvents('D', () => this.changeDirection(), () => this.changeDirection()),
+    };
+
+    // keyboard jump, fire and switch
+    this.registerKeyboardEvents('SPACE', onPressJump, onReleaseJump);
+    this.registerKeyboardEvents('E', onPressFire, onReleaseFire);
+    this.registerKeyboardEvents('Q', onPressSwitch, onReleaseSwitch);
   }
 
   static preload(scene) {
     Joystick.preload(scene);
+  }
+
+  registerKeyboardEvents(keyName, onPress, onRelease) {
+    const key = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes[keyName])
+    key.on('down', () => onPress());
+    key.on('up', () => onRelease());
+    return key;
+  }
+
+  changeDirection() {
+    // something changed in joystickCursorKeys or wasd
+
+    // starting with 0,0
+    const direction = {
+      x: 0,
+      y: 0,
+    };
+
+    // add or minus 1 given the directional inputs
+    if (this.wasd.left.isDown || this.joystickCursorKeys.left.isDown) direction.x--;
+    if (this.wasd.right.isDown || this.joystickCursorKeys.right.isDown) direction.x++;
+    if (this.wasd.up.isDown || this.joystickCursorKeys.up.isDown) direction.y--;
+    if (this.wasd.down.isDown || this.joystickCursorKeys.down.isDown) direction.y++;
+
+    // send the direction out to the wider world
+    this.onUpdateDirection(direction);
   }
 
   reposition() {

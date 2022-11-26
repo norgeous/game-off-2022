@@ -72,7 +72,18 @@ export default class HelloWorldScene extends Phaser.Scene {
     // new player
     this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
 
-    this.joypad = new VirtualJoypad(this);
+    this.joypad = new VirtualJoypad(
+      this,
+      {
+        onUpdateDirection: dir => { console.log('main scene got direction', dir) },
+        onPressJump: () => {},
+        onReleaseJump: () => {},
+        onPressFire: () => {},
+        onReleaseFire: () => {},
+        onPressSwitch: () => {},
+        onReleaseSwitch: () => {},
+      },
+    );
 
     // camera
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);

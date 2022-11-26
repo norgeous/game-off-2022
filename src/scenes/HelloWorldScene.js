@@ -5,7 +5,8 @@ import Audio from '../objects/Audio';
 import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
 import MachineGun from '../objects/weapons/MachineGun';
 import Zombie from '../objects/characters/enemy/Zombie';
-import VirtualJoypad from '../objects/components/VirtualJoyPad';
+import VirtualJoypad from '../objects/components/VirtualJoypad';
+import Button from '../objects/overlays/Button';
 
 const MAX_ZOMBIES = 10;
 
@@ -36,6 +37,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     window.addEventListener('resize', () => {
       setTimeout(() => {
         this.scale.setGameSize(window.innerWidth / 3, window.innerHeight / 3);
+        this.joypad.reposition();
       }, 100);
     });
 
@@ -71,7 +73,6 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
 
     this.joypad = new VirtualJoypad(this);
-
 
     // camera
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);

@@ -1,21 +1,20 @@
-export default class VirtualJoypad {
+export default class Joystick {
   constructor(scene) {
-    this.scene = scene;
-
-    this.joyStick = this.scene.plugins.get('rexvirtualjoystickplugin').add(this, {
-      x: 50,
-      y: 250,
+    this.joystick = scene.plugins.get('rexvirtualjoystickplugin').add(this, {
+      x: 0,
+      y: 0,
       radius: 20,
-      base: this.scene.add.circle(0, 0, 20, 0x888888),
-      thumb: this.scene.add.circle(0, 0, 10, 0xcccccc),
+      base: scene.add.circle(0, 0, 20, 0x888888),
+      thumb: scene.add.circle(0, 0, 10, 0xcccccc),
       // dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
       // forceMin: 100,
       // enable: true
     })
       .setScrollFactor(0)
+      // .setDepth(1000)
       .on('update', this.dumpJoyStickState, this);
 
-    this.text = this.scene.add.text(0, 0, 'DEBUGTEXT', {
+    this.text = scene.add.text(0, 0, 'DEBUGTEXT', {
       font: '10px Arial',
       color: 'white',
     });
@@ -30,14 +29,14 @@ export default class VirtualJoypad {
   }
 
   dumpJoyStickState() {
-    var cursorKeys = this.joyStick.createCursorKeys();
+    var cursorKeys = this.joystick.createCursorKeys();
     var s = 'Key down: ';
     for (var name in cursorKeys) {
         if (cursorKeys[name].isDown) {
             s += `${name} `;
         }
     }
-    s += `Force: ${Math.floor(this.joyStick.force * 100) / 100}\nAngle: ${Math.floor(this.joyStick.angle * 100) / 100}`;
+    s += `Force: ${Math.floor(this.joystick.force * 100) / 100}\nAngle: ${Math.floor(this.joystick.angle * 100) / 100}`;
     s += '\nTimestamp:\n';
     for (var name in cursorKeys) {
         var key = cursorKeys[name];

@@ -1,6 +1,6 @@
 import {collisionCategories, collisionMaskEverything} from '../objects/enums/Collisions';
 import Sound from '../objects/enums/Sound';
-import MovingPlatform from "../objects/components/MovingPlatform.js";
+import MovingPlatform from '../objects/components/map/MovingPlatform';
 
 export default class Map {
   root = 'map';

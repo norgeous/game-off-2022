@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import Map from '../../map/Map';
 import AbstractScene from '../AbstractScene.js';
 import Sound from "../../objects/enums/Sound.js";
+import Config from "../../objects/Config.js";
 
 export default class Area1 extends AbstractScene {
   constructor() {
@@ -15,7 +16,9 @@ export default class Area1 extends AbstractScene {
 
   create() {
     super.create();
-    this.audio.playMusic(Sound.MusicKey);
+    if (Config.PLAY_MUSIC) {
+      this.audio.playMusic(Sound.MusicKey);
+    }
   }
 
   update(time, delta) {

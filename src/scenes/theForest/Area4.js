@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import Map from '../../map/Map';
-import Audio from '../../objects/Audio';
 import AbstractScene from "../AbstractScene.js";
 
 export default class Area4 extends AbstractScene {

@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 export default class Button extends Phaser.GameObjects.Container {
-  constructor(scene, { text, onClick, onClickRelease }) {
+  constructor(scene, { text, onClick = () => {}, onClickRelease = () => {}}) {
     super(scene, 0, 0);
 
     this.onClick = onClick;

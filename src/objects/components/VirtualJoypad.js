@@ -9,11 +9,9 @@ export default class VirtualJoypad {
     {
       onUpdateDirection,
       onPressJump,
-      onReleaseJump = () => {},
       onPressFire,
       onReleaseFire,
       onPressSwitch,
-      onReleaseSwitch = () => {},
     }) {
     this.scene = scene;
     this.onUpdateDirection = onUpdateDirection;
@@ -25,9 +23,9 @@ export default class VirtualJoypad {
     this.joystick.on('update', () => this.changeDirection(), this);
 
     // on screen buttons
-    this.jumpButton = new Button(scene, { text: '🦘', onClick: onPressJump, onClickRelease: onReleaseJump });
+    this.jumpButton = new Button(scene, { text: '🦘', onClick: onPressJump });
     this.fireButton = new Button(scene, { text: '🔥', onClick: onPressFire, onClickRelease: onReleaseFire });
-    this.switchButton = new Button(scene, { text: '💱', onClick: onPressSwitch, onClickRelease: onReleaseSwitch });
+    this.switchButton = new Button(scene, { text: '💱', onClick: onPressSwitch });
 
     // set on screen positions of joystick and buttons
     this.reposition();
@@ -41,9 +39,9 @@ export default class VirtualJoypad {
     };
 
     // keyboard jump, fire and switch events
-    this.registerKeyboardEvents('SPACE', onPressJump, onReleaseJump);
+    this.registerKeyboardEvents('SPACE', onPressJump);
     this.registerKeyboardEvents('E', onPressFire, onReleaseFire);
-    this.registerKeyboardEvents('Q', onPressSwitch, onReleaseSwitch);
+    this.registerKeyboardEvents('Q', onPressSwitch);
   }
 
   static preload(scene) {
@@ -52,8 +50,8 @@ export default class VirtualJoypad {
 
   registerKeyboardEvents(keyName, onPress, onRelease) {
     const key = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes[keyName])
-    key.on('down', () => onPress());
-    key.on('up', () => onRelease());
+    if (onPress) key.on('down', () => onPress());
+    if (onRelease) key.on('up', () => onRelease());
     return key;
   }
 

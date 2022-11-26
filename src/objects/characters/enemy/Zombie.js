@@ -15,7 +15,7 @@ export default class Zombie extends Entity {
         name: 'ZombieEntity', // this becomes this.name
         spriteSheetKey: SPRITESHEETKEY,
         animations: {
-          [EntityAnimations.Idle]:   { start: 18, end: 21, fps:  5 },
+          [EntityAnimations.Idle]:   { start: 18, end: 21, fps:  3 },
           [EntityAnimations.Death]:  { start:  6, end: 11, fps: 10, repeat: 0 },
           [EntityAnimations.Attack]: { start:  0, end:  5, fps: 15 },
           [EntityAnimations.Hurt]:   { start: 12, end: 13, fps: 10 },

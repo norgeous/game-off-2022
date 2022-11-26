@@ -13,8 +13,12 @@ export default class Button extends Phaser.GameObjects.Container {
       .on('pointerup', () => this.enterButtonHoverState());
     this.add(this.circle);
 
-    this.text = scene.add.text(0, 0, text, { color: '#0f0' })
-      .setOrigin(0.5);
+    this.text = scene.add.text(0, 0, text, {
+      color: '#0f0',
+      font: '12px Arial',
+      align: 'center',
+      fontWeight: 'bold',
+    }).setOrigin(0.5);
     this.add(this.text);
 
     this.setDepth(1000).setScrollFactor(0);
@@ -34,6 +38,7 @@ export default class Button extends Phaser.GameObjects.Container {
   }
 
   enterButtonActiveState() {
+    this.circle.setFillStyle(0xFF0000);
     this.text.setStyle({ color: '#f7f' });
   }
 }

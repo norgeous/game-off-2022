@@ -1,6 +1,6 @@
 export default class Config {
   // debug
-  static PLAY_MUSIC = false;
+  static PLAY_MUSIC = true;
   static PLAY_SFX = true;
   static SPAWN_ENEMIES = false;
   static DRAW_DEBUG = false;

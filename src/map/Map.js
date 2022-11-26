@@ -1,8 +1,5 @@
 import {collisionCategories, collisionMaskEverything} from '../objects/enums/Collisions';
 import Sound from '../objects/enums/Sound';
-import Config from '../objects/Config';
-import Direction from "../objects/enums/Direction.js";
-import * as phaser from "phaser";
 
 export default class Map {
   root = 'map';
@@ -28,7 +25,6 @@ export default class Map {
     this.parallax = {
       backgroundCount: backgroundCount,
     }
-    this.playMusicOnStart = true;
   }
 
   // Must be called inside a scene's preLoad()
@@ -83,15 +79,12 @@ export default class Map {
       player: this.map.findObject('Spawner', obj => obj.name === 'player'),
       zombie: this.map.filterObjects('Spawner', obj => obj.name === 'zombie'),
     };
-
-    let gameObject = this.map.createFromObjects('Spawner', {
+    this.door = this.map.createFromObjects('Spawner', {
       name: 'exit'
     });
-    gameObject = this.Phaser.matter.add.gameObject(gameObject[0], {isStatic: true});
-    gameObject.setCollisionCategory(collisionCategories.door);
-    gameObject.setCollidesWith(collisionCategories.player);
-
-    //this.Phaser.scene.add(this.spawners.exit[0]);
+    this.door = this.Phaser.matter.add.gameObject(this.door[0], {isStatic: true});
+    this.door.setCollisionCategory(collisionCategories.door);
+    this.door.setCollidesWith(collisionCategories.player);
 
     // base physics object
 
@@ -133,9 +126,5 @@ export default class Map {
 
     this.height = this.layers.background.height;
     this.width = this.layers.background.width;
-
-    if (Config.PLAY_MUSIC) {
-      this.Phaser.sound.play(Sound.MusicKey);
-    }
   }
 }

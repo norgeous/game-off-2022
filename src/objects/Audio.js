@@ -1,15 +1,15 @@
 import Sound from './enums/Sound';
 
 export default class Audio  {
-  constructor(scene) {
 
+  constructor(scene) {
     this.scene = scene;
     this.music = {};
     this.sfx = {};
 
     this.config = {
       music: {
-        volume: 0.01,
+        volume: 0.6,
       },
       sfx: {
         volume: 1,

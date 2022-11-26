@@ -40,22 +40,14 @@ export default class PlayerEntity extends Entity {
 
 
     this.hitbox.onCollideCallback = data => {
-
-      if (data.bodyA.collisionFilter.category === collisionCategories.door) {
+      if (data.bodyA.collisionFilter.category === collisionCategories.door || data.bodyB.collisionFilter.category === collisionCategories.door) {
         if (this.scene.cameras.main.fadeEffect.isRunning) return;
-        let nextMap = data.bodyA.gameObject.data.list.loadLevel;
-        console.log(`loading map: ${nextMap}`);
+        const nextMap = data.bodyA.gameObject.data.list.loadLevel;
         this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
+          this.scene.scene.remove();
           this.scene.scene.launch(nextMap);
         });
       }
-
-      if (data.bodyB.collisionFilter.category === collisionCategories.door) {
-
-      }
-      // environmental / fall damage
-      const { depth } = data.collision;
-      if (depth > 5) this.takeDamage(depth);
     };
 
 

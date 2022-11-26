@@ -3,6 +3,7 @@ import HealthBar from '../overlays/HealthBar';
 import EntityAnimations from '../enums/EntityAnimations';
 import Direction from '../enums/Direction';
 import { collisionCategories } from '../enums/Collisions';
+import Events from "../enums/Events.js";
 
 const keepUprightStratergies = {
   NONE: 'NONE',

@@ -36,7 +36,7 @@ export default class PlayerEntity extends Entity {
 
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
-    this.playerInput = new PlayerInput(scene);
+    this.playerInput = new PlayerInput(scene, this.sensorData);
     this.keys = this.playerInput.keys;
     this.playerController = { direction: Direction.Right };
     

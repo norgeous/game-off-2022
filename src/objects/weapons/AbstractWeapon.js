@@ -57,14 +57,15 @@ export default class AbstractWeapon {
   }
 
   calculateGunDirection() {
-    const pid = this.entity.playerInput.direction;
-    const sd = this.entity.sensorData;
+    // const pid = this.entity.playerInput.direction;
+    // const sd = this.entity.sensorData;
 
-    this.gunDirection.x = pid.x;
-    this.gunDirection.y = pid.y;
+    // this.gunDirection.x = pid.x;
+    // this.gunDirection.y = pid.y;
 
-    // if on floor, prevent pointing downwards
-    if (this.gunDirection.y === 1 && sd.bottom) this.gunDirection.y = 0;
+    // // if on floor, prevent pointing downwards
+    // if (this.gunDirection.y === 1 && sd.bottom) this.gunDirection.y = 0;
+    console.log(this.entity.playerInput.direction);
   }
 
   pullTrigger() {

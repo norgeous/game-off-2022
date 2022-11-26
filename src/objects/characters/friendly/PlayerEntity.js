@@ -41,6 +41,7 @@ export default class PlayerEntity extends Entity {
 
     // this does keyboard and on screen dpad and buttons
     this.joypadDirection = { x: 0, y: 0 };
+    this.firing = false;
     this.joypad = new VirtualJoypad(
       scene,
       {
@@ -48,8 +49,8 @@ export default class PlayerEntity extends Entity {
         onPressJump: () => {
           if (this.sensorData.bottom) this.gameObject.setVelocityY(-10);
         },
-        onPressFire: () => this.weapons.currentWeapon.pullTrigger(),
-        onReleaseFire: () => this.weapons.currentWeapon.releaseTrigger(),
+        onPressFire: () => this.firing = true,
+        onReleaseFire: () => this.firing = false,
         onPressSwitch: () => this.weapons.next(),
       },
     );    
@@ -66,6 +67,10 @@ export default class PlayerEntity extends Entity {
     super.update();
 
     if (!this.gameObject.body) return;
+
+    // fire
+    if (this.firing) this.weapons.currentWeapon.pullTrigger();
+    else this.weapons.currentWeapon.releaseTrigger();
 
     // player left / right movement
     if (this.joypadDirection.x) this.gameObject.setVelocityX(this.joypadDirection.x * 2.5);

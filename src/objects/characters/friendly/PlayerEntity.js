@@ -1,10 +1,8 @@
 import Entity from '../Entity';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
-
 import VirtualJoypad from '../../components/VirtualJoypad';
 import WeaponInventory from '../../components/WeaponInventory';
-import Direction from '../../enums/Direction';
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -31,7 +29,7 @@ export default class PlayerEntity extends Entity {
         },
         enableKeepUpright: true,
         keepUprightStratergy: 'INSTANT',
-        direction: Direction.Right,
+        facing: 1,
       },
     );
 
@@ -45,7 +43,11 @@ export default class PlayerEntity extends Entity {
     this.joypad = new VirtualJoypad(
       scene,
       {
-        onUpdateDirection: direction => this.joypadDirection = direction,
+        onUpdateDirection: newJoypadDirection => {
+          console.log('onUpdateDirection');
+          this.joypadDirection = newJoypadDirection;
+          if (newJoypadDirection.x) this.facing = newJoypadDirection.x;
+        },
         onPressJump: () => {
           if (this.sensorData.bottom) this.gameObject.setVelocityY(-10);
         },

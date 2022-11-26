@@ -57,27 +57,29 @@ export default class AbstractWeapon {
   }
 
   calculateGunDirection() {
-    // const pid = this.entity.playerInput.direction;
-    // const sd = this.entity.sensorData;
+    const { joypadDirection, sensorData, facing } = this.entity;
 
-    // this.gunDirection.x = pid.x;
-    // this.gunDirection.y = pid.y;
+    // intially set the gunDirection as joypad direction
+    this.gunDirection = joypadDirection;
 
-    // // if on floor, prevent pointing downwards
-    // if (this.gunDirection.y === 1 && sd.bottom) this.gunDirection.y = 0;
-    console.log(this.entity.joypadDirection);
+    // if left or right is NOT pressed, substitue in facing direction
+    if (this.gunDirection.x === 0) this.gunDirection.x = facing;
+
+    // if on floor, prevent pointing downwards
+    if (this.gunDirection.y === 1 && sensorData.bottom) this.gunDirection.y = 0;
   }
 
   pullTrigger() {
     if (this.bulletsFiredThisPull >= maxBulletsPerPull[this.fireType]) return;
 
-    // try to create bullet
     this.calculateGunDirection();
+  
+    // try to create bullet
     const bullet = this.bulletGroup.create(
       this.entity.x + this.gunSprite.x,
       this.entity.y + this.gunSprite.y,
       {
-        direction: this.entity.joypadDirection,
+        direction: this.gunDirection,
       },
     );
     

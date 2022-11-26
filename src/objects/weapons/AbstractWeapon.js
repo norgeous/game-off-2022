@@ -62,11 +62,11 @@ export default class AbstractWeapon {
     // intially set the gunDirection as joypad direction
     this.gunDirection = { ...joypadDirection };
 
-    // if left or right is NOT pressed, substitue in facing direction
-    if (this.gunDirection.x === 0) this.gunDirection.x = facing;
-
     // if on floor, prevent pointing downwards
     if (this.gunDirection.y === 1 && sensorData.bottom) this.gunDirection.y = 0;
+
+    // if no button pressed, substitue in facing direction
+    if (this.gunDirection.x === 0 && this.gunDirection.y === 0) this.gunDirection.x = facing;
   }
 
   pullTrigger() {

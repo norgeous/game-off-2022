@@ -36,7 +36,7 @@ export default class Joystick {
             s += `${name} `;
         }
     }
-    s += `Force: ${Math.floor(this.joystick.force * 100) / 100}\nAngle: ${Math.floor(this.joystick.angle * 100) / 100}`;
+    s += `\nForce: ${Math.floor(this.joystick.force * 100) / 100}\nAngle: ${Math.floor(this.joystick.angle * 100) / 100}`;
     s += '\nTimestamp:\n';
     for (var name in cursorKeys) {
         var key = cursorKeys[name];

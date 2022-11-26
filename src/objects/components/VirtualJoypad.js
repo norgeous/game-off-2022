@@ -5,7 +5,15 @@ export default class VirtualJoypad {
   constructor(scene) {
     this.scene = scene;
 
-    this.joystick = new Joystick(scene);
+    const joystick = new Joystick(scene);
+    this.joystick = joystick.joystick; // the displayed stick
+    this.joystickCursorKeys = joystick.joystickCursorKeys; // the cursor key data
+
+    this.joystick.on('update', () => {
+      console.log('got new joystick keys', this.joystickCursorKeys)
+    }, this);
+
+
     this.switchButton = new Button(scene, { text: '💱' });
     this.jumpButton = new Button(scene, { text: '🦘' });
     this.fireButton = new Button(scene, { text: '🔥' });
@@ -19,8 +27,8 @@ export default class VirtualJoypad {
 
   reposition() {
     const { width, height } = this.scene.game.scale;
-    this.joystick.joystick.x = 30;
-    this.joystick.joystick.y = height - 30;
+    this.joystick.x = 30;
+    this.joystick.y = height - 30;
 
     this.switchButton.x = width - 30;
     this.switchButton.y = height - 60;

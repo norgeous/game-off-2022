@@ -10,6 +10,7 @@ const directionTocraftpixArmFrame = d => ({
   '0:1': 0, // down
   '1:1': 1, // down right
   '1:0': 2, // right
+  '0:0': 2, // right
   '1:-1': 3, // up right
   '0:-1': 4, // up
 })[`${Math.abs(d.x)}:${d.y}`];
@@ -43,7 +44,6 @@ export default class PlayerEntity extends Entity {
 
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
-
     // arm sprite
     this.armSprite = this.scene.add.sprite(
       6, -5, // offset to player center
@@ -52,8 +52,6 @@ export default class PlayerEntity extends Entity {
     );
     this.add(this.armSprite);
     this.sendToBack(this.armSprite); // sets z-index
-
-
 
     this.weapons = new WeaponInventory(scene, this);
 

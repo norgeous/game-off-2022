@@ -144,6 +144,10 @@ export default class PlayerEntity extends Entity {
     // player left / right movement
     if (this.joypadDirection.x) this.gameObject.setVelocityX(this.joypadDirection.x * 2.5);
 
+    // move away from anything in left / right sensor (prevent wall sticking)
+    if (this.sensorData.left) { this.gameObject.setVelocityX(0.1); }
+    if (this.sensorData.right) { this.gameObject.setVelocityX(-0.1); }
+
     // ladder collisions
     if (this.body.velocity.y < -4 || this.joypadDirection.y > 0) {
       this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders

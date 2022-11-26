@@ -10,4 +10,7 @@ export default class Config {
 
   // Scene
   static SCENE_TRANSITION_TIME_MS = 1000;
+
+  static FLOATING_PLATFORM_DEFAULT_TIME = 8000;
+  static FLOATING_PLATFORM_DEFAULT_IMAGE_KEY = 'floatingPlatform'
 }

@@ -1,6 +1,7 @@
 import {collisionCategories, collisionMaskEverything} from '../objects/enums/Collisions';
 import Sound from '../objects/enums/Sound';
-import MovingPlatform from '../objects/components/map/MovingPlatform';
+import MovingPlatform from "../objects/components/map/MovingPlatform.js";
+import Config from "../objects/Config.js";
 
 export default class Map {
   root = 'map';
@@ -87,26 +88,31 @@ export default class Map {
     this.door.setCollisionCategory(collisionCategories.door);
     this.door.setCollidesWith(collisionCategories.player);
 
-
     // moving platforms
     this.movingPlatforms = {
-      start: this.map.findObject('MovingPlatform', obj => obj.name === 'Start'),
-      end: this.map.findObject('MovingPlatform', obj => obj.name === 'End'),
+      start: this.map.filterObjects('MovingPlatform', obj => obj.name === 'Start'),
+      end: this.map.filterObjects('MovingPlatform', obj => obj.name === 'End'),
     };
-    if (this.movingPlatforms.start) {
-      let dif = -(this.movingPlatforms.start.y - this.movingPlatforms.end.y);
-      this.platform = new MovingPlatform(this.Phaser, this.movingPlatforms.start.x, this.movingPlatforms.start.y, 'floatingPlatform', {
-        isStatic: true
-      })
-      this.platform.moveVertically(dif, 8000);
-    }
 
-
-  //  this.obj = this.map.createFromObjects('MovingPlatform', {  name: 'Start'});
-    //this.obj = this.Phaser.matter.add.gameObject(this.obj[0], {isStatic: true});
-  //  this.obj.setCollisionCategory(collisionCategories.movingPlatforms);
-   // this.obj.setCollidesWith(collisionCategories.player);
-    // base physics object
+    this.movingPlatforms.start.forEach((element, index, array) => {
+      const start = element;
+      const end = this.movingPlatforms.end[index];
+      let duration = Config.FLOATING_PLATFORM_DEFAULT_TIME;
+      if (start.properties) {
+        // requires duration to always be first in phaser. object/array manipulation would be better to grab all objects with key name == 'duration'
+        duration = start.properties[0].value;
+      }
+      let imageKey;
+      if (start.properties) {
+        imageKey = start.properties[1].value ? '' : Config.FLOATING_PLATFORM_DEFAULT_IMAGE_KEY;
+      }
+      if (start && end) {
+        let dif = -(start.y - end.y);
+        this.platform = new MovingPlatform(this.Phaser, start.x, start.y, imageKey, {
+          isStatic: true
+        }, -(start.y - end.y), duration)
+      }
+    })
 
     this.layers.background.setCollisionByProperty({ collides: true });
     this.layers.foreground.setCollisionByProperty({ collides: true });

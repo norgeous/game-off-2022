@@ -48,11 +48,8 @@ export default class PlayerEntity extends Entity {
           this.scene.scene.launch(nextMap);
         });
       }
-
-      if (data.bodyA.collisionFilter.category === collisionCategories.movingPlatforms || data.bodyB.collisionFilter.category === collisionCategories.movingPlatforms) {
-        this.gameObject.setVelocityY(1);
-      }
     };
+
 
     this.playerInput = new PlayerInput(scene);
     this.keys = this.playerInput.keys;

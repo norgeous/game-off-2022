@@ -43,6 +43,7 @@ export default class PlayerEntity extends Entity {
 
     this.weapons = new WeaponInventory(scene, this);
 
+    // this does keyboard and on screen dpad and buttons
     this.joypad = new VirtualJoypad(
       scene,
       {
@@ -50,11 +51,9 @@ export default class PlayerEntity extends Entity {
         onPressJump: () => {
           if (this.sensorData.bottom) this.gameObject.setVelocityY(-10);
         },
-        // onReleaseJump: () => { console.log('jump release') },
-        onPressFire: () => { console.log('fire') },
-        onReleaseFire: () => { console.log('fire release') },
+        onPressFire: () => this.weapons.currentWeapon.pullTrigger(),
+        onReleaseFire: () => this.weapons.currentWeapon.releaseTrigger(),
         onPressSwitch: () => this.weapons.next(),
-        // onReleaseSwitch: () => { console.log('switch w release') },
       },
     );
     

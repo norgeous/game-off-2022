@@ -7,12 +7,51 @@ import WeaponInventory from '../../components/WeaponInventory';
 const SPRITESHEETKEY = 'playerSprites';
 
 const directionTocraftpixArmFrame = d => ({
-  '0:1': 0, // down
-  '1:1': 1, // down right
-  '1:0': 2, // right
-  '0:0': 2, // right
-  '1:-1': 3, // up right
-  '0:-1': 4, // up
+  // down
+  '0:1': {
+    arm: 0,
+    gunX: 11,
+    gunY: 6,
+    gunR: Math.PI/2,
+  },
+  
+  // down right
+  '1:1': {
+    arm: 1,
+    gunX: 16,
+    gunY: 0,
+    gunR: Math.PI/4,
+  },
+  
+  // right
+  '1:0': {
+    arm: 2,
+    gunX: 17,
+    gunY: -9,
+    gunR: 0,
+  },
+  '0:0': {
+    arm: 2,
+    gunX: 17,
+    gunY: -9,
+    gunR: 0,
+  },
+  
+  // up right
+  '1:-1': {
+    arm: 3,
+    gunX: 11,
+    gunY: -15,
+    gunR: -Math.PI/4,
+  },
+  
+  // up
+  '0:-1': {
+    arm: 4,
+    gunX: 4,
+    gunY: -16,
+    gunR: -Math.PI/2,
+  },
 })[`${Math.abs(d.x)}:${d.y}`];
 
 export default class PlayerEntity extends Entity {
@@ -39,6 +78,7 @@ export default class PlayerEntity extends Entity {
         enableKeepUpright: true,
         keepUprightStratergy: 'INSTANT',
         facing: 1,
+        health: 500,
       },
     );
 
@@ -63,7 +103,15 @@ export default class PlayerEntity extends Entity {
       {
         onUpdateDirection: newJoypadDirection => {
           this.joypadDirection = newJoypadDirection;
-          this.armSprite.setFrame(directionTocraftpixArmFrame(newJoypadDirection));
+
+          // reposition arm
+          const { arm, gunX, gunY, gunR } = directionTocraftpixArmFrame(newJoypadDirection);
+          this.armSprite.setFrame(arm);
+
+          // reposition gun
+          this.weapons.currentWeapon.gunSprite.x = gunX;
+          this.weapons.currentWeapon.gunSprite.y = gunY;
+          this.weapons.currentWeapon.gunSprite.rotation = gunR;
 
           if (newJoypadDirection.x) this.facing = newJoypadDirection.x;
         },

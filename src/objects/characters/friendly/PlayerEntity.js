@@ -1,8 +1,7 @@
 import Entity from '../Entity';
 import EntityAnimations from '../../enums/EntityAnimations';
-import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
+import { collisionCategories } from '../../enums/Collisions';
 
-// import PlayerInput from '../../components/PlayerInput';
 import VirtualJoypad from '../../components/VirtualJoypad';
 import WeaponInventory from '../../components/WeaponInventory';
 import Direction from '../../enums/Direction';
@@ -42,12 +41,15 @@ export default class PlayerEntity extends Entity {
     // this.keys = this.playerInput.keys;
     // this.playerController = { direction: Direction.Right };
 
-
     this.joypad = new VirtualJoypad(
       scene,
       {
         onUpdateDirection: dir => { console.log('got direction', dir) },
-        onPressJump: () => { console.log('jump') },
+        onPressJump: () => {
+          if (this.sensorData.bottom) {
+            this.gameObject.setVelocityY(-10);
+          }
+        },
         onReleaseJump: () => { console.log('jump release') },
         onPressFire: () => { console.log('fire') },
         onReleaseFire: () => { console.log('fire release') },
@@ -55,9 +57,6 @@ export default class PlayerEntity extends Entity {
         onReleaseSwitch: () => { console.log('switch w release') },
       },
     );
-
-
-
     
     this.weapons = new WeaponInventory(scene, this);
     this.scene.events.on('cycleWeapon', () => this.weapons.next());

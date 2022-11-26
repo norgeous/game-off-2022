@@ -1,7 +1,9 @@
+import Entity from '../Entity';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
-import Entity from '../Entity.js';
-import PlayerInput from '../../components/PlayerInput';
+
+// import PlayerInput from '../../components/PlayerInput';
+import VirtualJoypad from '../../components/VirtualJoypad';
 import WeaponInventory from '../../components/WeaponInventory';
 import Direction from '../../enums/Direction';
 
@@ -36,9 +38,26 @@ export default class PlayerEntity extends Entity {
 
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
-    this.playerInput = new PlayerInput(scene, this.sensorData);
-    this.keys = this.playerInput.keys;
-    this.playerController = { direction: Direction.Right };
+    // this.playerInput = new PlayerInput(scene, this.sensorData);
+    // this.keys = this.playerInput.keys;
+    // this.playerController = { direction: Direction.Right };
+
+
+    this.joypad = new VirtualJoypad(
+      scene,
+      {
+        onUpdateDirection: dir => { console.log('got direction', dir) },
+        onPressJump: () => { console.log('jump') },
+        onReleaseJump: () => { console.log('jump release') },
+        onPressFire: () => { console.log('fire') },
+        onReleaseFire: () => { console.log('fire release') },
+        onPressSwitch: () => { console.log('switch w') },
+        onReleaseSwitch: () => { console.log('switch w release') },
+      },
+    );
+
+
+
     
     this.weapons = new WeaponInventory(scene, this);
     this.scene.events.on('cycleWeapon', () => this.weapons.next());
@@ -47,31 +66,38 @@ export default class PlayerEntity extends Entity {
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
     scene.load.spritesheet('hands', 'sprites/craftpix.net/biker_hands.png', { frameWidth: 32, frameHeight: 32 });
+    VirtualJoypad.preload(scene);
     WeaponInventory.preload(scene);
   }
 
   update() {
     super.update();
-    this.playerInput.update();
+    // this.playerInput.update();
 
     if (!this.gameObject.body) return;
 
-    if (this.keys.leftKey.isDown) this.direction = Direction.Left;
-    if (this.keys.rightKey.isDown) this.direction = Direction.Right;
+    // if (this.keys.leftKey.isDown) this.direction = Direction.Left;
+    // if (this.keys.rightKey.isDown) this.direction = Direction.Right;
 
-    if (this.keys.leftKey.isDown && !this.sensorData.left) this.gameObject.setVelocityX(-2.5);
-    if (this.keys.rightKey.isDown && !this.sensorData.right) this.gameObject.setVelocityX(2.5);
-    if (this.keys.jumpKey.isDown && this.sensorData.bottom) this.gameObject.setVelocityY(-10);
+    // if (this.keys.leftKey.isDown && !this.sensorData.left) this.gameObject.setVelocityX(-2.5);
+    // if (this.keys.rightKey.isDown && !this.sensorData.right) this.gameObject.setVelocityX(2.5);
+    // if (this.keys.jumpKey.isDown && this.sensorData.bottom) this.gameObject.setVelocityY(-10);
 
-    if (this.keys.fireKey.isDown) this.weapons.currentWeapon.pullTrigger();
-    if (!this.keys.fireKey.isDown) this.weapons.currentWeapon.releaseTrigger();
+    // if (this.keys.fireKey.isDown) this.weapons.currentWeapon.pullTrigger();
+    // if (!this.keys.fireKey.isDown) this.weapons.currentWeapon.releaseTrigger();
+
+
+
+
+
+
 
     // ladder collisions
-    if (this.body.velocity.y < -4 || this.keys.downKey.isDown) {
-      this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
-    } else {
-      this.gameObject.setCollidesWith(collisionMaskEverything);
-    }
+    // if (this.body.velocity.y < -4 || this.keys.downKey.isDown) {
+    //   this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
+    // } else {
+    //   this.gameObject.setCollidesWith(collisionMaskEverything);
+    // }
     
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);

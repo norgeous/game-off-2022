@@ -40,7 +40,7 @@ export default class VirtualJoypad {
 
     // keyboard jump, fire and switch events
     this.registerKeyboardEvents('SPACE', onPressJump);
-    this.registerKeyboardEvents('E', onPressFire, onReleaseFire);
+    this.registerKeyboardEvents('L', onPressFire, onReleaseFire);
     this.registerKeyboardEvents('Q', onPressSwitch);
   }
 

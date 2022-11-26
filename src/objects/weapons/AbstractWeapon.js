@@ -77,7 +77,7 @@ export default class AbstractWeapon {
       this.entity.x + this.gunSprite.x,
       this.entity.y + this.gunSprite.y,
       {
-        direction: this.gunDirection,
+        direction: this.entity.joypadDirection,
       },
     );
     

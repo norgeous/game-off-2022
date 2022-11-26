@@ -8,7 +8,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
     scene,
     x, y,
     {
-      direction = Direction.Right,
+      direction = { x: 0, y: 0 },
       spriteSheetKey,
       matterBodyConfig = {},
       exitSpeed = 10,
@@ -47,9 +47,8 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
 
     // apply exit speed and angle to velocity
     // console.log(exitSpeed, direction, bulletSpread);
-    
     // const deg45multiplier = 0.7071;
-    this.setVelocity(exitSpeed, 0);
+    this.setVelocity(direction.x * exitSpeed, direction.y * exitSpeed);
  
     this.setCollisionCategory(collisionCategories.enemyDamage);
  

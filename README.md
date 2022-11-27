@@ -2,8 +2,6 @@
 
 play: https://norgeous.github.io/game-off-2022/
 
-boilerplate starter https://github.com/ourcade/phaser3-vite-template (thanks @supertommy)
-
 ## development
 
 ```
@@ -19,7 +17,21 @@ https://docs.google.com/document/d/1M7tJdqYT99asYw-pYen-Ex6KVqui2znl7mGJBoGQ4EQ/
 
 https://trello.com/b/FtSSrcBy/zombie-vampire-survivors-game
 
+
+## github pages deployment notes
+
+1. switch to `deploy` branch
+1. update `deploy` branch with `main`
+1. run `npm run build`
+1. delete the `docs` folder
+1. rename `dist` to `docs`
+1. modify `docs/index.html` - remove the `/` from start of `/assets/` url
+1. commit to `deploy` and push
+
+
 ## tutorials used
+
+boilerplate starter https://github.com/ourcade/phaser3-vite-template (thanks @supertommy)
 
 https://blog.ourcade.co/posts/2020/phaser-3-noob-guide-loading-tiled-tilemaps/
 

@@ -15,6 +15,7 @@ export default class AbstractScene extends Phaser.Scene {
     this.player = null;
     this.audio = new Audio(this);
     this.spawner = null;
+    this.startText = 'Abstract Scene';
   }
 
   preload() {
@@ -77,6 +78,7 @@ export default class AbstractScene extends Phaser.Scene {
     // camera
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
     this.smoothMoveCameraTowards(this.player, 0); // snap to player
+    this.displayMapName();
   }
 
   smoothMoveCameraTowards (target, smoothFactor = 0) {
@@ -84,6 +86,35 @@ export default class AbstractScene extends Phaser.Scene {
     const cam = this.cameras.main;
     cam.scrollX = smoothFactor * cam.scrollX + (1 - smoothFactor) * (target.x - cam.width * 0.5);
     cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (target.y - cam.height * 0.5);
+  }
+
+  displayMapName() {
+    const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+    const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+    this.text = this.add.text(screenCenterX, screenCenterY, this.startText, {
+      fixedWidth: this.cameras.main.width,
+      fontSize: '20px',
+      padding: { x: 20, y: 10 },
+      backgroundColor: '#ffffff88',
+      color: '#00000099',
+      align: 'center',
+    }).setOrigin(0.5)
+      .setScrollFactor(0)
+      .setDepth(100);
+    this.text.alpha = 0.1;
+    this.tweens.addCounter({
+      from: 1,
+      to: 0,
+      duration: Config.DISPLAY_MAP_NAME_TIME_MS,
+      ease: Phaser.Math.Easing.Sine.InOut,
+      repeat: 0,
+      onUpdate: (tween, target) => {
+        this.text.alpha = target.value;
+      },
+      onComplete: () => {
+        this.text.destroy();
+      }
+    })
   }
 
   update(time, delta) {

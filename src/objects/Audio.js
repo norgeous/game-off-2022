@@ -12,7 +12,7 @@ export default class Audio  {
         volume: 0.6,
       },
       sfx: {
-        volume: 1,
+        volume: 0.4,
       },
     }
   }

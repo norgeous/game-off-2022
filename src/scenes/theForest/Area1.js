@@ -7,6 +7,7 @@ import Config from "../../objects/Config.js";
 export default class Area1 extends AbstractScene {
   constructor() {
     super('forest-area1')
+    this.startText = 'The Forest - Area 1';
     this.map = new Map(this, 'theForest', 'tileset_extruded.png', 'mapData.json', 8);
   }
 

@@ -5,6 +5,7 @@ import AbstractScene from '../AbstractScene';
 export default class Area3 extends AbstractScene {
   constructor() {
     super('forest-area3')
+    this.startText = 'The Forest - Area 3';
     this.map = new Map(this, 'theForest', 'tileset_extruded.png', 'mapData3.json', 8);
   }
 

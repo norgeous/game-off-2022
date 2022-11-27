@@ -89,7 +89,6 @@
 
 ### for Daniel (urgent)
 
-- deployment to github pages
 - zombies attack 
 - start and game over screen
 - improve one way platforms

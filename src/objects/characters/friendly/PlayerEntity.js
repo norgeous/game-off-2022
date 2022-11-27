@@ -162,6 +162,25 @@ export default class PlayerEntity extends Entity {
     this.weapons.currentWeapon.gunSprite.rotation = gunR;
   }
 
+  flipXArmSprite(shouldFlip) {
+    // super.flipXSprite(shouldFlip);
+
+    this.armSprite.flipX = shouldFlip;
+    this.weapons.currentWeapon.gunSprite.flipX = shouldFlip;
+
+    const { gunX, gunR } = directionTocraftpixArmFrame(this.gunDirection);
+
+    if (shouldFlip) {
+      this.armSprite.x = -6;
+      this.weapons.currentWeapon.gunSprite.x = -gunX;
+      this.weapons.currentWeapon.gunSprite.rotation = -gunR;
+    } else {
+      this.armSprite.x = 6;
+      this.weapons.currentWeapon.gunSprite.x = gunX;
+      this.weapons.currentWeapon.gunSprite.rotation = gunR;
+    }
+  }
+
   update() {
     super.update();
 
@@ -173,6 +192,9 @@ export default class PlayerEntity extends Entity {
 
     this.calculateVelocityX();
     this.calculateGunDirection();
+    
+    // flip arm sprite to match facing
+    this.flipXArmSprite(this.facing === -1);
 
     // ladder collisions
     if (this.body.velocity.y < -4 || this.joypadDirection.y > 0) {

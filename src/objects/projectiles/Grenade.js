@@ -4,11 +4,12 @@ import { collisionCategories } from '../enums/Collisions';
 const SPRITESHEETKEY = 'orb-green';
 
 export default class Grenade extends AbstractProjectile {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, { direction }) {
     super(
       scene,
       x, y,
       {
+        direction,
         spriteSheetKey: SPRITESHEETKEY,
         lifespan: 1_000,
         minDestroySpeed: 0.1,

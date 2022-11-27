@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
-import Direction from '../../enums/Direction';
 
 const SPRITESHEETKEY = 'zombieSpriteSheet';
 
@@ -15,7 +14,7 @@ export default class Zombie extends Entity {
         name: 'ZombieEntity', // this becomes this.name
         spriteSheetKey: SPRITESHEETKEY,
         animations: {
-          [EntityAnimations.Idle]:   { start: 18, end: 21, fps:  5 },
+          [EntityAnimations.Idle]:   { start: 18, end: 21, fps:  2 },
           [EntityAnimations.Death]:  { start:  6, end: 11, fps: 10, repeat: 0 },
           [EntityAnimations.Attack]: { start:  0, end:  5, fps: 15 },
           [EntityAnimations.Hurt]:   { start: 12, end: 13, fps: 10 },
@@ -36,8 +35,6 @@ export default class Zombie extends Entity {
 
     this.aggravated = false;
     
-    this.flipXSprite(Math.random() > 0.5); // initial face left / right randomly
-
     // circle of hearing debug
     this.circleOfHearing = scene.add.circle(x, y, 200);
     this.circleOfHearing.setStrokeStyle(1, 0x00FF00);
@@ -79,8 +76,8 @@ export default class Zombie extends Entity {
     this.circleOfHearing.y = this.y;
     this.circleOfHearing.radius = hearingRange;
 
-    if (this.aggravated && player.x > this.x) this.direction = Direction.Right;
-    if (this.aggravated && player.x < this.x) this.direction = Direction.Left;
+    if (this.aggravated && player.x > this.x) this.facing = 1;
+    if (this.aggravated && player.x < this.x) this.facing = -1;
 
     // animations
     if (isAlive) {

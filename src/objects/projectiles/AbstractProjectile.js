@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
+import Direction from '../enums/Direction';
 import Explosion from './Explosion';
 
 export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
@@ -7,12 +8,11 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
     scene,
     x, y,
     {
+      direction = { x: 0, y: 0 },
       spriteSheetKey,
       matterBodyConfig = {},
       exitSpeed = 10,
-      exitAngle = 0,
       bulletSpread = (2 * Math.PI) / 20,
-      // damage = 10,
       lifespan = 1000,
       minDestroySpeed = 4,
       isExplosive = true,
@@ -34,13 +34,10 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
         restitution: 0.99,
         frictionAir: 0,
         ignoreGravity: true,
-        // mass: .01,
         ...matterBodyConfig,
       },
     );
     this.scene = scene;
-    // this.damage = damage;
-    // this.body.damage = damage;
     this.minDestroySpeed = minDestroySpeed;
     this.enableLockRotationToMovementVector = enableLockRotationToMovementVector;
     this.isExplosive = isExplosive;
@@ -49,8 +46,9 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
     this.explosionDamage = explosionDamage;
 
     // apply exit speed and angle to velocity
-    console.log(exitSpeed, exitAngle, bulletSpread);
-    this.setVelocity(exitSpeed, 0);
+    // console.log(exitSpeed, direction, bulletSpread);
+    // const deg45multiplier = 0.7071;
+    this.setVelocity(direction.x * exitSpeed, direction.y * exitSpeed);
  
     this.setCollisionCategory(collisionCategories.enemyDamage);
  
@@ -63,7 +61,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
       const target = bodies.find(body => body.collisionFilter.category !== collisionCategories.enemyDamage);
 
       // trigger the takeDamage function on target (if it exists)
-      target.gameObject.takeDamage?.(collisionDamage);
+      target.gameObject?.takeDamage?.(collisionDamage);
 
       if ((target.gameObject.body.collisionFilter.category & destroyOnCollideMask) > 0) this.complete();
     });

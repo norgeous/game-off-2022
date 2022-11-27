@@ -39,8 +39,8 @@ export default class WeaponInventory {
   //   this.index = this.index - 1 > 0 ? this.index -1 : this.inventory.length - 1;
   // }
 
-  fireCurrent(directionData) {
-    this.currentWeapon.pullTrigger(directionData);
+  fireCurrent() {
+    this.currentWeapon.pullTrigger();
   }
 
   add(WeaponClass) {

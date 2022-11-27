@@ -3,6 +3,7 @@ import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
 import Direction from '../../enums/Direction';
+import Config from "../../Config.js";
 
 const SPRITESHEETKEY = 'zombieSpriteSheet';
 
@@ -68,16 +69,21 @@ export default class Zombie extends Entity {
     const hearingRange = this.aggravated ? 500 : 200;
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < hearingRange;
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
+    const deSpawnRange = Phaser.Math.Distance.BetweenPoints(this, player) > Config.DESPAWN_RANGE;
     const isAlive = this.health > 0;
 
     // hearing
     this.aggravated = closeToPlayer;
-    if (this.scene.matter.world.drawDebug) this.circleOfHearing.setStrokeStyle(1, 0x00FF00);
-    else this.circleOfHearing.setStrokeStyle();
+    if (this.scene.matter.world.drawDebug)  {
+      this.circleOfHearing.setStrokeStyle(1, 0x00FF00);
+    }
+    else {
+      this.circleOfHearing.setStrokeStyle();
+    }
   
     this.circleOfHearing.x = this.x;
     this.circleOfHearing.y = this.y;
-    this.circleOfHearing.radius = hearingRange;
+    this.circleOfHearing.radius = Config.DESPAWN_RANGE;
 
     if (this.aggravated && player.x > this.x) this.direction = Direction.Right;
     if (this.aggravated && player.x < this.x) this.direction = Direction.Left;
@@ -104,6 +110,11 @@ export default class Zombie extends Entity {
         vectorTowardsPlayer.x < 0 ? -2 : 2,
         -2,
       );
+    }
+
+    if (deSpawnRange) {
+      console.log('despawning enemy')
+      this.destroy();
     }
   }
 

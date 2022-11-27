@@ -59,11 +59,16 @@ export default class AbstractScene extends Phaser.Scene {
       runChildUpdate: true,
     });
     if (Config.SPAWN_ENEMIES) {
+      // is this optimal now we're on mobile? every spawn point will be checking if in range of player.
+      // better solution would be for the player to check if in range of spawn points.
       this.spawner = setInterval(() => {
         this.map.spawners.zombie.forEach(zombie => {
-          this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
+          const isInPlayerRange = Phaser.Math.Distance.BetweenPoints(zombie, this.player) <= Config.SPAWN_RANGE;
+          if (isInPlayerRange) {
+            this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
+          }
         });
-      }, 1000);
+      }, Config.ZOMBIE_SPAWN_TIME);
     }
 
     // new player

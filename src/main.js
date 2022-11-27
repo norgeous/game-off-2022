@@ -15,6 +15,9 @@ const config = {
       debug: true,
     },
   },
+  input: {
+    activePointers: 3, // enable multi touch?
+  },
   scene: [
     HelloWorldScene,
     // Platformer,

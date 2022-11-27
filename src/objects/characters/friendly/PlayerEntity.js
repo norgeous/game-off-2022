@@ -107,7 +107,7 @@ export default class PlayerEntity extends Entity {
           if (newJoypadDirection.x) this.facing = newJoypadDirection.x;
         },
         onPressJump: () => {
-          if (this.sensorData.bottom) this.gameObject.setVelocityY(-10);
+          if (this.sensorData.bottom.size) this.gameObject.setVelocityY(-10);
         },
         onPressFire: () => this.firing = true,
         onReleaseFire: () => this.firing = false,
@@ -131,8 +131,8 @@ export default class PlayerEntity extends Entity {
     if (joypadDirection.x) vx = joypadDirection.x * 2.5;
     
     // move away from anything in left / right sensor (prevent wall sticking)
-    if (sensorData.left && vx < 0) vx = 0.1;
-    if (sensorData.right && vx > 0) vx = -0.1;
+    if (sensorData.left.size && vx < 0) vx = 0.1;
+    if (sensorData.right.size && vx > 0) vx = -0.1;
     
     // set the velocity
     this.gameObject.setVelocityX(vx);
@@ -145,12 +145,10 @@ export default class PlayerEntity extends Entity {
     this.gunDirection = { ...joypadDirection };
 
     // if on floor, prevent pointing downwards
-    if (this.gunDirection.y === 1 && sensorData.bottom) this.gunDirection.y = 0;
+    if (this.gunDirection.y === 1 && sensorData.bottom.size) this.gunDirection.y = 0;
 
     // if no button pressed, substitue in facing direction
     if (this.gunDirection.x === 0 && this.gunDirection.y === 0) this.gunDirection.x = facing;
-
-    // console.log(joypadDirection, sensorData.bottom, this.gunDirection);
 
     // reposition arm sprite
     const { arm, gunX, gunY, gunR } = directionTocraftpixArmFrame(this.gunDirection);

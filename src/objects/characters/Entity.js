@@ -14,6 +14,12 @@ const craftpixOffset = {
   y: -7,
 };
 
+const findOtherBodyId = (thisSensorId, collisionData) => {
+  const bodies = [collisionData.bodyA, collisionData.bodyB];
+  const other = bodies.find(({id}) => id !== thisSensorId);
+  return other.id;
+};
+
 export default class Entity extends Phaser.GameObjects.Container {
   constructor (
     scene,
@@ -45,10 +51,10 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.isStunned = false;
 
     this.sensorData = {
-      left: false,
-      right: false,
-      top: false,
-      bottom: false,
+      left: new Set(),
+      right: new Set(),
+      top: new Set(),
+      bottom: new Set(),
     };
 
     // health bar
@@ -108,14 +114,15 @@ export default class Entity extends Phaser.GameObjects.Container {
       parts: [ this.hitbox, left, right, top, bottom ],
     });
 
-    left.onCollideActiveCallback = () => this.sensorData.left = true;
-    left.onCollideEndCallback = () => this.sensorData.left = false;
-    right.onCollideActiveCallback = () => this.sensorData.right = true;
-    right.onCollideEndCallback = () => this.sensorData.right = false;
-    top.onCollideActiveCallback = () => this.sensorData.top = true;
-    top.onCollideEndCallback = () => this.sensorData.top = false;
-    bottom.onCollideActiveCallback = () => this.sensorData.bottom = true;
-    bottom.onCollideEndCallback = () => this.sensorData.bottom = false;
+    // when a collsion happens / ends then add / delete the id from the Set
+    left.onCollideActiveCallback = data =>  this.sensorData.left.add(findOtherBodyId(left.id, data));
+    left.onCollideEndCallback = data => this.sensorData.left.delete(findOtherBodyId(left.id, data));
+    right.onCollideActiveCallback = data =>  this.sensorData.right.add(findOtherBodyId(right.id, data));
+    right.onCollideEndCallback = data => this.sensorData.right.delete(findOtherBodyId(right.id, data));
+    top.onCollideActiveCallback = data =>  this.sensorData.top.add(findOtherBodyId(top.id, data));
+    top.onCollideEndCallback = data => this.sensorData.top.delete(findOtherBodyId(top.id, data));
+    bottom.onCollideActiveCallback = data =>  this.sensorData.bottom.add(findOtherBodyId(bottom.id, data));
+    bottom.onCollideEndCallback = data => this.sensorData.bottom.delete(findOtherBodyId(bottom.id, data));
 
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, y);
@@ -155,17 +162,13 @@ export default class Entity extends Phaser.GameObjects.Container {
     // debug sensors
     this.text.setText(
       [
-        this.sensorData.left ? 'L' : '-',
-        this.sensorData.right ? 'R' : '-',
-        this.sensorData.top ? 'T' : '-',
-        this.sensorData.bottom ? 'B' : '-',
+        this.sensorData.left.size ? 'L' : '-',
+        this.sensorData.right.size ? 'R' : '-',
+        this.sensorData.top.size ? 'T' : '-',
+        this.sensorData.bottom.size ? 'B' : '-',
         this.isStunned ? '😵‍💫' : '-',
       ].join('')
     );
-
-    // update sensors
-    // console.log(this.bottom)
-    // throw new Error();
 
     // SPRINGY
     if (this.keepUprightStratergy === keepUprightStratergies.SPRINGY && !this.isStunned) {

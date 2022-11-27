@@ -8,7 +8,7 @@ export default class RocketLauncher extends AbstractWeapon {
       scene,
       {
         BulletClass: Rocket,
-        maxBullets: 5,
+        maxBullets: 2,
         frame: 15, // white gun
         entity,
         fireType: fireTypes.SEMI,

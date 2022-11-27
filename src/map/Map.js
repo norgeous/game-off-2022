@@ -80,15 +80,52 @@ export default class Map {
     this.spawners = {
       player: this.map.findObject('Spawner', obj => obj.name === 'player'),
       zombie: this.map.filterObjects('Spawner', obj => obj.name === 'zombie'),
+      exit: this.map.filterObjects('Spawner', obj => obj.name === 'exit'),
     };
-    this.door = this.map.createFromObjects('Spawner', {
-      name: 'exit'
+
+    this.layers.background.setCollisionByProperty({ collides: true });
+    this.layers.foreground.setCollisionByProperty({ collides: true });
+    this.layers.ladders.setCollisionByProperty({ collides: true });
+
+    // this.layers.background.setDepth();
+
+    this.Phaser.matter.world.convertTilemapLayer(this.layers.background);
+    this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);
+    this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
+
+    // now that matter has loaded the layers, set collision categories on tile bodies
+    this.layers.ladders.forEachTile(tile => {
+      if (tile.index === -1) return;
+      tile.physics.matterBody.setCollisionCategory(collisionCategories.ladders);
     });
-    this.door = this.Phaser.matter.add.gameObject(this.door[0], {isStatic: true});
+  }
+
+  loadDoors() {
+    this.door = this.Phaser.add.sprite(
+      this.spawners.exit[0].x,
+      this.spawners.exit[0].y,
+    );
+    let emitter = this.Phaser.add.particles('explosion');
+    emitter.createEmitter({
+      x: this.spawners.exit[0].x, y: this.spawners.exit[0].y,
+      lifespan: {min: 100, max: 1000},
+      angle: { start: 0, end: 360, steps: 360 },
+      speed: 80,
+      quantity: 8,
+      scale: { start: 0.4, end: 0 },
+      blendMode: 'ADD',
+    });
+    emitter.setDepth(100);
+
+    this.door = this.Phaser.matter.add.gameObject(this.door, {isStatic: true});
+    this.door.setScale(2);
+    this.door.body.loadLevel = this.spawners.exit[0].properties[0].value;
     this.door.setCollisionCategory(collisionCategories.door);
     this.door.setCollidesWith(collisionCategories.player);
 
-    // moving platforms
+  }
+
+  loadMovingPlatforms() {
     this.movingPlatforms = {
       start: this.map.filterObjects('MovingPlatform', obj => obj.name === 'Start'),
       end: this.map.filterObjects('MovingPlatform', obj => obj.name === 'End'),
@@ -115,22 +152,7 @@ export default class Map {
         }
       })
     }
-
-    this.layers.background.setCollisionByProperty({ collides: true });
-    this.layers.foreground.setCollisionByProperty({ collides: true });
-    this.layers.ladders.setCollisionByProperty({ collides: true });
-
-    this.Phaser.matter.world.convertTilemapLayer(this.layers.background);
-    this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);
-    this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
-
-    // now that matter has loaded the layers, set collision categories on tile bodies
-    this.layers.ladders.forEachTile(tile => {
-      if (tile.index === -1) return;
-      tile.physics.matterBody.setCollisionCategory(collisionCategories.ladders);
-    });
   }
-
 
   loadBackgrounds() {
     const width = this.Phaser.scale.width
@@ -149,9 +171,10 @@ export default class Map {
   create() {
     this.map = this.Phaser.make.tilemap({ key:  this.mapKey })
     this.tileset = this.map.addTilesetImage(this.tileSetName, 'tileSheet', 32, 32, 1, 2)
-
     this.loadBackgrounds();
     this.loadLayers();
+    this.loadDoors();
+    this.loadMovingPlatforms();
 
     this.height = this.layers.background.height;
     this.width = this.layers.background.width;

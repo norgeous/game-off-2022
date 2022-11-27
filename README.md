@@ -1,5 +1,7 @@
 # game-off-2022
 
+play: https://norgeous.github.io/game-off-2022/
+
 boilerplate starter https://github.com/ourcade/phaser3-vite-template (thanks @supertommy)
 
 ## development

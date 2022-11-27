@@ -22,8 +22,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     PlayerEntity.preload(this);
     Zombie.preload(this);
     MachineGun.preload(this);
-    // Bullet.preload(this);
-    // Explosion.preload(this);
+
     this.load.spritesheet('explosion', 'sprites/explosion.png', { frameWidth: 256, frameHeight: 256 });
     this.load.audio(Sound.MusicKey, `${this.map.getMapPath()}/${Sound.MapMusicFileName}`);
     this.audio.preLoad();
@@ -34,6 +33,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     window.addEventListener('resize', () => {
       setTimeout(() => {
         this.scale.setGameSize(window.innerWidth / 3, window.innerHeight / 3);
+        this.player.joypad.reposition();
       }, 100);
     });
 

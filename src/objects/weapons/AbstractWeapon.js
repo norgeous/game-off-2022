@@ -1,3 +1,5 @@
+import Direction from '../enums/Direction';
+
 export const fireTypes = {
   SEMI: 'SEMI',
   BURST: 'BURST',
@@ -18,23 +20,17 @@ export default class AbstractWeapon {
     this.entity = entity;
     this.fireType = fireType;
     this.soundKeyName = soundKeyName;
-
     this.bulletsFiredThisPull = 0;
+    this.gunDirection = {
+      x: 1,
+      y: 0,
+    };
 
     this.bulletGroup = this.scene.add.group({
       maxSize: maxBullets,
       classType: BulletClass,
       runChildUpdate: true,
     });
-
-    // arm sprite
-    this.armSprite = this.scene.add.sprite(
-      6, -5, // offset to player center
-      'hands',
-      2,
-    );
-    entity.add(this.armSprite);
-    entity.sendToBack(this.armSprite); // sets z-index
 
     // gun sprite
     this.gunSprite = this.scene.add.sprite(
@@ -59,7 +55,7 @@ export default class AbstractWeapon {
       this.entity.x + this.gunSprite.x,
       this.entity.y + this.gunSprite.y,
       {
-        direction: this.entity.direction,
+        direction: this.entity.gunDirection,
       },
     );
     
@@ -78,7 +74,6 @@ export default class AbstractWeapon {
   update() {}
   
   destroy() {
-    this.armSprite.destroy();
     this.gunSprite.destroy();
   }
 }

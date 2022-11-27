@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import Platformer from './scenes/Platformer'
+// import Platformer from './scenes/Platformer'
 import HelloWorldScene from './scenes/HelloWorldScene'
 import Config from './objects/Config';
 import Area1 from "./scenes/theForest/Area1.js";

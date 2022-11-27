@@ -3,11 +3,12 @@ import AbstractProjectile from './AbstractProjectile';
 const SPRITESHEETKEY = 'bullet1';
 
 export default class Bullet extends AbstractProjectile {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, { direction }) {
     super(
       scene,
       x, y,
       {
+        direction,
         spriteSheetKey: SPRITESHEETKEY,
         lifespan: 1_000,
         minDestroySpeed: 0.1,
@@ -15,7 +16,7 @@ export default class Bullet extends AbstractProjectile {
           ignoreGravity: true,
           restitution: 1,
           chamfer: { radius: 4 },
-          mass: .1,
+          mass: .1, // heavy
         },
         enableLockRotationToMovementVector: true,
         exitSpeed: 10,

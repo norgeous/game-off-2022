@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.375" />
+  <link rel="icon" href="icon.svg" />
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIloiLAogICJzaG9ydF9uYW1lIjogIloiLAogICJkZXNjcmlwdGlvbiI6ICJaIiwKICAidGhlbWVfY29sb3IiOiAiI2ZmZmZmZiIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzAwMDAwMCIsCiAgInNjb3BlIjogIi4vIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJmdWxsc2NyZWVuIiwKICAib3JpZW50YXRpb24iOiAibGFuZHNjYXBlIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAicHVibGljL2ljb24uc3ZnIiwKICAgICAgInR5cGUiOiJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IiwKICAgICAgInNpemVzIjogIjMyeDMyIDQ4eDQ4IDY0eDY0IDcyeDcyIDk2eDk2IDEyOHgxMjggMTUyeDE1MiAxNjh4MTY4IDE5MngxOTIgMjU2eDI1NiAzODR4Mzg0IDUxMng1MTIgNzAweDcwMCAxMjgweDEyODAiCiAgICB9CiAgXQp9Cg==" />
+  <link rel="canonical" href="https://norgeous.github.io/game-off-2022/" />
+  <title>Z</title>
+  <style>
+    html, body { margin: 0; padding: 0; }
+    #app, #app canvas { display: block; width: 100vw; height: 100vh; }
+    a { position: absolute; top: 0; right: 0; padding: 10px; background: #0ff7; }
+  </style>
+  <script type="module" crossorigin src="/assets/index.cc444fc6.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <a href="https://github.com/norgeous/game-off-2022">github</a>
+  
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('sw.js')
+        .then(() => { console.log('Service Worker Registered'); });
+    }
+  </script>
+</body>
+
+</html>

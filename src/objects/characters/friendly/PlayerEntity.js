@@ -132,6 +132,34 @@ export default class PlayerEntity extends Entity {
     WeaponInventory.preload(scene);
   }
 
+  calculateGunDirection() {
+    const { joypadDirection, sensorData, facing } = this;
+
+    // intially set the gunDirection as joypad direction
+    this.gunDirection = { ...joypadDirection };
+
+    // if on floor, prevent pointing downwards
+    if (this.gunDirection.y === 1 && sensorData.bottom) this.gunDirection.y = 0;
+
+    // if no button pressed, substitue in facing direction
+    if (this.gunDirection.x === 0 && this.gunDirection.y === 0) this.gunDirection.x = facing;
+  }
+
+  calculateVelocityX () {
+    const { joypadDirection, sensorData } = this;
+    let vx = 0;
+
+    // player left / right movement
+    if (joypadDirection.x) vx = joypadDirection.x * 2.5;
+    
+    // move away from anything in left / right sensor (prevent wall sticking)
+    if (sensorData.left && vx < 0) vx = 0.1;
+    if (sensorData.right && vx >0) vx = -0.1;
+    
+    // set the velocity
+    this.gameObject.setVelocityX(vx);
+  }
+
   update() {
     super.update();
 
@@ -141,12 +169,7 @@ export default class PlayerEntity extends Entity {
     if (this.firing) this.weapons.currentWeapon.pullTrigger();
     else this.weapons.currentWeapon.releaseTrigger();
 
-    // player left / right movement
-    if (this.joypadDirection.x) this.gameObject.setVelocityX(this.joypadDirection.x * 2.5);
-
-    // move away from anything in left / right sensor (prevent wall sticking)
-    if (this.sensorData.left) { this.gameObject.setVelocityX(0.1); }
-    if (this.sensorData.right) { this.gameObject.setVelocityX(-0.1); }
+    this.calculateVelocityX();
 
     // ladder collisions
     if (this.body.velocity.y < -4 || this.joypadDirection.y > 0) {

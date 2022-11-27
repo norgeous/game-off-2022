@@ -58,7 +58,6 @@
 
 ## enemies
 
-- player take damage from zombie's attacks
 - hide inactive health bars after a few seconds
 - blood particle effect?
 - sounds
@@ -87,7 +86,6 @@
 
 ### for Daniel (urgent)
 
-- zombies attack 
 - start and game over screen
 - improve one way platforms
 - more characters (optional extra)

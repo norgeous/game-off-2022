@@ -46,10 +46,8 @@
 
 ## weapons
 
-- weapon sprites
 - bullet spread
 - machine gun fire rate needs adjusting
-- sounds
 - particle effects
   - ricochet effects when bouncing off terrain (+ sound?)
   - muzzle flash on bullet spawn location

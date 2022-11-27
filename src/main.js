@@ -20,6 +20,9 @@ const config = {
       debug: true,
     },
   },
+  input: {
+    activePointers: 3, // enable multi touch?
+  },
   scene: [
     Area1,
     Area3,

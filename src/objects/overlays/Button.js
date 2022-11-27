@@ -7,7 +7,7 @@ export default class Button extends Phaser.GameObjects.Container {
     this.onClick = onClick;
     this.onClickRelease = onClickRelease;
 
-    this.circle = scene.add.circle(0, 0, 10, 0xcccccc)
+    this.circle = scene.add.circle(0, 0, 20, 0xcccccc)
       .setScrollFactor(0)
       .setInteractive({ useHandCursor: true })
       .on('pointerover', () => this.enterButtonHoverState() )
@@ -24,7 +24,7 @@ export default class Button extends Phaser.GameObjects.Container {
 
     this.text = scene.add.text(0, 0, text, {
       color: '#0f0',
-      font: '12px Arial',
+      font: '20px Arial',
       align: 'center',
       fontWeight: 'bold',
     }).setOrigin(0.5);

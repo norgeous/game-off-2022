@@ -76,13 +76,13 @@ export default class VirtualJoypad {
 
   reposition() {
     const { width, height } = this.scene.game.scale;
-    this.joystick.x = 30;
-    this.joystick.y = height - 30;
+    this.joystick.x = 50;
+    this.joystick.y = height - 50;
 
     this.switchButton.x = width - 30;
-    this.switchButton.y = height - 60;
+    this.switchButton.y = height - 80;
 
-    this.jumpButton.x = width - 60;
+    this.jumpButton.x = width - 80;
     this.jumpButton.y = height - 30;
 
     this.fireButton.x = width - 30;

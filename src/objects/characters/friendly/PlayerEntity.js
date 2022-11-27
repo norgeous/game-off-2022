@@ -36,33 +36,55 @@ export default class PlayerEntity extends Entity {
       },
     );
 
-    this.gameObject.setCollisionCategory(collisionCategories.player);
+    this.totalDamage = {};
+    this.totalKills = {};
 
+    this.gameObject.setCollisionCategory(collisionCategories.player);
 
     this.hitbox.onCollideCallback = data => {
       if (data.bodyA.collisionFilter.category === collisionCategories.door || data.bodyB.collisionFilter.category === collisionCategories.door) {
         if (this.scene.cameras.main.fadeEffect.isRunning) return;
-        const nextMap = data.bodyA.gameObject.data.list.loadLevel;
+        const nextMap = data.bodyA.gameObject.body.loadLevel;
         this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
+          clearInterval(this.scene.spawner); // stop scene spawner interval. issues when loading next map.
           this.scene.scene.remove();
           this.scene.scene.launch(nextMap);
         });
       }
     };
 
-
     this.playerInput = new PlayerInput(scene);
     this.keys = this.playerInput.keys;
     this.playerController = { direction: Direction.Right };
     
     this.weapons = new WeaponInventory(scene, this);
-    this.scene.events.on('cycleWeapon', () => this.weapons.next());
+    this.scene.events.on(Events.ON_CYCLE_WEAPON, () => this.weapons.next());
+    this.scene.events.on(Events.ON_DAMAGE_ENTITY, (data) => {
+      if (data.entity.name !== 'PlayerEntity') {
+        (!this.totalDamage[data.entity.name]) ? this.totalDamage[data.entity.name] = data.amount : this.totalDamage[data.entity.name] += data.amount;
+      }
+    });
+    this.scene.events.on(Events.ON_KILL_ENTITY, (data) => {
+      if (data.entity.name !== 'PlayerEntity') {
+        (!this.totalKills[data.entity.name]) ? this.totalKills[data.entity.name] = 1 : this.totalKills[data.entity.name] += 1;
+      }
+    });
   }
 
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
     scene.load.spritesheet('hands', 'sprites/craftpix.net/biker_hands.png', { frameWidth: 32, frameHeight: 32 });
     WeaponInventory.preload(scene);
+  }
+
+  takeDamage(amount) {
+    super.takeDamage(amount);
+    this.scene.cameras.main.fadeIn(
+      Config.HURT_FADE_IN_TIME_MS,
+      Config.HURT_FADE_IN_COLOUR.r,
+      Config.HURT_FADE_IN_COLOUR.b,
+      Config.HURT_FADE_IN_COLOUR.g
+    );
   }
 
   update() {

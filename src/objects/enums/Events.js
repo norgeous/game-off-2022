@@ -11,4 +11,8 @@ export default class Events {
 
   // animation events
   static ON_ANIMATION_COMPLETE = 'animationcomplete';
+
+  // entity
+  static ON_KILL_ENTITY = 'onKillEntity';
+  static ON_DAMAGE_ENTITY = 'onDamageEntity';
 }

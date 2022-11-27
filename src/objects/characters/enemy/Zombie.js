@@ -83,7 +83,7 @@ export default class Zombie extends Entity {
   
     this.circleOfHearing.x = this.x;
     this.circleOfHearing.y = this.y;
-    this.circleOfHearing.radius = Config.DESPAWN_RANGE;
+    this.circleOfHearing.radius = 500;
 
     if (this.aggravated && player.x > this.x) this.direction = Direction.Right;
     if (this.aggravated && player.x < this.x) this.direction = Direction.Left;
@@ -113,7 +113,6 @@ export default class Zombie extends Entity {
     }
 
     if (deSpawnRange) {
-      console.log('despawning enemy')
       this.destroy();
     }
   }

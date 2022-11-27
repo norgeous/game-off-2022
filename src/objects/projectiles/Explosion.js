@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Sound from '../enums/Sound';
 import Events from "../enums/Events.js";
+import Config from "../Config.js";
 
 class Explosion {
   constructor (scene, x, y, { radius = 50, force = 50, damage = 20 }) {
@@ -25,6 +26,11 @@ class Explosion {
     this.playExplodeAnimation(scene, x, y);
 
     scene.audio.playSfxNow(Sound.BombBlast);
+
+    // camera shake
+    if (Config.SCREEN_SHAKE) {
+      scene.cameras.main.shake(Config.SCREEN_SHAKE_DURATION, Config.SCREEN_SHAKE_INTENSITY);
+    }
   }
 
   playExplodeAnimation(scene, x, y) {

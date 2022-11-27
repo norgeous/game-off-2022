@@ -46,6 +46,8 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.direction = direction;
     this.isStunned = false;
 
+    this.triggeredEvent = false;
+
     this.sensorData = {
       left: false,
       right: false,
@@ -142,6 +144,7 @@ export default class Entity extends Phaser.GameObjects.Container {
 
   takeDamage(amount) {
     this.health -= amount;
+    this.scene.events.emit(Events.ON_DAMAGE_ENTITY, {amount: amount, entity:this});
     if (this.health < 0) this.health = 0;
   }
 
@@ -203,6 +206,10 @@ export default class Entity extends Phaser.GameObjects.Container {
       this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
       this.rotation = 0; // force Entity upright for death animation
       this.text.setText('X');
+      if (!this.triggeredEvent) {
+        this.scene.events.emit(Events.ON_KILL_ENTITY, {entity:this});
+        this.triggeredEvent = true;
+      }
       this.playAnimation(EntityAnimations.Death).on(Events.ON_ANIMATION_COMPLETE, () => {
         this.sprite.destroy();
         this.text.destroy();
@@ -210,6 +217,10 @@ export default class Entity extends Phaser.GameObjects.Container {
         this.gameObject.destroy();
       });
     }
+  }
+
+  test() {
+
   }
 
 }

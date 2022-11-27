@@ -1,8 +1,12 @@
 import Entity from '../Entity';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
-import VirtualJoypad from '../../components/VirtualJoypad';
+import Entity from '../Entity.js';
+import PlayerInput from '../../components/PlayerInput';
 import WeaponInventory from '../../components/WeaponInventory';
+import Direction from '../../enums/Direction';
+import Config from "../../Config.js";
+import Events from "../../enums/Events.js";
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -14,7 +18,7 @@ const directionTocraftpixArmFrame = d => ({
     gunY: 6,
     gunR: Math.PI/2,
   },
-  
+
   // down right
   '1:1': {
     arm: 1,
@@ -22,7 +26,7 @@ const directionTocraftpixArmFrame = d => ({
     gunY: 0,
     gunR: Math.PI/4,
   },
-  
+
   // right
   '1:0': {
     arm: 2,
@@ -36,7 +40,7 @@ const directionTocraftpixArmFrame = d => ({
     gunY: -9,
     gunR: 0,
   },
-  
+
   // up right
   '1:-1': {
     arm: 3,
@@ -44,7 +48,7 @@ const directionTocraftpixArmFrame = d => ({
     gunY: -15,
     gunR: -Math.PI/4,
   },
-  
+
   // up
   '0:-1': {
     arm: 4,
@@ -82,8 +86,23 @@ export default class PlayerEntity extends Entity {
       },
     );
 
+    this.totalDamage = {};
+    this.totalKills = {};
+
     this.setDepth(1000);
     this.gameObject.setCollisionCategory(collisionCategories.player);
+
+    this.hitbox.onCollideCallback = data => {
+      if (data.bodyA.collisionFilter.category === collisionCategories.door || data.bodyB.collisionFilter.category === collisionCategories.door) {
+        if (this.scene.cameras.main.fadeEffect.isRunning) return;
+        const nextMap = data.bodyA.gameObject.body.loadLevel;
+        this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
+          clearInterval(this.scene.spawner); // stop scene spawner interval. issues when loading next map.
+          this.scene.scene.remove();
+          this.scene.scene.launch(nextMap);
+        });
+      }
+    };
 
     // arm sprite
     this.armSprite = this.scene.add.sprite(
@@ -95,6 +114,17 @@ export default class PlayerEntity extends Entity {
     this.sendToBack(this.armSprite); // sets z-index
 
     this.weapons = new WeaponInventory(scene, this);
+
+    this.scene.events.on(Events.ON_DAMAGE_ENTITY, (data) => {
+      if (data.entity.name !== 'PlayerEntity') {
+        (!this.totalDamage[data.entity.name]) ? this.totalDamage[data.entity.name] = data.amount : this.totalDamage[data.entity.name] += data.amount;
+      }
+    });
+    this.scene.events.on(Events.ON_KILL_ENTITY, (data) => {
+      if (data.entity.name !== 'PlayerEntity') {
+        (!this.totalKills[data.entity.name]) ? this.totalKills[data.entity.name] = 1 : this.totalKills[data.entity.name] += 1;
+      }
+    });
 
     // this does keyboard and on screen dpad and buttons
     this.joypadDirection = { x: 0, y: 0 };
@@ -113,7 +143,7 @@ export default class PlayerEntity extends Entity {
         onReleaseFire: () => this.firing = false,
         onPressSwitch: () => this.weapons.next(),
       },
-    );    
+    );
   }
 
   static preload(scene) {
@@ -129,11 +159,11 @@ export default class PlayerEntity extends Entity {
 
     // player left / right movement
     if (joypadDirection.x) vx = joypadDirection.x * 2.5;
-    
+
     // move away from anything in left / right sensor (prevent wall sticking)
     if (sensorData.left.size && vx < 0) vx = 0.1;
     if (sensorData.right.size && vx > 0) vx = -0.1;
-    
+
     // set the velocity
     this.gameObject.setVelocityX(vx);
   }
@@ -179,6 +209,16 @@ export default class PlayerEntity extends Entity {
     }
   }
 
+  takeDamage(amount) {
+    super.takeDamage(amount);
+    this.scene.cameras.main.fadeIn(
+      Config.HURT_FADE_IN_TIME_MS,
+      Config.HURT_FADE_IN_COLOUR.r,
+      Config.HURT_FADE_IN_COLOUR.b,
+      Config.HURT_FADE_IN_COLOUR.g
+    );
+  }
+
   update() {
     super.update();
 
@@ -190,7 +230,7 @@ export default class PlayerEntity extends Entity {
 
     this.calculateVelocityX();
     this.calculateGunDirection();
-    
+
     // flip arm sprite to match facing
     this.flipXArmSprite(this.facing === -1);
 

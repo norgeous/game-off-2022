@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import HealthBar from '../overlays/HealthBar';
 import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories } from '../enums/Collisions';
+import Events from "../enums/Events.js";
 
 const keepUprightStratergies = {
   NONE: 'NONE',
@@ -49,6 +50,8 @@ export default class Entity extends Phaser.GameObjects.Container {
 
     this.facing = facing;
     this.isStunned = false;
+
+    this.triggeredEvent = false;
 
     this.sensorData = {
       left: new Set(),
@@ -147,6 +150,7 @@ export default class Entity extends Phaser.GameObjects.Container {
 
   takeDamage(amount) {
     this.health -= amount;
+    this.scene.events.emit(Events.ON_DAMAGE_ENTITY, {amount: amount, entity:this});
     if (this.health < 0) this.health = 0;
   }
 
@@ -208,7 +212,11 @@ export default class Entity extends Phaser.GameObjects.Container {
       this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
       this.rotation = 0; // force Entity upright for death animation
       this.text.setText('X');
-      this.playAnimation(EntityAnimations.Death).on('animationcomplete', () => {
+      if (!this.triggeredEvent) {
+        this.scene.events.emit(Events.ON_KILL_ENTITY, {entity:this});
+        this.triggeredEvent = true;
+      }
+      this.playAnimation(EntityAnimations.Death).on(Events.ON_ANIMATION_COMPLETE, () => {
         this.destroy();
       });
     }

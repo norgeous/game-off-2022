@@ -34,7 +34,7 @@ export default class Zombie extends Entity {
     this.gameObject.setCollisionCategory(collisionCategories.enemy);
 
     this.aggravated = false;
-    
+
     // circle of hearing debug
     this.circleOfHearing = scene.add.circle(x, y, 200);
     this.circleOfHearing.setStrokeStyle(1, 0x00FF00);
@@ -65,6 +65,7 @@ export default class Zombie extends Entity {
     const hearingRange = this.aggravated ? 500 : 200;
     const closeToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < hearingRange;
     const veryCloseToPlayer = Phaser.Math.Distance.BetweenPoints(this, player) < 30;
+    const deSpawnRange = Phaser.Math.Distance.BetweenPoints(this, player) > Config.DESPAWN_RANGE;
     const isAlive = this.health > 0;
 
     // hearing
@@ -101,6 +102,10 @@ export default class Zombie extends Entity {
         vectorTowardsPlayer.x < 0 ? -2 : 2,
         -2,
       );
+    }
+
+    if (deSpawnRange) {
+      this.destroy();
     }
   }
 

@@ -218,9 +218,4 @@ export default class Entity extends Phaser.GameObjects.Container {
       });
     }
   }
-
-  test() {
-
-  }
-
 }

@@ -58,7 +58,7 @@ export default class PlayerEntity extends Entity {
   constructor (scene, x, y) {
     super(
       scene,
-      x, y - 100,
+      x, y,
       {
         name: 'PlayerEntity', // this becomes this.name
         spriteSheetKey: SPRITESHEETKEY,
@@ -82,6 +82,7 @@ export default class PlayerEntity extends Entity {
       },
     );
 
+    this.setDepth(1000);
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
     // arm sprite
@@ -103,16 +104,6 @@ export default class PlayerEntity extends Entity {
       {
         onUpdateDirection: newJoypadDirection => {
           this.joypadDirection = newJoypadDirection;
-
-          // reposition arm
-          const { arm, gunX, gunY, gunR } = directionTocraftpixArmFrame(newJoypadDirection);
-          this.armSprite.setFrame(arm);
-
-          // reposition gun
-          this.weapons.currentWeapon.gunSprite.x = gunX;
-          this.weapons.currentWeapon.gunSprite.y = gunY;
-          this.weapons.currentWeapon.gunSprite.rotation = gunR;
-
           if (newJoypadDirection.x) this.facing = newJoypadDirection.x;
         },
         onPressJump: () => {
@@ -132,6 +123,21 @@ export default class PlayerEntity extends Entity {
     WeaponInventory.preload(scene);
   }
 
+  calculateVelocityX () {
+    const { joypadDirection, sensorData } = this;
+    let vx = 0;
+
+    // player left / right movement
+    if (joypadDirection.x) vx = joypadDirection.x * 2.5;
+    
+    // move away from anything in left / right sensor (prevent wall sticking)
+    if (sensorData.left && vx < 0) vx = 0.1;
+    if (sensorData.right && vx > 0) vx = -0.1;
+    
+    // set the velocity
+    this.gameObject.setVelocityX(vx);
+  }
+
   calculateGunDirection() {
     const { joypadDirection, sensorData, facing } = this;
 
@@ -143,21 +149,17 @@ export default class PlayerEntity extends Entity {
 
     // if no button pressed, substitue in facing direction
     if (this.gunDirection.x === 0 && this.gunDirection.y === 0) this.gunDirection.x = facing;
-  }
 
-  calculateVelocityX () {
-    const { joypadDirection, sensorData } = this;
-    let vx = 0;
+    // console.log(joypadDirection, sensorData.bottom, this.gunDirection);
 
-    // player left / right movement
-    if (joypadDirection.x) vx = joypadDirection.x * 2.5;
-    
-    // move away from anything in left / right sensor (prevent wall sticking)
-    if (sensorData.left && vx < 0) vx = 0.1;
-    if (sensorData.right && vx >0) vx = -0.1;
-    
-    // set the velocity
-    this.gameObject.setVelocityX(vx);
+    // reposition arm sprite
+    const { arm, gunX, gunY, gunR } = directionTocraftpixArmFrame(this.gunDirection);
+    this.armSprite.setFrame(arm);
+
+    // reposition gun sprite
+    this.weapons.currentWeapon.gunSprite.x = gunX;
+    this.weapons.currentWeapon.gunSprite.y = gunY;
+    this.weapons.currentWeapon.gunSprite.rotation = gunR;
   }
 
   update() {
@@ -170,6 +172,7 @@ export default class PlayerEntity extends Entity {
     else this.weapons.currentWeapon.releaseTrigger();
 
     this.calculateVelocityX();
+    this.calculateGunDirection();
 
     // ladder collisions
     if (this.body.velocity.y < -4 || this.joypadDirection.y > 0) {

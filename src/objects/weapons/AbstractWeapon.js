@@ -47,30 +47,15 @@ export default class AbstractWeapon {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/guns.png', { frameWidth: 32, frameHeight: 32 });
   }
 
-  calculateGunDirection() {
-    const { joypadDirection, sensorData, facing } = this.entity;
-
-    // intially set the gunDirection as joypad direction
-    this.gunDirection = { ...joypadDirection };
-
-    // if on floor, prevent pointing downwards
-    if (this.gunDirection.y === 1 && sensorData.bottom) this.gunDirection.y = 0;
-
-    // if no button pressed, substitue in facing direction
-    if (this.gunDirection.x === 0 && this.gunDirection.y === 0) this.gunDirection.x = facing;
-  }
-
   pullTrigger() {
     if (this.bulletsFiredThisPull >= maxBulletsPerPull[this.fireType]) return;
 
-    this.calculateGunDirection();
-  
     // try to create bullet
     const bullet = this.bulletGroup.create(
       this.entity.x + this.gunSprite.x,
       this.entity.y + this.gunSprite.y,
       {
-        direction: this.gunDirection,
+        direction: this.entity.gunDirection,
       },
     );
     

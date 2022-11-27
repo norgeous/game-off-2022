@@ -163,6 +163,10 @@ export default class Entity extends Phaser.GameObjects.Container {
       ].join('')
     );
 
+    // update sensors
+    // console.log(this.bottom)
+    // throw new Error();
+
     // SPRINGY
     if (this.keepUprightStratergy === keepUprightStratergies.SPRINGY && !this.isStunned) {
       const twoPi = Math.PI * 2;

@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
+import Config from "../../Config.js";
 
 const SPRITESHEETKEY = 'zombieSpriteSheet';
 

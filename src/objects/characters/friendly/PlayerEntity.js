@@ -1,12 +1,12 @@
 import Entity from '../Entity';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
-import Entity from '../Entity.js';
 import PlayerInput from '../../components/PlayerInput';
 import WeaponInventory from '../../components/WeaponInventory';
 import Direction from '../../enums/Direction';
 import Config from "../../Config.js";
 import Events from "../../enums/Events.js";
+import VirtualJoypad from "../../components/VirtualJoypad.js";
 
 const SPRITESHEETKEY = 'playerSprites';
 

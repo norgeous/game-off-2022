@@ -47,7 +47,7 @@ export default class MainMenu extends AbstractScene {
         t.setOrigin(0.5);
         t.setShadow(2, 2, '#000000', 2, false, true);
 
-        console.log(t);
+        // console.log(t);
 
         this.input.once('pointerdown', function () {
           t.destroy();

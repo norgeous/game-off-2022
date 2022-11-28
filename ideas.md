@@ -19,8 +19,6 @@
 - screen shake
   - on bomb explode
   - maybe on take damage
-- deployment
-  - if no database -> to github pages?
 - request fullscreen on first click?
 - health pickups
 
@@ -60,7 +58,6 @@
 
 ## enemies
 
-- player take damage from zombie's attacks
 - hide inactive health bars after a few seconds
 - blood particle effect?
 - sounds
@@ -80,3 +77,16 @@
     - onHitEnemy
 - player 
 - enemies
+
+
+
+
+
+
+
+### for Daniel (urgent)
+
+- start and game over screen
+- improve one way platforms
+- more characters (optional extra)
+

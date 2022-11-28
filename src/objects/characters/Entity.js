@@ -2,8 +2,9 @@ import Phaser from 'phaser';
 import HealthBar from '../overlays/HealthBar';
 import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories } from '../enums/Collisions';
-import Events from "../enums/Events.js";
-import Config from "../Config.js";
+import Events from '../enums/Events';
+import Config from '../Config';
+
 
 const keepUprightStratergies = {
   NONE: 'NONE',
@@ -16,10 +17,10 @@ const craftpixOffset = {
   y: -7,
 };
 
-const findOtherBodyId = (thisSensorId, collisionData) => {
+const findOtherBody = (thisSensorId, collisionData) => {
   const bodies = [collisionData.bodyA, collisionData.bodyB];
   const other = bodies.find(({id}) => id !== thisSensorId);
-  return other.id;
+  return other;
 };
 
 export default class Entity extends Phaser.GameObjects.Container {
@@ -36,6 +37,7 @@ export default class Entity extends Phaser.GameObjects.Container {
       enableKeepUpright = false,
       keepUprightStratergy = keepUprightStratergies.SPRINGY,
       facing = Math.random() > .5 ? 1 : -1,
+      collideCallback = (sensorName, gameObject) => {},
     },
   ) {
     super(scene, x, y);
@@ -101,10 +103,8 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.playAnimation(EntityAnimations.Idle);
 
     // container
+    this.gameObject = this.scene.matter.add.gameObject(this);
     this.scene.add.existing(this);
-
-    // base physics object
-    this.gameObject = this.scene.matter.add.gameObject(this, { ...physicsConfig });
     
     // sensors
     const { Bodies, Body } = Phaser.Physics.Matter.Matter;
@@ -115,18 +115,18 @@ export default class Entity extends Phaser.GameObjects.Container {
     const top = Bodies.circle(0, -height/2, 4, { isSensor: true, label: 'top' });
     const bottom = Bodies.circle(0, height/2, 4, { isSensor: true, label: 'bottom' });
     const compoundBody = Body.create({
-      parts: [ this.hitbox, left, right, top, bottom ],
+      parts: [this.hitbox, left, right, top, bottom],
     });
 
     // when a collsion happens / ends then add / delete the id from the Set
-    left.onCollideActiveCallback = data =>  this.sensorData.left.add(findOtherBodyId(left.id, data));
-    left.onCollideEndCallback = data => this.sensorData.left.delete(findOtherBodyId(left.id, data));
-    right.onCollideActiveCallback = data =>  this.sensorData.right.add(findOtherBodyId(right.id, data));
-    right.onCollideEndCallback = data => this.sensorData.right.delete(findOtherBodyId(right.id, data));
-    top.onCollideActiveCallback = data =>  this.sensorData.top.add(findOtherBodyId(top.id, data));
-    top.onCollideEndCallback = data => this.sensorData.top.delete(findOtherBodyId(top.id, data));
-    bottom.onCollideActiveCallback = data =>  this.sensorData.bottom.add(findOtherBodyId(bottom.id, data));
-    bottom.onCollideEndCallback = data => this.sensorData.bottom.delete(findOtherBodyId(bottom.id, data));
+    left.onCollideCallback = data =>  {const other = findOtherBody(left.id, data); this.sensorData.left.add(other.id); collideCallback('left', other); }
+    left.onCollideEndCallback = data => this.sensorData.left.delete(findOtherBody(left.id, data).id);
+    right.onCollideCallback = data =>  {const other = findOtherBody(right.id, data); this.sensorData.right.add(other.id); collideCallback('right', other); }
+    right.onCollideEndCallback = data => this.sensorData.right.delete(findOtherBody(right.id, data).id);
+    top.onCollideCallback = data =>  this.sensorData.top.add(findOtherBody(top.id, data).id);
+    top.onCollideEndCallback = data => this.sensorData.top.delete(findOtherBody(top.id, data).id);
+    bottom.onCollideCallback = data =>  this.sensorData.bottom.add(findOtherBody(bottom.id, data).id);
+    bottom.onCollideEndCallback = data => this.sensorData.bottom.delete(findOtherBody(bottom.id, data).id);
 
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, y);
@@ -173,7 +173,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     // flip sprite to match facing
     this.flipXSprite(this.facing === -1);
 
-    // debug sensors
+    // debug as text
     this.text.setText(
       [
         this.sensorData.left.size ? 'L' : '-',

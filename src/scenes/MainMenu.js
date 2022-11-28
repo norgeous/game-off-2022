@@ -13,13 +13,37 @@ export default class MainMenu extends AbstractScene {
 
   preload() {
     super.preload();
+    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
   }
 
   create() {
     super.create();
+
     if (Config.PLAY_MUSIC) {
       this.audio.playMusic(Sound.MusicKey);
     }
+
+    WebFont.load({
+      google: {
+        families: [ 'Freckle Face', 'Finger Paint', 'Nosifer' ]
+      },
+      active: () => {
+        var t = this.add.text(
+          this.scale.width/2,
+          this.scale.height/2,
+          'Game\nOver',
+          { fontFamily: 'Nosifer', fontSize: 50, color: '#660000', align: 'center' },
+        );
+        t.setScrollFactor(0);
+        t.setDepth(1001);
+        t.setOrigin(0.5);
+        t.setShadow(2, 2, '#000000', 2, false, true);
+
+        // this.input.once('pointerdown', function () {
+        //     t.setFontSize(64);
+        // });
+      }
+    });
   }
 
   update(time, delta) {
@@ -27,10 +51,6 @@ export default class MainMenu extends AbstractScene {
   }
 }
 
-// function preload () {
-//   this.load.image('bg', 'assets/skies/gradient28.png');
-//   this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
-// }
 
 // function create () {
 //   this.add.image(400, 300, 'bg');
@@ -38,20 +58,4 @@ export default class MainMenu extends AbstractScene {
 //   var add = this.add;
 //   var input = this.input;
 
-//   WebFont.load({
-//       google: {
-//           families: [ 'Freckle Face', 'Finger Paint', 'Nosifer' ]
-//       },
-//       active: function ()
-//       {
-//           add.text(16, 0, 'The face of the\nmoon was in\nshadow.', { fontFamily: 'Freckle Face', fontSize: 80, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
-//           add.text(250, 450, 'Waves flung themselves\nat the blue evening.', { fontFamily: 'Finger Paint', fontSize: 40, color: '#5656ee' });
-
-//           var t = add.text(330, 200, 'R.I.P', { fontFamily: 'Nosifer', fontSize: 150, color: '#ff3434' });
-
-//           input.once('pointerdown', function () {
-//               t.setFontSize(64);
-//           });
-//       }
-//   });
 // }

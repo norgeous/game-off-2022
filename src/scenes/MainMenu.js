@@ -49,9 +49,9 @@ export default class MainMenu extends AbstractScene {
 
         console.log(t);
 
-        // this.input.once('pointerdown', function () {
-        //     t.setFontSize(64);
-        // });
+        this.input.once('pointerdown', function () {
+          t.destroy();
+        });
       }
     });
   }

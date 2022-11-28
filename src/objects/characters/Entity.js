@@ -3,6 +3,8 @@ import HealthBar from '../overlays/HealthBar';
 import EntityAnimations from '../enums/EntityAnimations';
 import { collisionCategories } from '../enums/Collisions';
 import Events from '../enums/Events';
+import Config from '../Config';
+
 
 const keepUprightStratergies = {
   NONE: 'NONE',
@@ -128,8 +130,17 @@ export default class Entity extends Phaser.GameObjects.Container {
 
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, y);
+
+    this.takeToxicDamage();
   }
 
+  takeToxicDamage() {
+    this.hitbox.onCollideCallback = data => {
+      if (data.bodyA.collisionFilter.category === collisionCategories.toxicDamage || data.bodyB.collisionFilter.category === collisionCategories.toxicDamage) {
+        this.takeDamage(Config.TOXIC_DAMAGE);
+      }
+    };
+  }
   getKey(key) {
     return `${this.name}_${key}`;
   }

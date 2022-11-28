@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Config from "../Config.js";
 
 export default class Button extends Phaser.GameObjects.Container {
   constructor(scene, { text, onClick = () => {}, onClickRelease = () => {}}) {
@@ -30,7 +31,7 @@ export default class Button extends Phaser.GameObjects.Container {
     }).setOrigin(0.5);
     this.add(this.text);
 
-    this.setDepth(1000).setScrollFactor(0);
+    this.setDepth(Config.UI_BUTTON_DEPTH).setScrollFactor(0);
 
     // container
     scene.add.existing(this);

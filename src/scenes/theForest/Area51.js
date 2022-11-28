@@ -1,6 +1,6 @@
-import Phaser from 'phaser';
-import Map from '../map/Map';
-import AbstractScene from "../AbstractScene.js";
+// import Phaser from 'phaser';
+import Map from '../../map/Map';
+import AbstractScene from '../AbstractScene';
 
 export default class TestScene extends AbstractScene {
   constructor() {

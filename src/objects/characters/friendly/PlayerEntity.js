@@ -156,6 +156,7 @@ export default class PlayerEntity extends Entity {
   }
 
   calculateVelocityX () {
+    if (Math.abs(this.gameObject.body.velocity.x) > 2.5) return;
     const { joypadDirection, sensorData } = this;
     let vx = 0;
 

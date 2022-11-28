@@ -76,6 +76,7 @@ export default class Map {
     this.layers.background = this.map.createLayer('Background', this.tileset)
     this.layers.foreground = this.map.createLayer('Forground', this.tileset)
     this.layers.ladders = this.map.createLayer('Ladders', this.tileset)
+    this.layers.toxicDamage = this.map.createLayer('ToxicDamage', this.tileset)
 
     this.spawners = {
       player: this.map.findObject('Spawner', obj => obj.name === 'player'),
@@ -86,20 +87,25 @@ export default class Map {
     this.layers.background.setCollisionByProperty({ collides: true });
     this.layers.foreground.setCollisionByProperty({ collides: true });
     this.layers.ladders.setCollisionByProperty({ collides: true });
+    this.layers.toxicDamage.setCollisionByProperty({ collides: true });
 
-    // this.layers.background.setDepth();
+    this.layers.toxicDamage.setDepth(Config.IN_FRONT_OF_PLAYER);
 
     this.Phaser.matter.world.convertTilemapLayer(this.layers.background);
     this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);
     this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
+    this.Phaser.matter.world.convertTilemapLayer(this.layers.toxicDamage);
 
-    // now that matter has loaded the layers, set collision categories on tile bodies
-    this.layers.ladders.forEachTile(tile => {
-      if (tile.index === -1) return;
-      tile.physics.matterBody.setCollisionCategory(collisionCategories.ladders);
-    });
+    this.setCollisionCateegoryOnLayer(this.layers.ladders, collisionCategories.ladders);
+    this.setCollisionCateegoryOnLayer(this.layers.toxicDamage, collisionCategories.toxicDamage);
   }
 
+  setCollisionCateegoryOnLayer(layer, collisionCategory) {
+    layer.forEachTile(tile => {
+      if (tile.physics.matterBody === undefined) return;
+      tile.physics.matterBody.setCollisionCategory(collisionCategory);
+    });
+  }
   loadDoors() {
     this.door = this.Phaser.add.sprite(
       this.spawners.exit[0].x,
@@ -115,7 +121,7 @@ export default class Map {
       scale: { start: 0.4, end: 0 },
       blendMode: 'ADD',
     });
-    emitter.setDepth(100);
+    emitter.setDepth(Config.PARTICLE_EFFECT_DEPTH);
 
     this.door = this.Phaser.matter.add.gameObject(this.door, {isStatic: true});
     this.door.setScale(2);

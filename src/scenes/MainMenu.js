@@ -25,19 +25,29 @@ export default class MainMenu extends AbstractScene {
 
     WebFont.load({
       google: {
-        families: [ 'Freckle Face', 'Finger Paint', 'Nosifer' ]
+        families: [ 'Nosifer' ]
       },
       active: () => {
         var t = this.add.text(
           this.scale.width/2,
           this.scale.height/2,
           'Game\nOver',
-          { fontFamily: 'Nosifer', fontSize: 50, color: '#660000', align: 'center' },
+          {
+            fontFamily: 'Nosifer',
+            fontSize: 64,
+            lineSpacing: -30,
+            color: '#880000',
+            align: 'center',
+            backgroundColor: '#00000066',
+            padding: 20,
+          },
         );
         t.setScrollFactor(0);
         t.setDepth(1001);
         t.setOrigin(0.5);
         t.setShadow(2, 2, '#000000', 2, false, true);
+
+        console.log(t);
 
         // this.input.once('pointerdown', function () {
         //     t.setFontSize(64);

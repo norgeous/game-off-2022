@@ -100,7 +100,7 @@ export default class AbstractScene extends Phaser.Scene {
       align: 'center',
     }).setOrigin(0.5)
       .setScrollFactor(0)
-      .setDepth(100);
+      .setDepth(Config.UI_DEPTH);
     this.text.alpha = 0.1;
     this.tweens.addCounter({
       from: 1,

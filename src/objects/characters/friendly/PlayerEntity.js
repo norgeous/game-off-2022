@@ -89,7 +89,7 @@ export default class PlayerEntity extends Entity {
     this.totalDamage = {};
     this.totalKills = {};
 
-    this.setDepth(1000);
+    this.setDepth(Config.PLAYER_DEPTH);
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
     this.hitbox.onCollideCallback = data => {
@@ -101,6 +101,9 @@ export default class PlayerEntity extends Entity {
           this.scene.scene.remove();
           this.scene.scene.launch(nextMap);
         });
+      }
+      if (data.bodyA.collisionFilter.category === collisionCategories.toxicDamage || data.bodyB.collisionFilter.category === collisionCategories.toxicDamage) {
+        this.takeDamage(Config.TOXIC_DAMAGE);
       }
     };
 

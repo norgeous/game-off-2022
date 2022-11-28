@@ -2,6 +2,7 @@ import {collisionCategories, collisionMaskEverything} from '../objects/enums/Col
 import Sound from '../objects/enums/Sound';
 import MovingPlatform from "../objects/components/map/MovingPlatform.js";
 import Config from "../objects/Config.js";
+import Explosion from "../objects/projectiles/Explosion.js";
 
 export default class Map {
   root = 'map';
@@ -84,6 +85,38 @@ export default class Map {
       exit: this.map.filterObjects('Spawner', obj => obj.name === 'exit'),
     };
 
+    this.explosives = {
+      barrel: this.map.filterObjects('Explosives', obj => obj.name === 'barrel'),
+    };
+
+    if (this.explosives.barrel) {
+      this.explosives.barrel.forEach((element, index, array) => {
+        let barrel = this.Phaser.add.sprite(
+          element.x,
+          element.y,
+          'explosion'
+        );
+        let barrelObject = this.Phaser.matter.add.gameObject(barrel, {isStatic: true});
+        barrelObject.setCollidesWith(collisionMaskEverything);
+        barrelObject.setOnCollide((data) => {
+          if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
+            barrelObject.destroy();
+            new Explosion(
+              this.Phaser,
+              element.x, element.y,
+              {
+                radius: 200,
+                force: 100,
+                damage: 500,
+              },
+            );
+
+          }
+        })
+      });
+    }
+
+
     this.layers.background?.setCollisionByProperty({ collides: true });
     this.layers.foreground?.setCollisionByProperty({ collides: true });
     this.layers.ladders?.setCollisionByProperty({ collides: true });
@@ -110,6 +143,7 @@ export default class Map {
       tile.physics.matterBody.setCollisionCategory(collisionCategory);
     });
   }
+
   loadDoors() {
     this.door = this.Phaser.add.sprite(
       this.spawners.exit[0].x,

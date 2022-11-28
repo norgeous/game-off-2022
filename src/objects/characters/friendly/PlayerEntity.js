@@ -1,12 +1,10 @@
 import Entity from '../Entity';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
-import PlayerInput from '../../components/PlayerInput';
 import WeaponInventory from '../../components/WeaponInventory';
-import Direction from '../../enums/Direction';
-import Config from "../../Config.js";
-import Events from "../../enums/Events.js";
-import VirtualJoypad from "../../components/VirtualJoypad.js";
+import Config from '../../Config';
+import Events from '../../enums/Events';
+import VirtualJoypad from '../../components/VirtualJoypad';
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -88,6 +86,7 @@ export default class PlayerEntity extends Entity {
 
     this.totalDamage = {};
     this.totalKills = {};
+    this.oneShot = true;
 
     this.setDepth(Config.PLAYER_DEPTH);
     this.gameObject.setCollisionCategory(collisionCategories.player);
@@ -188,27 +187,36 @@ export default class PlayerEntity extends Entity {
     this.armSprite.setFrame(arm);
 
     // reposition gun sprite
-    this.weapons.currentWeapon.gunSprite.x = gunX;
-    this.weapons.currentWeapon.gunSprite.y = gunY;
-    this.weapons.currentWeapon.gunSprite.rotation = gunR;
+    if (this.weapons.currentWeapon) {
+      this.weapons.currentWeapon.gunSprite.x = gunX;
+      this.weapons.currentWeapon.gunSprite.y = gunY;
+      this.weapons.currentWeapon.gunSprite.rotation = gunR;
+    }
   }
 
   flipXArmSprite(shouldFlip) {
     // super.flipXSprite(shouldFlip);
 
     this.armSprite.flipX = shouldFlip;
-    this.weapons.currentWeapon.gunSprite.flipX = shouldFlip;
+    if (this.weapons.currentWeapon) {
+      this.weapons.currentWeapon.gunSprite.flipX = shouldFlip;
+    }
+
 
     const { gunX, gunR } = directionTocraftpixArmFrame(this.gunDirection);
 
     if (shouldFlip) {
       this.armSprite.x = -6;
-      this.weapons.currentWeapon.gunSprite.x = -gunX;
-      this.weapons.currentWeapon.gunSprite.rotation = -gunR;
+      if (this.weapons.currentWeapon) {
+        this.weapons.currentWeapon.gunSprite.x = -gunX;
+        this.weapons.currentWeapon.gunSprite.rotation = -gunR;
+      }
     } else {
       this.armSprite.x = 6;
-      this.weapons.currentWeapon.gunSprite.x = gunX;
-      this.weapons.currentWeapon.gunSprite.rotation = gunR;
+      if (this.weapons.currentWeapon) {
+        this.weapons.currentWeapon.gunSprite.x = gunX;
+        this.weapons.currentWeapon.gunSprite.rotation = gunR;
+      }
     }
   }
 
@@ -226,10 +234,18 @@ export default class PlayerEntity extends Entity {
     super.update();
 
     if (!this.gameObject.body) return;
-
     // fire
-    if (this.firing) this.weapons.currentWeapon.pullTrigger();
-    else this.weapons.currentWeapon.releaseTrigger();
+    if (this.firing) {
+        if(this.weapons.isEmpty() && this.oneShot) {
+          this.scene.audio.playSfxNow('noWeaponSound');
+          this.oneShot = false;
+        }
+        this.weapons.currentWeapon?.pullTrigger();
+    }
+    else {
+      this.weapons.currentWeapon?.releaseTrigger();
+      this.oneShot = true;
+    }
 
     this.calculateVelocityX();
     this.calculateGunDirection();

@@ -102,6 +102,9 @@ export default class PlayerEntity extends Entity {
           this.scene.scene.launch(nextMap);
         });
       }
+      if (data.bodyA.collisionFilter.category === collisionCategories.toxicDamage || data.bodyB.collisionFilter.category === collisionCategories.toxicDamage) {
+        this.takeDamage(Config.TOXIC_DAMAGE);
+      }
     };
 
     // arm sprite

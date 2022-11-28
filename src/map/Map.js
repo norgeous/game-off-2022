@@ -84,23 +84,27 @@ export default class Map {
       exit: this.map.filterObjects('Spawner', obj => obj.name === 'exit'),
     };
 
-    this.layers.background.setCollisionByProperty({ collides: true });
-    this.layers.foreground.setCollisionByProperty({ collides: true });
-    this.layers.ladders.setCollisionByProperty({ collides: true });
-    this.layers.toxicDamage.setCollisionByProperty({ collides: true });
-
-    this.layers.toxicDamage.setDepth(Config.IN_FRONT_OF_PLAYER);
+    this.layers.background?.setCollisionByProperty({ collides: true });
+    this.layers.foreground?.setCollisionByProperty({ collides: true });
+    this.layers.ladders?.setCollisionByProperty({ collides: true });
+    this.layers.toxicDamage?.setCollisionByProperty({ collides: true });
+    this.layers.toxicDamage?.setDepth(Config.IN_FRONT_OF_PLAYER);
 
     this.Phaser.matter.world.convertTilemapLayer(this.layers.background);
     this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);
-    this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
-    this.Phaser.matter.world.convertTilemapLayer(this.layers.toxicDamage);
 
-    this.setCollisionCateegoryOnLayer(this.layers.ladders, collisionCategories.ladders);
-    this.setCollisionCateegoryOnLayer(this.layers.toxicDamage, collisionCategories.toxicDamage);
+    if (this.layers.ladders) {
+      this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
+      this.setCollisionCategoryOnLayer(this.layers.ladders, collisionCategories.ladders);
+    }
+
+    if (this.layers.toxicDamage) {
+      this.Phaser.matter.world.convertTilemapLayer(this.layers.toxicDamage);
+      this.setCollisionCategoryOnLayer(this.layers.toxicDamage, collisionCategories.toxicDamage);
+    }
   }
 
-  setCollisionCateegoryOnLayer(layer, collisionCategory) {
+  setCollisionCategoryOnLayer(layer, collisionCategory) {
     layer.forEachTile(tile => {
       if (tile.physics.matterBody === undefined) return;
       tile.physics.matterBody.setCollisionCategory(collisionCategory);

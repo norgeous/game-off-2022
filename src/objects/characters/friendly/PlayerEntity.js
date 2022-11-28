@@ -89,7 +89,7 @@ export default class PlayerEntity extends Entity {
     this.totalDamage = {};
     this.totalKills = {};
 
-    this.setDepth(1000);
+    this.setDepth(Config.PLAYER_DEPTH);
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
     this.hitbox.onCollideCallback = data => {

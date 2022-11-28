@@ -85,7 +85,7 @@ export default class AbstractScene extends Phaser.Scene {
     if (!target.body) return;
     const cam = this.cameras.main;
     cam.scrollX = smoothFactor * cam.scrollX + (1 - smoothFactor) * (target.x - cam.width * 0.5);
-    cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (target.y - cam.height * 0.5);
+    cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (target.y - cam.height * 0.6);
   }
 
   displayMapName() {
@@ -119,6 +119,6 @@ export default class AbstractScene extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
-    this.smoothMoveCameraTowards(this.player, 0.9);
+    this.smoothMoveCameraTowards(this.player, 0.95);
   }
 }

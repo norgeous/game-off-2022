@@ -1,4 +1,4 @@
-// import Phaser from 'phaser';
+import Phaser from 'phaser';
 import Map from '../map/Map';
 import AbstractScene from './AbstractScene';
 import Sound from '../objects/enums/Sound';
@@ -14,6 +14,7 @@ export default class MainMenu extends AbstractScene {
   preload() {
     super.preload();
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+    this.load.bitmapFont('hyperdrive', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.png', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.xml');
   }
 
   create() {
@@ -23,6 +24,15 @@ export default class MainMenu extends AbstractScene {
       this.audio.playMusic(Sound.MusicKey);
     }
 
+    this.add.bitmapText(
+      this.scale.width/2,
+      this.scale.height/2,
+      'hyperdrive',
+      'Zombie\nGame',
+      90,
+      1, // centered
+    ).setScrollFactor(0).setDepth(1001).setOrigin(0.5);
+
     WebFont.load({
       google: {
         families: [ 'Nosifer' ]
@@ -31,7 +41,7 @@ export default class MainMenu extends AbstractScene {
         var t = this.add.text(
           this.scale.width/2,
           this.scale.height/2,
-          'Game\nOver',
+          'GAME\nover',
           {
             fontFamily: 'Nosifer',
             fontSize: 64,

@@ -1,6 +1,4 @@
 import Phaser from 'phaser'
-// import Platformer from './scenes/Platformer'
-// import HelloWorldScene from './scenes/HelloWorldScene'
 import Config from './objects/Config';
 import MainMenu from './scenes/MainMenu';
 import Area1 from './scenes/theForest/Area1';
@@ -30,7 +28,6 @@ const config = {
     Area3,
     Area2,
     Area4,
-    // HelloWorldScene,
   ],
 }
 

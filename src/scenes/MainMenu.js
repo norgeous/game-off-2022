@@ -3,12 +3,12 @@ import Map from '../map/Map';
 import AbstractScene from './AbstractScene';
 import Sound from '../objects/enums/Sound';
 import Config from '../objects/Config';
-import GameOver from '../objects/overlays/GameOver';
+import ScratchFont from '../objects/overlays/ScratchFont';
 
 export default class MainMenu extends AbstractScene {
   constructor() {
     super('main-menu')
-    this.startText = 'Main menu';
+    // this.startText = 'Main menu';
     this.map = new Map(this, 'theForest', 'tileset_extruded.png', 'mapData.json', 8);
   }
 
@@ -24,17 +24,17 @@ export default class MainMenu extends AbstractScene {
       this.audio.playMusic(Sound.MusicKey);
     }
 
-    this.add.bitmapText(
+    new ScratchFont(
+      this,
       this.scale.width/2,
-      this.scale.height/2,
-      'hyperdrive',
-      'Dead man\nwalking',
-      90,
-      1, // centered
-    ).setScrollFactor(0).setDepth(1001).setOrigin(0.5);
+      this.scale.height/4,
+      {
+        text: 'Dead Man Walking',
+      },
+    );
 
-    new GameOver(this);
-
+    // load forest-area1 when clicking anywhere
+    this.input.once('pointerdown', () => this.scene.launch('forest-area1'));
   }
 
   update(time, delta) {

@@ -33,7 +33,7 @@ export default class MainMenu extends AbstractScene {
       1, // centered
     ).setScrollFactor(0).setDepth(1001).setOrigin(0.5);
 
-    WebFont.load({
+    window.WebFont.load({
       google: {
         families: [ 'Nosifer' ]
       },
@@ -41,7 +41,7 @@ export default class MainMenu extends AbstractScene {
         var t = this.add.text(
           this.scale.width/2,
           this.scale.height/2,
-          'GAME\nover',
+          'game\nover',
           {
             fontFamily: 'Nosifer',
             fontSize: 64,

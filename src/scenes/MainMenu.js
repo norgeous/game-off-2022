@@ -24,14 +24,14 @@ export default class MainMenu extends AbstractScene {
       this.audio.playMusic(Sound.MusicKey);
     }
 
-    // this.add.bitmapText(
-    //   this.scale.width/2,
-    //   this.scale.height/2,
-    //   'hyperdrive',
-    //   'Dead man\nwalking',
-    //   90,
-    //   1, // centered
-    // ).setScrollFactor(0).setDepth(1001).setOrigin(0.5);
+    this.add.bitmapText(
+      this.scale.width/2,
+      this.scale.height/2,
+      'hyperdrive',
+      'Dead man\nwalking',
+      90,
+      1, // centered
+    ).setScrollFactor(0).setDepth(1001).setOrigin(0.5);
 
     new GameOver(this);
 

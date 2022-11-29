@@ -3,6 +3,7 @@ import Map from '../map/Map';
 import AbstractScene from './AbstractScene';
 import Sound from '../objects/enums/Sound';
 import Config from '../objects/Config';
+import GameOver from '../objects/overlays/GameOver';
 
 export default class MainMenu extends AbstractScene {
   constructor() {
@@ -13,7 +14,7 @@ export default class MainMenu extends AbstractScene {
 
   preload() {
     super.preload();
-    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+    GameOver.preload(this);
     this.load.bitmapFont('hyperdrive', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.png', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.xml');
   }
 
@@ -24,46 +25,17 @@ export default class MainMenu extends AbstractScene {
       this.audio.playMusic(Sound.MusicKey);
     }
 
-    this.add.bitmapText(
-      this.scale.width/2,
-      this.scale.height/2,
-      'hyperdrive',
-      'Dead man\nwalking',
-      90,
-      1, // centered
-    ).setScrollFactor(0).setDepth(1001).setOrigin(0.5);
+    // this.add.bitmapText(
+    //   this.scale.width/2,
+    //   this.scale.height/2,
+    //   'hyperdrive',
+    //   'Dead man\nwalking',
+    //   90,
+    //   1, // centered
+    // ).setScrollFactor(0).setDepth(1001).setOrigin(0.5);
 
-    window.WebFont.load({
-      google: {
-        families: [ 'Nosifer' ]
-      },
-      active: () => {
-        var t = this.add.text(
-          this.scale.width/2,
-          this.scale.height/2,
-          'game\nover',
-          {
-            fontFamily: 'Nosifer',
-            fontSize: 64,
-            lineSpacing: -30,
-            color: '#880000',
-            align: 'center',
-            backgroundColor: '#00000066',
-            padding: 20,
-          },
-        );
-        t.setScrollFactor(0);
-        t.setDepth(1001);
-        t.setOrigin(0.5);
-        t.setShadow(2, 2, '#000000', 2, false, true);
+    new GameOver(this);
 
-        // console.log(t);
-
-        this.input.once('pointerdown', function () {
-          t.destroy();
-        });
-      }
-    });
   }
 
   update(time, delta) {

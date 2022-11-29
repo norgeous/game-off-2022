@@ -1,11 +1,12 @@
 import Phaser from 'phaser'
 // import Platformer from './scenes/Platformer'
-import HelloWorldScene from './scenes/HelloWorldScene'
+// import HelloWorldScene from './scenes/HelloWorldScene'
 import Config from './objects/Config';
-import Area1 from "./scenes/theForest/Area1.js";
-import Area2 from "./scenes/theForest/Area2.js";
-import Area3 from "./scenes/theForest/Area3.js";
-import Area4 from "./scenes/theForest/Area4.js";
+import MainMenu from './scenes/MainMenu';
+import Area1 from './scenes/theForest/Area1';
+import Area2 from './scenes/theForest/Area2';
+import Area3 from './scenes/theForest/Area3';
+import Area4 from './scenes/theForest/Area4';
 
 const config = {
   type: Phaser.AUTO,
@@ -21,14 +22,15 @@ const config = {
     },
   },
   input: {
-    activePointers: 3, // enable multi touch?
+    activePointers: 3, // enable multi touch
   },
   scene: [
+    MainMenu,
     Area1,
     Area3,
     Area2,
     Area4,
-    HelloWorldScene,
+    // HelloWorldScene,
   ],
 }
 

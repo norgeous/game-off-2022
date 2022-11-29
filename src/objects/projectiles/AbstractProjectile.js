@@ -54,7 +54,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
  
     // collide with everything except other bullets, ladders and player
     this.setCollidesWith(collisionMaskEverything &~ collisionCategories.enemyDamage &~ collisionCategories.ladders &~ collisionCategories.player);
- 
+
     // when projectile collides with anything
     this.setOnCollide(data => {
       const bodies = [data.bodyA, data.bodyB];
@@ -63,7 +63,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
       // trigger the takeDamage function on target (if it exists)
       target.gameObject?.takeDamage?.(collisionDamage);
 
-      if ((target.gameObject.body.collisionFilter.category & destroyOnCollideMask) > 0) this.complete();
+      if ((target.gameObject?.body.collisionFilter.category & destroyOnCollideMask) > 0) this.complete();
     });
 
     // self destroy after lifespan

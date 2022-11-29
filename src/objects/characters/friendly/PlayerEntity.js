@@ -1,13 +1,10 @@
 import Entity from '../Entity';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
-import PlayerInput from '../../components/PlayerInput';
 import WeaponInventory from '../../components/WeaponInventory';
-import Direction from '../../enums/Direction';
-import Config from "../../Config.js";
-import Events from "../../enums/Events.js";
-import VirtualJoypad from "../../components/VirtualJoypad.js";
-import Phaser from "phaser";
+import Config from '../../Config';
+import Events from '../../enums/Events';
+import VirtualJoypad from '../../components/VirtualJoypad';
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -84,13 +81,13 @@ export default class PlayerEntity extends Entity {
         keepUprightStratergy: 'INSTANT',
         facing: 1,
         health: 1000,
-        score: 0,
       },
     );
 
     this.score = 0;
     this.totalDamage = {};
     this.totalKills = {};
+    this.oneShot = true;
     this.totalKills['total'] = 0;
     this.scoreGUI = null;
 
@@ -104,7 +101,7 @@ export default class PlayerEntity extends Entity {
         this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
           clearInterval(this.scene.spawner); // stop scene spawner interval. issues when loading next map.
           this.scene.scene.remove();
-          this.scene.scene.launch(nextMap, {player: this, test:'asdasdasd'});
+          this.scene.scene.launch(nextMap, {player: this});
         });
       }
       if (data.bodyA.collisionFilter.category === collisionCategories.toxicDamage || data.bodyB.collisionFilter.category === collisionCategories.toxicDamage) {
@@ -170,7 +167,7 @@ export default class PlayerEntity extends Entity {
     this.weapons.index = player.weapons.index;
     this.weapons.createCurrentWeapon();
   }
-  
+
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
     scene.load.spritesheet('hands', 'sprites/craftpix.net/biker_hands.png', { frameWidth: 32, frameHeight: 32 });
@@ -211,27 +208,36 @@ export default class PlayerEntity extends Entity {
     this.armSprite.setFrame(arm);
 
     // reposition gun sprite
-    this.weapons.currentWeapon.gunSprite.x = gunX;
-    this.weapons.currentWeapon.gunSprite.y = gunY;
-    this.weapons.currentWeapon.gunSprite.rotation = gunR;
+    if (this.weapons.currentWeapon) {
+      this.weapons.currentWeapon.gunSprite.x = gunX;
+      this.weapons.currentWeapon.gunSprite.y = gunY;
+      this.weapons.currentWeapon.gunSprite.rotation = gunR;
+    }
   }
 
   flipXArmSprite(shouldFlip) {
     // super.flipXSprite(shouldFlip);
 
     this.armSprite.flipX = shouldFlip;
-    this.weapons.currentWeapon.gunSprite.flipX = shouldFlip;
+    if (this.weapons.currentWeapon) {
+      this.weapons.currentWeapon.gunSprite.flipX = shouldFlip;
+    }
+
 
     const { gunX, gunR } = directionTocraftpixArmFrame(this.gunDirection);
 
     if (shouldFlip) {
       this.armSprite.x = -6;
-      this.weapons.currentWeapon.gunSprite.x = -gunX;
-      this.weapons.currentWeapon.gunSprite.rotation = -gunR;
+      if (this.weapons.currentWeapon) {
+        this.weapons.currentWeapon.gunSprite.x = -gunX;
+        this.weapons.currentWeapon.gunSprite.rotation = -gunR;
+      }
     } else {
       this.armSprite.x = 6;
-      this.weapons.currentWeapon.gunSprite.x = gunX;
-      this.weapons.currentWeapon.gunSprite.rotation = gunR;
+      if (this.weapons.currentWeapon) {
+        this.weapons.currentWeapon.gunSprite.x = gunX;
+        this.weapons.currentWeapon.gunSprite.rotation = gunR;
+      }
     }
   }
 
@@ -249,10 +255,18 @@ export default class PlayerEntity extends Entity {
     super.update();
 
     if (!this.gameObject.body) return;
-
     // fire
-    if (this.firing) this.weapons.currentWeapon.pullTrigger();
-    else this.weapons.currentWeapon.releaseTrigger();
+    if (this.firing) {
+        if(this.weapons.isEmpty() && this.oneShot) {
+          this.scene.audio.playSfxNow('noWeaponSound');
+          this.oneShot = false;
+        }
+        this.weapons.currentWeapon?.pullTrigger();
+    }
+    else {
+      this.weapons.currentWeapon?.releaseTrigger();
+      this.oneShot = true;
+    }
 
     this.calculateVelocityX();
     this.calculateGunDirection();
@@ -266,11 +280,13 @@ export default class PlayerEntity extends Entity {
     } else {
       this.gameObject.setCollidesWith(collisionMaskEverything);
     }
+    
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
     const isAlive = this.health > 0;
+
     if (isAlive) {
       // alive
       // when moving play walking animation, otherwise play idle

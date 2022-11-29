@@ -37,4 +37,8 @@ export default class Config {
     b:0,
     g:0
   };
+  static EXPLODING_BARRELS_RADIUS = 200;
+  static EXPLODING_BARRELS_FORCE = 200;
+  static EXPLODING_BARRELS_DAMAGE = 200;
+  static EXPLODING_BARRELS_TEXTURE = 'explosion'
 }

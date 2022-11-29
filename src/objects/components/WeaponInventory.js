@@ -5,10 +5,7 @@ import HandGun from '../../objects/weapons/HandGun';
 
 export default class WeaponInventory {
   inventory = [
-    HandGun,
-    MachineGun,
-    GrenadeLauncher,
-    RocketLauncher,
+
   ];
   index = 0;
 
@@ -26,6 +23,7 @@ export default class WeaponInventory {
   }
 
   createCurrentWeapon () {
+    if (this.inventory.length < 1) return;
     this.currentWeapon?.destroy();
     this.currentWeapon = new this.inventory[this.index](this.scene, { entity: this.entity });
   }
@@ -41,6 +39,10 @@ export default class WeaponInventory {
 
   fireCurrent() {
     this.currentWeapon.pullTrigger();
+  }
+
+  isEmpty() {
+    return this.inventory.length < 1;
   }
 
   add(WeaponClass) {

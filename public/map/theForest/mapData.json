@@ -1571,8 +1571,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":278.121212121212,
-                 "y":3130.33333333334
+                 "x":84.7878787878787,
+                 "y":3126.33333333334
                 }, 
                 {
                  "class":"",
@@ -1861,9 +1861,121 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":11,
+         "name":"Pickups",
+         "objects":[
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":38,
+                 "name":"item",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":755.333333333333,
+                 "y":3010
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":42,
+                 "name":"item",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"rocketLauncher"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":708,
+                 "y":3147.33333333333
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":49,
+                 "name":"item",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"machineGun"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1078,
+                 "y":3148.66666666667
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":50,
+                 "name":"item",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"grenadeLauncher"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1498,
+                 "y":3164.66666666667
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":51,
+                 "name":"item",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"handGun"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":498,
+                 "y":3066.66666666667
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":8,
+         "name":"Explosives",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":32,
+ "nextlayerid":13,
+ "nextobjectid":52,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 // import Platformer from './scenes/Platformer'
 // import HelloWorldScene from './scenes/HelloWorldScene'
 import Config from './objects/Config';
-// import MainMenu from './scenes/MainMenu';
+import MainMenu from './scenes/MainMenu';
 import Area1 from './scenes/theForest/Area1';
 import Area2 from './scenes/theForest/Area2';
 import Area3 from './scenes/theForest/Area3';
@@ -25,7 +25,7 @@ const config = {
     activePointers: 3, // enable multi touch
   },
   scene: [
-    // MainMenu,
+    MainMenu,
     Area1,
     Area3,
     Area2,

@@ -7,6 +7,7 @@ import Events from '../../enums/Events';
 import VirtualJoypad from '../../components/VirtualJoypad';
 import BloodFont from "../../overlays/BloodFont.js";
 import GameOver from '../../overlays/GameOver';
+import Sound from '../../enums/Sound';
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -129,6 +130,10 @@ export default class PlayerEntity extends Entity {
     });
     this.scene.events.on(Events.ON_KILL_ENTITY, (data) => {
       const collisionCategory = data.from?.body?.collisionFilter.category ?? null;
+      if (data.entity.name === 'PlayerEntity') {
+        // player died - gets triggered once.
+        this.scene.audio.playSfxNow(Sound.PlayerDeath);
+      }
       if (data.entity.name !== 'PlayerEntity' && collisionCategory === collisionCategories.enemyDamage) {
         (!this.totalKills[data.entity.name]) ? this.totalKills[data.entity.name] = 1 : this.totalKills[data.entity.name] += 1;
         this.totalKills['total']++;

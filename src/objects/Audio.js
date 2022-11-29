@@ -22,6 +22,7 @@ export default class Audio  {
     this.scene.load.audio(Sound.MachineGunFire, 'sounds/gun-burst.mp3');
     this.scene.load.audio(Sound.GunBurst, 'sounds/machine-gun.mp3');
     this.scene.load.audio(Sound.Pistol, 'sounds/pistol.wav');
+    this.scene.load.audio(Sound.PlayerDeath, 'sounds/man-scream.mp3');
     this.scene.load.audio(Sound.RocketLaunch, 'https://labs.phaser.io/assets/audio/SoundEffects/lazer_wall_off.mp3');
     this.scene.load.audio(Sound.GrenadeLaunch, 'https://labs.phaser.io/assets/audio/SoundEffects/pusher.wav');
   }

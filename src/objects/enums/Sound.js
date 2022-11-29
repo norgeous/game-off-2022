@@ -13,4 +13,5 @@ export default class Sound {
 
   // Player
   static PLAYER_NO_WEAPON_SOUND = 'noWeaponSound';
+  static PlayerDeath = 'playerDeath';
 }

@@ -5,6 +5,7 @@ import WeaponInventory from '../../components/WeaponInventory';
 import Config from '../../Config';
 import Events from '../../enums/Events';
 import VirtualJoypad from '../../components/VirtualJoypad';
+import BloodFont from "../../overlays/BloodFont.js";
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -84,9 +85,12 @@ export default class PlayerEntity extends Entity {
       },
     );
 
+    this.score = 0;
     this.totalDamage = {};
     this.totalKills = {};
     this.oneShot = true;
+    this.totalKills['total'] = 0;
+    this.scoreGUI = null;
 
     this.setDepth(Config.PLAYER_DEPTH);
     this.gameObject.setCollisionCategory(collisionCategories.player);
@@ -98,7 +102,7 @@ export default class PlayerEntity extends Entity {
         this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
           clearInterval(this.scene.spawner); // stop scene spawner interval. issues when loading next map.
           this.scene.scene.remove();
-          this.scene.scene.launch(nextMap);
+          this.scene.scene.launch(nextMap, {player: this});
         });
       }
       if (data.bodyA.collisionFilter.category === collisionCategories.toxicDamage || data.bodyB.collisionFilter.category === collisionCategories.toxicDamage) {
@@ -125,6 +129,13 @@ export default class PlayerEntity extends Entity {
     this.scene.events.on(Events.ON_KILL_ENTITY, (data) => {
       if (data.entity.name !== 'PlayerEntity') {
         (!this.totalKills[data.entity.name]) ? this.totalKills[data.entity.name] = 1 : this.totalKills[data.entity.name] += 1;
+        this.totalKills['total']++;
+        this.score += data.entity.pointsForKill ?? 0;
+        this.updateScore({
+          score: this.score,
+          kills: this.totalKills['total']
+          }
+        );
       }
     });
 
@@ -146,6 +157,16 @@ export default class PlayerEntity extends Entity {
         onPressSwitch: () => this.weapons.next(),
       },
     );
+  }
+
+  setPlayer(player) {
+    this.health = player.health;
+    this.score = player.score;
+    this.totalDamage = player.totalDamage;
+    this.totalKills = player.totalKills;
+    this.weapons.inventory = player.weapons.inventory;
+    this.weapons.index = player.weapons.index;
+    this.weapons.createCurrentWeapon();
   }
 
   static preload(scene) {
@@ -282,5 +303,31 @@ export default class PlayerEntity extends Entity {
         this.gameObject.destroy();
       });
     }
+  }
+
+  updateScore(data) {
+    const score = data.score ?? 0;
+    const kills = data.kills ?? 0;
+    this.scoreGUI.text.text = [`Score: ${score}`, `Kills: ${kills}`];
+  }
+
+  playerScoreGUI() {
+    const score = this.score ?? 999;
+    const kills = this.totalKills['total'] ?? 999;
+
+
+    this.scoreGUI = new BloodFont(
+      this.scene,
+      this.scene.cameras.main.worldView.x,
+      this.scene.cameras.main.worldView.y,
+        {
+        padding: 10,
+        fixedWidth: this.scene.cameras.main.width,
+        fontSize: 18,
+        lineSpacing:-10,
+        text: [`Score: ${score}`, `Kills: ${kills}`],
+        backgroundColor: '#00000066',
+      },
+    );
   }
 }

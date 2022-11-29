@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import Config from "../Config.js";
+import Config from '../Config';
 
 export default class Button extends Phaser.GameObjects.Container {
   constructor(scene, { text, onClick = () => {}, onClickRelease = () => {}}) {

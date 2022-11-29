@@ -1,9 +1,11 @@
 import Phaser from 'phaser';
+// import Map from '../map/Map';
 import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
 import Zombie from '../objects/characters/enemy/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
 import Config from '../objects/Config';
+import BloodFont from '../objects/overlays/BloodFont';
 
 const MAX_ZOMBIES = 10;
 
@@ -18,6 +20,7 @@ export default class AbstractScene extends Phaser.Scene {
   }
 
   preload() {
+    BloodFont.preload(this);
     this.map?.preload();
     Zombie.preload(this);
     PlayerEntity.preload(this);
@@ -85,7 +88,7 @@ export default class AbstractScene extends Phaser.Scene {
     if (!target.body) return;
     const cam = this.cameras.main;
     cam.scrollX = smoothFactor * cam.scrollX + (1 - smoothFactor) * (target.x - cam.width * 0.5);
-    cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (target.y - cam.height * 0.5);
+    cam.scrollY = smoothFactor * cam.scrollY + (1 - smoothFactor) * (target.y - cam.height * 0.6);
   }
 
   displayMapName() {
@@ -119,6 +122,6 @@ export default class AbstractScene extends Phaser.Scene {
 
   update(time, delta) {
     this.player.update();
-    this.smoothMoveCameraTowards(this.player, 0.9);
+    this.smoothMoveCameraTowards(this.player, 0.95);
   }
 }

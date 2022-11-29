@@ -1,8 +1,8 @@
-import Phaser from 'phaser';
+// import Phaser from 'phaser';
 import Map from '../../map/Map';
-import AbstractScene from '../AbstractScene.js';
-import Sound from "../../objects/enums/Sound.js";
-import Config from "../../objects/Config.js";
+import AbstractScene from '../AbstractScene';
+import Sound from '../../objects/enums/Sound';
+import Config from '../../objects/Config';
 
 export default class Area1 extends AbstractScene {
   constructor() {

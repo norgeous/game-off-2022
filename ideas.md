@@ -4,10 +4,9 @@
 
 - start scene / main menu
 - game over scene
-- second level / better level / level transitions / better narrative
+better narrative
   - more tiles sets (perhaps forest > city > inside building)
   - introduce 1 zombie first, later hoards of zombies
-  - doors
 - post-processing + lighting (might be worth spending a day on?)
 - show keyboard bindings somewhere on screen (IMPORTANT)
 - settings menu?
@@ -16,18 +15,11 @@
 - points system? 
   - points for killing zombies?
   - leaderboard
-- screen shake
-  - on bomb explode
-  - maybe on take damage
-- deployment
-  - if no database -> to github pages?
 - request fullscreen on first click?
-- health pickups
 
 
 ## ui
 
-- Showing player health. (hearts? or health bar?)
 - menus uis (start game, pause, options.)
 - maybe classic old style test all sounds menu? 
 - inventory?
@@ -36,13 +28,7 @@
 ## player
 
 - inventory overlay?
-- health hud?
 - cliche phrases tts / sounds
-- make it obvious when player gets hurt
-  - screen maybe goes red
-  - sounds
-  - flash animation
-
 
 ## weapons
 
@@ -60,23 +46,49 @@
 
 ## enemies
 
-- player take damage from zombie's attacks
 - hide inactive health bars after a few seconds
 - blood particle effect?
 - sounds
 - more enemies and boss enemy (maybe just tint / hue shift existing enemy)
-- improve spawing / spawners - only spawn when player is close and despawn zombies that are far away from player
-  - they spawn exact same location and take damage on spawn
-  - make them only spawn when player is nearby?
+- improve spawing / spawners 
   - spawn animation?
     - climb out of hole in wall or ground?
     - reverse frames of death anim
 - add civilians / animals
 
+
 ## sound and music
 
-- sounds
-  - weapons 
-    - onHitEnemy
-- player 
-- enemies
+- player hurt
+- zombie noise? 
+- zombie take damage? 
+- player jump?
+- item pickup
+
+
+## bits and bobs
+
+- Extra life? 
+- take damage flash is too much (should we put an epilepsy warning due to this or let the player turn it off?)
+- maybe show points on screen when you kill a zombie? 
+- zombies attack each other? 
+- parallax background images don't repeat. can look weird sometimes. 
+- maps need finishing up 
+  - all spawn points in place
+  - all item pickups in place
+  - levels tested from start to finish
+
+
+### scott
+
+- onscreen GUI for player health/points
+- player can gain points
+- spawn max number zombies per spawn point
+
+
+### for Daniel (urgent)
+
+- bugfix: improve one way platforms
+- bugfix: zombies should not be able to kill each other
+- more characters (optional extra)
+

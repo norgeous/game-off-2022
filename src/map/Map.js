@@ -2,6 +2,12 @@ import {collisionCategories, collisionMaskEverything} from '../objects/enums/Col
 import Sound from '../objects/enums/Sound';
 import MovingPlatform from "../objects/components/map/MovingPlatform.js";
 import Config from "../objects/Config.js";
+import Explosion from "../objects/projectiles/Explosion.js";
+import Phaser from "phaser";
+import HandGun from "../objects/weapons/HandGun.js";
+import Health from "../objects/Health.js";
+import GrenadeLauncher from "../objects/weapons/GrenadeLauncher.js";
+import Pickups from "../objects/components/map/Pickups.js";
 
 export default class Map {
   root = 'map';
@@ -31,6 +37,7 @@ export default class Map {
 
   // Must be called inside a scene's preLoad()
   preload() {
+    this.Phaser.load.spritesheet('healthPack', 'sprites/healthpack.png', { frameWidth: 48, frameHeight: 48 });
     this.loadTileSheet();
     this.loadBackgroundImages();
     this.loadMapData();
@@ -76,6 +83,7 @@ export default class Map {
     this.layers.background = this.map.createLayer('Background', this.tileset)
     this.layers.foreground = this.map.createLayer('Forground', this.tileset)
     this.layers.ladders = this.map.createLayer('Ladders', this.tileset)
+    this.layers.toxicDamage = this.map.createLayer('ToxicDamage', this.tileset)
 
     this.spawners = {
       player: this.map.findObject('Spawner', obj => obj.name === 'player'),
@@ -83,20 +91,83 @@ export default class Map {
       exit: this.map.filterObjects('Spawner', obj => obj.name === 'exit'),
     };
 
-    this.layers.background.setCollisionByProperty({ collides: true });
-    this.layers.foreground.setCollisionByProperty({ collides: true });
-    this.layers.ladders.setCollisionByProperty({ collides: true });
 
-    // this.layers.background.setDepth();
+    this.createExplosives();
+    this.createItemDrops();
+
+    this.layers.background?.setCollisionByProperty({ collides: true });
+    this.layers.foreground?.setCollisionByProperty({ collides: true });
+    this.layers.ladders?.setCollisionByProperty({ collides: true });
+    this.layers.toxicDamage?.setCollisionByProperty({ collides: true });
+    this.layers.toxicDamage?.setDepth(Config.IN_FRONT_OF_PLAYER);
 
     this.Phaser.matter.world.convertTilemapLayer(this.layers.background);
     this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);
-    this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
 
-    // now that matter has loaded the layers, set collision categories on tile bodies
-    this.layers.ladders.forEachTile(tile => {
-      if (tile.index === -1) return;
-      tile.physics.matterBody.setCollisionCategory(collisionCategories.ladders);
+    if (this.layers.ladders) {
+      this.Phaser.matter.world.convertTilemapLayer(this.layers.ladders);
+      this.setCollisionCategoryOnLayer(this.layers.ladders, collisionCategories.ladders);
+    }
+
+    if (this.layers.toxicDamage) {
+      this.Phaser.matter.world.convertTilemapLayer(this.layers.toxicDamage);
+      this.setCollisionCategoryOnLayer(this.layers.toxicDamage, collisionCategories.toxicDamage);
+    }
+  }
+
+  getObjectFromLayer(LayerName, objectNames) {
+    let obj = this.map.filterObjects(LayerName, (obj) => obj.name === objectNames);
+    obj.forEach((element, index, array) => {
+      element.properties?.map((data) => {
+        element.properties[data.name ?? ''] = data.value ?? '';
+      });
+    });
+    return obj;
+  }
+
+  createItemDrops() {
+    new Pickups(this);
+
+
+
+  }
+
+  createExplosives() {
+    this.explosives = {
+      barrel: this.map.filterObjects('Explosives', obj => obj.name === 'barrel'),
+    };
+    if (this.explosives.barrel) {
+      this.explosives.barrel.forEach((element, index, array) => {
+        let barrel = this.Phaser.add.sprite(
+          element.x,
+          element.y,
+          'explosion'
+        );
+        let barrelObject = this.Phaser.matter.add.gameObject(barrel, {isStatic: false});
+        barrelObject.setCollidesWith(collisionMaskEverything);
+        barrelObject.setOnCollide((data) => {
+          if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
+            barrelObject.destroy();
+            new Explosion(
+              this.Phaser,
+              element.x, element.y,
+              {
+                radius: 200,
+                force: 100,
+                damage: 500,
+              },
+            );
+
+          }
+        })
+      });
+    }
+  }
+
+  setCollisionCategoryOnLayer(layer, collisionCategory) {
+    layer.forEachTile(tile => {
+      if (tile.physics.matterBody === undefined) return;
+      tile.physics.matterBody.setCollisionCategory(collisionCategory);
     });
   }
 
@@ -115,7 +186,7 @@ export default class Map {
       scale: { start: 0.4, end: 0 },
       blendMode: 'ADD',
     });
-    emitter.setDepth(100);
+    emitter.setDepth(Config.PARTICLE_EFFECT_DEPTH);
 
     this.door = this.Phaser.matter.add.gameObject(this.door, {isStatic: true});
     this.door.setScale(2);

@@ -1,12 +1,12 @@
 import Entity from '../Entity';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories, collisionMaskEverything } from '../../enums/Collisions';
-import PlayerInput from '../../components/PlayerInput';
 import WeaponInventory from '../../components/WeaponInventory';
-import Direction from '../../enums/Direction';
-import Config from "../../Config.js";
-import Events from "../../enums/Events.js";
-import VirtualJoypad from "../../components/VirtualJoypad.js";
+import Config from '../../Config';
+import Events from '../../enums/Events';
+import VirtualJoypad from '../../components/VirtualJoypad';
+import BloodFont from "../../overlays/BloodFont.js";
+import GameOver from '../../overlays/GameOver';
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -86,10 +86,14 @@ export default class PlayerEntity extends Entity {
       },
     );
 
+    this.score = 0;
     this.totalDamage = {};
     this.totalKills = {};
+    this.oneShot = true;
+    this.totalKills['total'] = 0;
+    this.scoreGUI = null;
 
-    this.setDepth(1000);
+    this.setDepth(Config.PLAYER_DEPTH);
     this.gameObject.setCollisionCategory(collisionCategories.player);
 
     this.hitbox.onCollideCallback = data => {
@@ -99,8 +103,11 @@ export default class PlayerEntity extends Entity {
         this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
           clearInterval(this.scene.spawner); // stop scene spawner interval. issues when loading next map.
           this.scene.scene.remove();
-          this.scene.scene.launch(nextMap);
+          this.scene.scene.launch(nextMap, {player: this});
         });
+      }
+      if (data.bodyA.collisionFilter.category === collisionCategories.toxicDamage || data.bodyB.collisionFilter.category === collisionCategories.toxicDamage) {
+        this.takeDamage(Config.TOXIC_DAMAGE);
       }
     };
 
@@ -123,6 +130,13 @@ export default class PlayerEntity extends Entity {
     this.scene.events.on(Events.ON_KILL_ENTITY, (data) => {
       if (data.entity.name !== 'PlayerEntity') {
         (!this.totalKills[data.entity.name]) ? this.totalKills[data.entity.name] = 1 : this.totalKills[data.entity.name] += 1;
+        this.totalKills['total']++;
+        this.score += data.entity.pointsForKill ?? 0;
+        this.updateScore({
+          score: this.score,
+          kills: this.totalKills['total']
+          }
+        );
       }
     });
 
@@ -146,6 +160,16 @@ export default class PlayerEntity extends Entity {
     );
   }
 
+  setPlayer(player) {
+    this.health = player.health;
+    this.score = player.score;
+    this.totalDamage = player.totalDamage;
+    this.totalKills = player.totalKills;
+    this.weapons.inventory = player.weapons.inventory;
+    this.weapons.index = player.weapons.index;
+    this.weapons.createCurrentWeapon();
+  }
+
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
     scene.load.spritesheet('hands', 'sprites/craftpix.net/biker_hands.png', { frameWidth: 32, frameHeight: 32 });
@@ -154,6 +178,7 @@ export default class PlayerEntity extends Entity {
   }
 
   calculateVelocityX () {
+    if (Math.abs(this.gameObject.body.velocity.x) > 2.5) return;
     const { joypadDirection, sensorData } = this;
     let vx = 0;
 
@@ -185,27 +210,35 @@ export default class PlayerEntity extends Entity {
     this.armSprite.setFrame(arm);
 
     // reposition gun sprite
-    this.weapons.currentWeapon.gunSprite.x = gunX;
-    this.weapons.currentWeapon.gunSprite.y = gunY;
-    this.weapons.currentWeapon.gunSprite.rotation = gunR;
+    if (this.weapons.currentWeapon) {
+      this.weapons.currentWeapon.gunSprite.x = gunX;
+      this.weapons.currentWeapon.gunSprite.y = gunY;
+      this.weapons.currentWeapon.gunSprite.rotation = gunR;
+    }
   }
 
   flipXArmSprite(shouldFlip) {
     // super.flipXSprite(shouldFlip);
 
     this.armSprite.flipX = shouldFlip;
-    this.weapons.currentWeapon.gunSprite.flipX = shouldFlip;
+    if (this.weapons.currentWeapon) {
+      this.weapons.currentWeapon.gunSprite.flipX = shouldFlip;
+    }
 
     const { gunX, gunR } = directionTocraftpixArmFrame(this.gunDirection);
 
     if (shouldFlip) {
       this.armSprite.x = -6;
-      this.weapons.currentWeapon.gunSprite.x = -gunX;
-      this.weapons.currentWeapon.gunSprite.rotation = -gunR;
+      if (this.weapons.currentWeapon) {
+        this.weapons.currentWeapon.gunSprite.x = -gunX;
+        this.weapons.currentWeapon.gunSprite.rotation = -gunR;
+      }
     } else {
       this.armSprite.x = 6;
-      this.weapons.currentWeapon.gunSprite.x = gunX;
-      this.weapons.currentWeapon.gunSprite.rotation = gunR;
+      if (this.weapons.currentWeapon) {
+        this.weapons.currentWeapon.gunSprite.x = gunX;
+        this.weapons.currentWeapon.gunSprite.rotation = gunR;
+      }
     }
   }
 
@@ -223,10 +256,18 @@ export default class PlayerEntity extends Entity {
     super.update();
 
     if (!this.gameObject.body) return;
-
     // fire
-    if (this.firing) this.weapons.currentWeapon.pullTrigger();
-    else this.weapons.currentWeapon.releaseTrigger();
+    if (this.firing) {
+        if(this.weapons.isEmpty() && this.oneShot) {
+          this.scene.audio.playSfxNow('noWeaponSound');
+          this.oneShot = false;
+        }
+        this.weapons.currentWeapon?.pullTrigger();
+    }
+    else {
+      this.weapons.currentWeapon?.releaseTrigger();
+      this.oneShot = true;
+    }
 
     this.calculateVelocityX();
     this.calculateGunDirection();
@@ -262,5 +303,35 @@ export default class PlayerEntity extends Entity {
         this.gameObject.destroy();
       });
     }
+  }
+
+  updateScore(data) {
+    const score = data.score ?? 0;
+    const kills = data.kills ?? 0;
+    this.scoreGUI.text.setText([`Score: ${score}`, `Kills: ${kills}`]);
+  }
+
+  playerScoreGUI() {
+    const score = this.score ?? 999;
+    const kills = this.totalKills['total'] ?? 999;
+
+    this.scoreGUI = new BloodFont(
+      this.scene,
+      this.scene.cameras.main.worldView.x,
+      this.scene.cameras.main.worldView.y,
+      {
+        padding: 10,
+        fixedWidth: this.scene.cameras.main.width,
+        fontSize: 18,
+        lineSpacing:-10,
+        text: [`Score: ${score}`, `Kills: ${kills}`],
+        backgroundColor: '#00000066',
+      },
+    );
+  }
+
+  destroy() {
+    if (this.scene) new GameOver(this.scene);
+    super.destroy();
   }
 }

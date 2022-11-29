@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import EntityAnimations from '../../enums/EntityAnimations';
 import { collisionCategories } from '../../enums/Collisions';
 import Entity from '../Entity.js';
-import Config from "../../Config.js";
+import Config from '../../Config';
 
 const SPRITESHEETKEY = 'zombieSpriteSheet';
 
@@ -29,12 +29,19 @@ export default class Zombie extends Entity {
         },
         enableKeepUpright: true,
         keepUprightStratergy: 'SPRINGY',
+        collideCallback: (sensorName, body) => {
+          if(body.gameObject?.takeDamage) {
+            body.gameObject.takeDamage(10);
+            body.gameObject.setVelocity(sensorName === 'left'?-3:3, -2);
+          }
+        },
       },
     );
 
     this.gameObject.setCollisionCategory(collisionCategories.enemy);
 
     this.aggravated = false;
+    this.pointsForKill = 100;
 
     // circle of hearing debug
     this.circleOfHearing = scene.add.circle(x, y, 200);

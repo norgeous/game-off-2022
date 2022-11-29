@@ -53,7 +53,7 @@ export default class Audio  {
       this.sfx[key].play();
     }
   }
-  
+
   playSfxNow(key, config = {}) {
     this.scene.sound.add(
       key,

@@ -19,6 +19,10 @@ export default class AbstractScene extends Phaser.Scene {
     this.startText = 'Abstract Scene';
   }
 
+  init (data) {
+    this.loadedPlayer = data.player ?? null;
+  }
+
   preload() {
     BloodFont.preload(this);
     this.map?.preload();
@@ -77,6 +81,8 @@ export default class AbstractScene extends Phaser.Scene {
 
     // new player
     this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
+    if (this.loadedPlayer) this.player.setPlayer(this.loadedPlayer);
+    this.player.playerScoreGUI();
 
     // camera
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);

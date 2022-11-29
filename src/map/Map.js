@@ -87,8 +87,8 @@ export default class Map {
 
     this.spawners = {
       player: this.map.findObject('Spawner', obj => obj.name === 'player'),
-      zombie: this.map.filterObjects('Spawner', obj => obj.name === 'zombie'),
-      exit: this.map.filterObjects('Spawner', obj => obj.name === 'exit'),
+      zombie: this.getObjectFromLayer('Spawner', 'zombie'),
+      exit: this.getObjectFromLayer('Spawner', 'exit'),
     };
 
 

@@ -29,7 +29,7 @@ export default class MainMenu extends AbstractScene {
       this.scale.width/2,
       this.scale.height/4,
       {
-        text: 'Dead Man Walking',
+        text: 'Dead Man\nWalking',
       },
     );
 

@@ -7,6 +7,7 @@ import Direction from '../../enums/Direction';
 import Config from "../../Config.js";
 import Events from "../../enums/Events.js";
 import VirtualJoypad from "../../components/VirtualJoypad.js";
+import Phaser from "phaser";
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -83,11 +84,15 @@ export default class PlayerEntity extends Entity {
         keepUprightStratergy: 'INSTANT',
         facing: 1,
         health: 1000,
+        score: 0,
       },
     );
 
+    this.score = 0;
     this.totalDamage = {};
     this.totalKills = {};
+    this.totalKills['total'] = 0;
+    this.scoreGUI = null;
 
     this.setDepth(Config.PLAYER_DEPTH);
     this.gameObject.setCollisionCategory(collisionCategories.player);
@@ -99,7 +104,7 @@ export default class PlayerEntity extends Entity {
         this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
           clearInterval(this.scene.spawner); // stop scene spawner interval. issues when loading next map.
           this.scene.scene.remove();
-          this.scene.scene.launch(nextMap);
+          this.scene.scene.launch(nextMap, {player: this, test:'asdasdasd'});
         });
       }
       if (data.bodyA.collisionFilter.category === collisionCategories.toxicDamage || data.bodyB.collisionFilter.category === collisionCategories.toxicDamage) {
@@ -126,6 +131,13 @@ export default class PlayerEntity extends Entity {
     this.scene.events.on(Events.ON_KILL_ENTITY, (data) => {
       if (data.entity.name !== 'PlayerEntity') {
         (!this.totalKills[data.entity.name]) ? this.totalKills[data.entity.name] = 1 : this.totalKills[data.entity.name] += 1;
+        this.totalKills['total']++;
+        this.score += data.entity.pointsForKill ?? 0;
+        this.updateScore({
+          score: this.score,
+          kills: this.totalKills['total']
+          }
+        );
       }
     });
 
@@ -149,6 +161,16 @@ export default class PlayerEntity extends Entity {
     );
   }
 
+  setPlayer(player) {
+    this.health = player.health;
+    this.score = player.score;
+    this.totalDamage = player.totalDamage;
+    this.totalKills = player.totalKills;
+    this.weapons.inventory = player.weapons.inventory;
+    this.weapons.index = player.weapons.index;
+    this.weapons.createCurrentWeapon();
+  }
+  
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/biker.png', { frameWidth: 48, frameHeight: 48 });
     scene.load.spritesheet('hands', 'sprites/craftpix.net/biker_hands.png', { frameWidth: 32, frameHeight: 32 });
@@ -244,13 +266,11 @@ export default class PlayerEntity extends Entity {
     } else {
       this.gameObject.setCollidesWith(collisionMaskEverything);
     }
-    
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
     const isAlive = this.health > 0;
-
     if (isAlive) {
       // alive
       // when moving play walking animation, otherwise play idle
@@ -266,5 +286,28 @@ export default class PlayerEntity extends Entity {
         this.gameObject.destroy();
       });
     }
+  }
+
+  updateScore(data) {
+    const score = data.score ?? 0;
+    const kills = data.kills ?? 0;
+    this.scoreGUI.text = [`Score: ${score}`, `Kills: ${kills}`];
+  }
+
+  playerScoreGUI() {
+    console.log(this.score);
+    const score = this.score ?? 999;
+    const kills = this.totalKills['total'] ?? 999;
+    this.scoreGUI = this.scene.add.text(this.scene.cameras.main.worldView.x, this.scene.cameras.main.worldView.y, [`Score: ${score}`, `Kills: ${kills}`], {
+      fixedWidth: this.scene.cameras.main.width,
+      fontSize: '20px',
+      padding: { x: 10, y: 10 },
+      color: 'white',
+      align: 'left',
+      font: '16px Arial',
+      fontWeight: 'bold',
+    }).setOrigin(0)
+      .setScrollFactor(0)
+      .setDepth(Config.UI_DEPTH);
   }
 }

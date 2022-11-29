@@ -12,7 +12,7 @@ export default class Config {
   // options
   static PLAY_MUSIC = false;
   static PLAY_SFX = true;
-  static SPAWN_ENEMIES = false;
+  static SPAWN_ENEMIES = true;
   static SCREEN_SHAKE = true;
   static SCREEN_SHAKE_DURATION = 300;
   static SCREEN_SHAKE_INTENSITY = 0.006;

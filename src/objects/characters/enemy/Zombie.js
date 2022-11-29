@@ -41,6 +41,7 @@ export default class Zombie extends Entity {
     this.gameObject.setCollisionCategory(collisionCategories.enemy);
 
     this.aggravated = false;
+    this.pointsForKill = 100;
 
     // circle of hearing debug
     this.circleOfHearing = scene.add.circle(x, y, 200);

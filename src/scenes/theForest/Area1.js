@@ -17,9 +17,6 @@ export default class Area1 extends AbstractScene {
 
   create() {
     super.create();
-    if (Config.PLAY_MUSIC) {
-      this.audio.playMusic(Sound.MusicKey);
-    }
   }
 
   update(time, delta) {

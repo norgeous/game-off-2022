@@ -17,7 +17,8 @@ export default class GameOver {
 
     scene.input.once('pointerdown', () => {
       gameOver.text.destroy();
-      scene.scene.start('main-menu');
+      // scene.scene.start('main-menu');
+      window.location.reload();
     });
   }
 }

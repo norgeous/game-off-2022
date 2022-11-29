@@ -6,7 +6,7 @@ export default class ScratchFont {
     x, y,
     {
       text,
-      fontSize = 48,
+      fontSize = 64,
     },
   ) {
     this.text = scene.add.bitmapText(

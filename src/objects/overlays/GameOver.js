@@ -17,7 +17,6 @@ export default class GameOver {
 
     scene.input.once('pointerdown', () => {
       gameOver.text.destroy();
-      // gameOver.text.setText('Scotty!');
       // TODO: go back to main menu here
     });
   }

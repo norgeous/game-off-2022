@@ -86,7 +86,6 @@ export default class PlayerEntity extends Entity {
       },
     );
 
-    // this.scene = scene;
     this.score = 0;
     this.totalDamage = {};
     this.totalKills = {};

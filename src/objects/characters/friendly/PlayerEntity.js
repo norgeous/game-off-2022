@@ -6,6 +6,7 @@ import Config from '../../Config';
 import Events from '../../enums/Events';
 import VirtualJoypad from '../../components/VirtualJoypad';
 import BloodFont from "../../overlays/BloodFont.js";
+import GameOver from '../../overlays/GameOver';
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -81,10 +82,11 @@ export default class PlayerEntity extends Entity {
         enableKeepUpright: true,
         keepUprightStratergy: 'INSTANT',
         facing: 1,
-        health: 1000,
+        health: 100,
       },
     );
 
+    // this.scene = scene;
     this.score = 0;
     this.totalDamage = {};
     this.totalKills = {};
@@ -224,7 +226,6 @@ export default class PlayerEntity extends Entity {
       this.weapons.currentWeapon.gunSprite.flipX = shouldFlip;
     }
 
-
     const { gunX, gunR } = directionTocraftpixArmFrame(this.gunDirection);
 
     if (shouldFlip) {
@@ -306,21 +307,22 @@ export default class PlayerEntity extends Entity {
   }
 
   updateScore(data) {
+    // console.log(data);
+    if (!this.scoreGUI.text.setText) return;
     const score = data.score ?? 0;
     const kills = data.kills ?? 0;
-    this.scoreGUI.text.text = [`Score: ${score}`, `Kills: ${kills}`];
+    this.scoreGUI.text.setText([`Score: ${score}`, `Kills: ${kills}`]);
   }
 
   playerScoreGUI() {
     const score = this.score ?? 999;
     const kills = this.totalKills['total'] ?? 999;
 
-
     this.scoreGUI = new BloodFont(
       this.scene,
       this.scene.cameras.main.worldView.x,
       this.scene.cameras.main.worldView.y,
-        {
+      {
         padding: 10,
         fixedWidth: this.scene.cameras.main.width,
         fontSize: 18,
@@ -329,5 +331,10 @@ export default class PlayerEntity extends Entity {
         backgroundColor: '#00000066',
       },
     );
+  }
+
+  destroy() {
+    if (this.scene) new GameOver(this.scene);
+    super.destroy();
   }
 }

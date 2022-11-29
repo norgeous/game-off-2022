@@ -34,7 +34,7 @@ export default class MainMenu extends AbstractScene {
     );
 
     // load forest-area1 when clicking anywhere
-    this.input.once('pointerdown', () => this.scene.launch('forest-area1'));
+    // this.input.once('pointerdown', () => this.scene.launch('forest-area1'));
   }
 
   update(time, delta) {

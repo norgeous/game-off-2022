@@ -75,14 +75,14 @@ better narrative
   - all item pickups in place
   - levels tested from start to finish
 
-### scott 
+### scott
+
 - onscreen GUI for player health/points
 - player can gain points
 - spawn max number zombies per spawn point
 
 ### for Daniel (urgent)
 
-- start and game over screen
 - improve one way platforms
 - more characters (optional extra)
 

@@ -82,7 +82,7 @@ export default class PlayerEntity extends Entity {
         enableKeepUpright: true,
         keepUprightStratergy: 'INSTANT',
         facing: 1,
-        health: 100,
+        health: 1000,
       },
     );
 

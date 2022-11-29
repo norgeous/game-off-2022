@@ -253,6 +253,15 @@ export default class PlayerEntity extends Entity {
     );
   }
 
+  preUpdate() {
+    // ladder collisions
+    if (this.body.velocity.y < -4 || this.joypadDirection.y > 0) {
+      this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
+    } else {
+      this.gameObject.setCollidesWith(collisionMaskEverything);
+    }
+  }
+
   update() {
     super.update();
 
@@ -275,13 +284,6 @@ export default class PlayerEntity extends Entity {
 
     // flip arm sprite to match facing
     this.flipXArmSprite(this.facing === -1);
-
-    // ladder collisions
-    if (this.body.velocity.y < -4 || this.joypadDirection.y > 0) {
-      this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
-    } else {
-      this.gameObject.setCollidesWith(collisionMaskEverything);
-    }
     
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);

@@ -37,6 +37,7 @@ export default class Entity extends Phaser.GameObjects.Container {
       enableKeepUpright = false,
       keepUprightStratergy = keepUprightStratergies.SPRINGY,
       facing = Math.random() > .5 ? 1 : -1,
+      // eslint-disable-next-line no-unused-vars
       collideCallback = (sensorName, gameObject) => {},
     },
   ) {
@@ -103,7 +104,9 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
     
     // sensors
+    // @ts-ignore
     const { Bodies, Body } = Phaser.Physics.Matter.Matter;
+    // @ts-ignore
     const { width, height } = physicsConfig.shape;
     this.hitbox = Bodies.rectangle(0, 0, width, height, { ...physicsConfig, label: 'Entity' });
     const left = Bodies.circle(-width/2, 0, 4, { isSensor: true, label: 'left' });

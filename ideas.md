@@ -88,8 +88,8 @@ better narrative
 
 ### for Daniel (urgent)
 
-- bugfix: improve one way platforms
-- bugfix: zombies should not be able to kill each other
 - only show the on-screen controls when touch is enabled
 - tell the desktop player they keyboard controls 
+- bugfix: improve one way platforms
+- bugfix: zombies should not be able to kill each other
 - more characters (optional extra)

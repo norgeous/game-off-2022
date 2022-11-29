@@ -93,7 +93,7 @@ export default class Map {
 
 
     this.createExplosives();
-    this.createItemDrops();
+    this.pickups = new Pickups(this);
 
     this.layers.background?.setCollisionByProperty({ collides: true });
     this.layers.foreground?.setCollisionByProperty({ collides: true });
@@ -117,19 +117,12 @@ export default class Map {
 
   getObjectFromLayer(LayerName, objectNames) {
     let obj = this.map.filterObjects(LayerName, (obj) => obj.name === objectNames);
-    obj.forEach((element, index, array) => {
+    obj?.forEach((element, index, array) => {
       element.properties?.map((data) => {
         element.properties[data.name ?? ''] = data.value ?? '';
       });
     });
     return obj;
-  }
-
-  createItemDrops() {
-    new Pickups(this);
-
-
-
   }
 
   createExplosives() {

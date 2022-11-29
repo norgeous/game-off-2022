@@ -1,12 +1,18 @@
 import Phaser from 'phaser';
 import ScratchFont from '../objects/overlays/ScratchFont';
+import Config from "../objects/Config.js";
+import Sound from "../objects/enums/Sound.js";
+import Audio from "../objects/Audio.js";
 
 export default class MainMenu extends Phaser.Scene {
   constructor() {
     super('main-menu')
+    this.audio = new Audio(this);
   }
 
   preload() {
+    this.audio.preLoad();
+    this.load.audio(Sound.MusicKey, 'sounds/music.mp3');
     this.load.bitmapFont('hyperdrive', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.png', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.xml');
   }
 
@@ -41,6 +47,11 @@ export default class MainMenu extends Phaser.Scene {
           color: '#333333',
         },
       ).setOrigin(0.5);
+    }
+
+    this.audio.create();
+    if (Config.PLAY_MUSIC) {
+      this.audio.playMusic(Sound.MusicKey);
     }
 
     // load forest-area1 when clicking anywhere

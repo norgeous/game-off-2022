@@ -1,11 +1,13 @@
+import Config from "../Config.js";
+
 export default class Joystick {
   constructor(scene) {
     this.joystick = scene.plugins.get('rexvirtualjoystickplugin').add(this, {
       x: 0,
       y: 0,
       radius: 10,
-      base: scene.add.circle(0, 0, 40, 0x888888),
-      thumb: scene.add.circle(0, 0, 20, 0xcccccc),
+      base: scene.add.circle(0, 0, 40, 0x888888).setDepth(Config.UI_DEPTH),
+      thumb: scene.add.circle(0, 0, 20, 0xcccccc).setDepth(Config.UI_DEPTH),
       // dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
       // forceMin: 100,
       // enable: true

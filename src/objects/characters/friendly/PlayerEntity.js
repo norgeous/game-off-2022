@@ -307,8 +307,6 @@ export default class PlayerEntity extends Entity {
   }
 
   updateScore(data) {
-    // console.log(data);
-    if (!this.scoreGUI.text.setText) return;
     const score = data.score ?? 0;
     const kills = data.kills ?? 0;
     this.scoreGUI.text.setText([`Score: ${score}`, `Kills: ${kills}`]);

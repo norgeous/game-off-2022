@@ -17,9 +17,7 @@ export default class GameOver {
 
     scene.input.once('pointerdown', () => {
       gameOver.text.destroy();
-      // scene.scene.launch('forest-area1');
       scene.scene.start('main-menu');
-      // console.log('scene.scene',scene.scene);
     });
   }
 }

@@ -14,7 +14,6 @@ export default class MainMenu extends AbstractScene {
 
   preload() {
     super.preload();
-    // GameOver.preload(this);
     this.load.bitmapFont('hyperdrive', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.png', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.xml');
   }
 
@@ -42,12 +41,3 @@ export default class MainMenu extends AbstractScene {
     super.update(time, delta);
   }
 }
-
-
-// function create () {
-//   this.add.image(400, 300, 'bg');
-
-//   var add = this.add;
-//   var input = this.input;
-
-// }

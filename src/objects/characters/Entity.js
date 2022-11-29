@@ -112,7 +112,7 @@ export default class Entity extends Phaser.GameObjects.Container {
     const left = Bodies.circle(-width/2, 0, 4, { isSensor: true, label: 'left' });
     const right = Bodies.circle(width/2, 0, 4, { isSensor: true, label: 'right' });
     const top = Bodies.circle(0, -height/2, 4, { isSensor: true, label: 'top' });
-    const bottom = Bodies.circle(0, height/2, 4, { isSensor: true, label: 'bottom' });
+    const bottom = Bodies.rectangle(0, height/2, width-2,3, { isSensor: true, label: 'bottom' });
     const compoundBody = Body.create({
       parts: [this.hitbox, left, right, top, bottom],
     });

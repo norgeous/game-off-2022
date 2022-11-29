@@ -255,7 +255,7 @@ export default class PlayerEntity extends Entity {
 
   preUpdate() {
     // ladder collisions
-    if (this.body.velocity.y < -4 || this.joypadDirection.y > 0) {
+    if (this.body.velocity.y < -1 || this.joypadDirection.y > 0) {
       this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
     } else {
       this.gameObject.setCollidesWith(collisionMaskEverything);

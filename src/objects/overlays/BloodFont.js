@@ -24,9 +24,6 @@ export default class BloodFont {
             fontSize: 64,
             lineSpacing: -30,
             color: '#880000',
-            // align: 'center',
-            // backgroundColor: '#00000066',
-            // padding: 20,
             ...options,
           },
         ).setShadow(2, 2, '#000000', 2, false, true)

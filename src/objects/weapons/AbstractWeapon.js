@@ -15,6 +15,8 @@ const maxBulletsPerPull = {
 const SPRITESHEETKEY = 'gunSprites';
 
 export default class AbstractWeapon {
+  static MAP_ICON_SCALE = 2;
+  static TEXTURE = 'gunSprites'
   constructor(scene, { frame = 0, maxBullets, BulletClass, entity, fireType, soundKeyName = undefined }) {
     this.scene = scene;
     this.entity = entity;
@@ -45,6 +47,10 @@ export default class AbstractWeapon {
 
   static preload(scene) {
     scene.load.spritesheet(SPRITESHEETKEY, 'sprites/craftpix.net/guns.png', { frameWidth: 32, frameHeight: 32 });
+  }
+
+  static onPickUp(entity) {
+    entity.weapons.add(this);
   }
 
   pullTrigger() {

@@ -1,10 +1,9 @@
 import Phaser from 'phaser';
-import Map from '../map/Map';
 import PlayerEntity from '../objects/characters/friendly/PlayerEntity';
 import Zombie from '../objects/characters/enemy/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
-import Config from '../objects/Config.js';
+import Config from '../objects/Config';
 
 const MAX_ZOMBIES = 10;
 
@@ -26,6 +25,7 @@ export default class AbstractScene extends Phaser.Scene {
     this.load.image('floatingPlatform', 'sprites/floatingPlatform.png');
     this.load.spritesheet('explosion', 'sprites/explosion.png', { frameWidth: 256, frameHeight: 256 });
     this.load.audio(Sound.MusicKey, `${this.map.getMapPath()}/${Sound.MapMusicFileName}`);
+    this.load.audio(Sound.PLAYER_NO_WEAPON_SOUND, 'sounds/toy-horn.mp3');
     this.audio.preLoad();
   }
 

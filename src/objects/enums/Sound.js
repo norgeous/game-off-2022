@@ -10,4 +10,7 @@ export default class Sound {
   static Pistol = 'pistol';
   static RocketLaunch = 'rocket_launch';
   static GrenadeLaunch = 'grenade_launch';
+
+  // Player
+  static PLAYER_NO_WEAPON_SOUND = 'noWeaponSound';
 }

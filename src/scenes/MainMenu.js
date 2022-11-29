@@ -28,7 +28,7 @@ export default class MainMenu extends AbstractScene {
       this.scale.width/2,
       this.scale.height/2,
       'hyperdrive',
-      'Zombie\nGame',
+      'Untitled z!',
       90,
       1, // centered
     ).setScrollFactor(0).setDepth(1001).setOrigin(0.5);

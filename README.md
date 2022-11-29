@@ -29,6 +29,11 @@ https://trello.com/b/FtSSrcBy/zombie-vampire-survivors-game
 1. commit to `deploy` and push
 
 
+## spritesheets used
+
+freebies from craftpix.net
+
+
 ## tutorials used
 
 boilerplate starter https://github.com/ourcade/phaser3-vite-template (thanks @supertommy)

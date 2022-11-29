@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import {collisionCategories} from "../../enums/Collisions.js";
+import {collisionCategories, collisionMaskEverything} from "../../enums/Collisions.js";
 import HandGun from "../../weapons/HandGun.js";
 import Health from "../../Health.js";
 import GrenadeLauncher from "../../weapons/GrenadeLauncher.js";
@@ -46,11 +46,10 @@ export default class Pickups {
           // just to create a interesting offset for the example
           delay: Phaser.Math.Between(0, 6) * 200
         });
+        itemObject.setCollidesWith(collisionCategories.player);
         itemObject.setOnCollide((data) => {
           if (data.bodyB.parent?.collisionFilter.category === collisionCategories.player) {
-
             itemClass.onPickUp(data.bodyB.parent.gameObject);
-            console.log()
             tween.stop();
             itemObject.destroy();
           }
@@ -58,13 +57,5 @@ export default class Pickups {
 
       });
     }
-  }
-
-  mapItemTypeToClass(type) {
-    let classMap = {
-      handGun: HandGun,
-      health: Health,
-    }
-    return classMap[type] ?? HandGun;
   }
 }

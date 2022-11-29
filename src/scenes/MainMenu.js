@@ -14,11 +14,13 @@ export default class MainMenu extends Phaser.Scene {
     new ScratchFont(
       this,
       this.scale.width/2,
-      this.scale.height/2,
+      this.scale.height * 0.4,
       {
         text: 'Dead Man\nWalking',
       },
     );
+
+    this.add.text(this.scale.width/2, this.scale.height * 0.7, 'Click to Start', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setOrigin(0.5);
 
     // load forest-area1 when clicking anywhere
     this.input.once('pointerdown', () => this.scene.start('forest-area1'));

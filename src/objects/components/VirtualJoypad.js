@@ -42,6 +42,14 @@ export default class VirtualJoypad {
     this.registerKeyboardEvents('SPACE', onPressJump);
     this.registerKeyboardEvents('L', onPressFire, onReleaseFire);
     this.registerKeyboardEvents('Q', onPressSwitch);
+
+    // hide on-screen controls on desktop
+    if(!scene.game.device.input.touch) {
+      this.joystick.setVisible(false);
+      this.jumpButton.setVisible(false);
+      this.fireButton.setVisible(false);
+      this.switchButton.setVisible(false);
+    }
   }
 
   static preload(scene) {

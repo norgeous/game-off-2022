@@ -5,6 +5,7 @@ import WeaponInventory from '../../components/WeaponInventory';
 import Config from '../../Config';
 import Events from '../../enums/Events';
 import VirtualJoypad from '../../components/VirtualJoypad';
+import BloodFont from "../../overlays/BloodFont.js";
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -307,23 +308,26 @@ export default class PlayerEntity extends Entity {
   updateScore(data) {
     const score = data.score ?? 0;
     const kills = data.kills ?? 0;
-    this.scoreGUI.text = [`Score: ${score}`, `Kills: ${kills}`];
+    this.scoreGUI.text.text = [`Score: ${score}`, `Kills: ${kills}`];
   }
 
   playerScoreGUI() {
-    console.log(this.score);
     const score = this.score ?? 999;
     const kills = this.totalKills['total'] ?? 999;
-    this.scoreGUI = this.scene.add.text(this.scene.cameras.main.worldView.x, this.scene.cameras.main.worldView.y, [`Score: ${score}`, `Kills: ${kills}`], {
-      fixedWidth: this.scene.cameras.main.width,
-      fontSize: '20px',
-      padding: { x: 10, y: 10 },
-      color: 'white',
-      align: 'left',
-      font: '16px Arial',
-      fontWeight: 'bold',
-    }).setOrigin(0)
-      .setScrollFactor(0)
-      .setDepth(Config.UI_DEPTH);
+
+
+    this.scoreGUI = new BloodFont(
+      this.scene,
+      this.scene.cameras.main.worldView.x,
+      this.scene.cameras.main.worldView.y,
+        {
+        padding: 10,
+        fixedWidth: this.scene.cameras.main.width,
+        fontSize: 18,
+        lineSpacing:-10,
+        text: [`Score: ${score}`, `Kills: ${kills}`],
+        backgroundColor: '#00000066',
+      },
+    );
   }
 }

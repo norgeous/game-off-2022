@@ -128,7 +128,8 @@ export default class PlayerEntity extends Entity {
       }
     });
     this.scene.events.on(Events.ON_KILL_ENTITY, (data) => {
-      if (data.entity.name !== 'PlayerEntity') {
+      const collisionCategory = data.from?.body?.collisionFilter.category ?? null;
+      if (data.entity.name !== 'PlayerEntity' && collisionCategory === collisionCategories.enemyDamage) {
         (!this.totalKills[data.entity.name]) ? this.totalKills[data.entity.name] = 1 : this.totalKills[data.entity.name] += 1;
         this.totalKills['total']++;
         this.score += data.entity.pointsForKill ?? 0;

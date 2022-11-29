@@ -88,9 +88,7 @@ better narrative
 
 ### for Daniel (urgent)
 
-- only show the on-screen controls when touch is enabled
-- tell the desktop player they keyboard controls 
-- bugfix: convert entity > bottom sensor to rectangle
 - bugfix: improve one way platforms
 - bugfix: zombies should not be able to kill each other
+- bugfix: convert entity > bottom sensor to rectangle
 - more characters (optional extra)

@@ -26,7 +26,28 @@ export default class MainMenu extends Phaser.Scene {
       },
     );
 
-    this.add.text(this.scale.width/2, this.scale.height * 0.7, 'Click to Start', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setOrigin(0.5);
+    this.add.text(
+      this.scale.width/2,
+      this.scale.height * 0.7,
+      `${!this.game.device.input.touch ? 'Click' : 'Tap'} to Start`,
+      {
+        fontSize: 20,
+        fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+      },
+    ).setOrigin(0.5);
+
+    if(!this.game.device.input.touch) {
+      this.add.text(
+        this.scale.width/2,
+        this.scale.height * 0.8,
+        'Move: WASD | Cycle Weapon: Q | Fire Weapon: L',
+        {
+          fontSize: 12,
+          fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+          color: '#333333',
+        },
+      ).setOrigin(0.5);
+    }
 
     this.audio.create();
     if (Config.PLAY_MUSIC) {

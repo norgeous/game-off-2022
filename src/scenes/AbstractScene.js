@@ -5,6 +5,7 @@ import Zombie from '../objects/characters/enemy/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
 import Config from '../objects/Config.js';
+import BloodFont from '../objects/overlays/BloodFont';
 
 const MAX_ZOMBIES = 10;
 
@@ -19,6 +20,7 @@ export default class AbstractScene extends Phaser.Scene {
   }
 
   preload() {
+    BloodFont.preload(this);
     this.map?.preload();
     Zombie.preload(this);
     PlayerEntity.preload(this);

@@ -14,7 +14,7 @@ export default class MainMenu extends AbstractScene {
 
   preload() {
     super.preload();
-    GameOver.preload(this);
+    // GameOver.preload(this);
     this.load.bitmapFont('hyperdrive', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.png', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.xml');
   }
 

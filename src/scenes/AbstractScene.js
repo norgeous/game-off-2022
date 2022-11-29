@@ -5,6 +5,7 @@ import Zombie from '../objects/characters/enemy/Zombie';
 import Sound from '../objects/enums/Sound';
 import Audio from '../objects/Audio';
 import Config from '../objects/Config';
+import ScratchFont from '../objects/overlays/ScratchFont';
 import BloodFont from '../objects/overlays/BloodFont';
 
 const MAX_ZOMBIES = 10;
@@ -24,6 +25,7 @@ export default class AbstractScene extends Phaser.Scene {
   }
 
   preload() {
+    ScratchFont.preload(this);
     BloodFont.preload(this);
     this.map?.preload();
     Zombie.preload(this);
@@ -60,6 +62,11 @@ export default class AbstractScene extends Phaser.Scene {
     // load audio
     this.audio.create();
 
+    // new player
+    this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
+    if (this.loadedPlayer) this.player.setPlayer(this.loadedPlayer);
+    this.player.playerScoreGUI();
+
     // zombie spawners
     this.zombieGroup = this.add.group({
       maxSize: MAX_ZOMBIES,
@@ -70,6 +77,7 @@ export default class AbstractScene extends Phaser.Scene {
       // is this optimal now we're on mobile? every spawn point will be checking if in range of player.
       // better solution would be for the player to check if in range of spawn points.
       this.spawner = setInterval(() => {
+        if (!this.player.active) return;
         this.map.spawners.zombie.forEach(zombie => {
           const isInPlayerRange = Phaser.Math.Distance.BetweenPoints(zombie, this.player) <= Config.SPAWN_RANGE;
           if (isInPlayerRange) {
@@ -78,11 +86,6 @@ export default class AbstractScene extends Phaser.Scene {
         });
       }, Config.ZOMBIE_SPAWN_TIME);
     }
-
-    // new player
-    this.player = new PlayerEntity(this, this.map.spawners.player.x + 16, this.map.spawners.player.y - 16);
-    if (this.loadedPlayer) this.player.setPlayer(this.loadedPlayer);
-    this.player.playerScoreGUI();
 
     // camera
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);

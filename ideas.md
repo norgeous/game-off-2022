@@ -56,6 +56,7 @@ better narrative
     - reverse frames of death anim
 - add civilians / animals
 
+
 ## sound and music
 
 - player hurt
@@ -64,7 +65,9 @@ better narrative
 - player jump?
 - item pickup
 
+
 ## bits and bobs
+
 - Extra life? 
 - take damage flash is too much (should we put an epilepsy warning due to this or let the player turn it off?)
 - maybe show points on screen when you kill a zombie? 
@@ -75,14 +78,17 @@ better narrative
   - all item pickups in place
   - levels tested from start to finish
 
-### scott 
+
+### scott
+
 - onscreen GUI for player health/points
 - player can gain points
 - spawn max number zombies per spawn point
 
+
 ### for Daniel (urgent)
 
-- start and game over screen
-- improve one way platforms
+- bugfix: improve one way platforms
+- bugfix: zombies should not be able to kill each other
 - more characters (optional extra)
 

@@ -217,8 +217,9 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
 
     // kill if zero health
-    if (this.health <= 0) {
+    if (this.health <= 0 && !this.isDying) {
       // dead
+      this.isDying = true;
       this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
       this.rotation = 0; // force Entity upright for death animation
       this.text.setText('X');
@@ -227,7 +228,7 @@ export default class Entity extends Phaser.GameObjects.Container {
         this.triggeredEvent = true;
       }
       this.playAnimation(EntityAnimations.Death).on(Events.ON_ANIMATION_COMPLETE, () => {
-        this.destroy();
+        if (this.active) this.destroy();
       });
     }
   }

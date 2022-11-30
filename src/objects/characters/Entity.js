@@ -37,24 +37,21 @@ export default class Entity extends Phaser.GameObjects.Container {
       enableKeepUpright = false,
       keepUprightStratergy = keepUprightStratergies.SPRINGY,
       facing = Math.random() > .5 ? 1 : -1,
+      // eslint-disable-next-line no-unused-vars
       collideCallback = (sensorName, gameObject) => {},
     },
   ) {
     super(scene, x, y);
 
     this.scene = scene;
-
     this.name = name;
     this.health = health;
-
+    this.isAlive = true;
     this.enableHealthBar = enableHealthBar;
     this.enableKeepUpright = enableKeepUpright;
     this.keepUprightStratergy = keepUprightStratergy;
-
     this.facing = facing;
     this.isStunned = false;
-
-    this.triggeredEvent = false;
 
     this.sensorData = {
       left: new Set(),
@@ -107,13 +104,15 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
     
     // sensors
+    // @ts-ignore
     const { Bodies, Body } = Phaser.Physics.Matter.Matter;
+    // @ts-ignore
     const { width, height } = physicsConfig.shape;
     this.hitbox = Bodies.rectangle(0, 0, width, height, { ...physicsConfig, label: 'Entity' });
     const left = Bodies.circle(-width/2, 0, 4, { isSensor: true, label: 'left' });
     const right = Bodies.circle(width/2, 0, 4, { isSensor: true, label: 'right' });
     const top = Bodies.circle(0, -height/2, 4, { isSensor: true, label: 'top' });
-    const bottom = Bodies.circle(0, height/2, 4, { isSensor: true, label: 'bottom' });
+    const bottom = Bodies.rectangle(0, height/2, width-2,3, { isSensor: true, label: 'bottom' });
     const compoundBody = Body.create({
       parts: [this.hitbox, left, right, top, bottom],
     });
@@ -158,10 +157,14 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
   }
 
-  takeDamage(amount) {
+  takeDamage(amount, from) {
     this.health -= amount;
-    this.scene.events.emit(Events.ON_DAMAGE_ENTITY, {amount: amount, entity:this});
-    if (this.health < 0) this.health = 0;
+    this.scene.events.emit(Events.ON_DAMAGE_ENTITY, {amount: amount, entity:this, from:from});
+    if (this.health <= 0 && this.isAlive)  {
+      this.health = 0;
+      this.isAlive = false;
+      this.scene.events.emit(Events.ON_KILL_ENTITY, {entity:this, from:from});
+    }
   }
 
   update() {
@@ -223,10 +226,6 @@ export default class Entity extends Phaser.GameObjects.Container {
       this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
       this.rotation = 0; // force Entity upright for death animation
       this.text.setText('X');
-      if (!this.triggeredEvent) {
-        this.scene.events.emit(Events.ON_KILL_ENTITY, {entity:this});
-        this.triggeredEvent = true;
-      }
       this.playAnimation(EntityAnimations.Death).on(Events.ON_ANIMATION_COMPLETE, () => {
         if (this.active) this.destroy();
       });

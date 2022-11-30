@@ -61,7 +61,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
       const target = bodies.find(body => body.collisionFilter.category !== collisionCategories.enemyDamage);
 
       // trigger the takeDamage function on target (if it exists)
-      target.gameObject?.takeDamage?.(collisionDamage);
+      target.gameObject?.takeDamage?.(collisionDamage, this);
 
       if ((target.gameObject?.body.collisionFilter.category & destroyOnCollideMask) > 0) this.complete();
     });
@@ -70,6 +70,8 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
     if (lifespan) {
       this.scene.time.delayedCall(lifespan, () => this.complete());
     }
+
+    if (this.enableLockRotationToMovementVector) this.lockRotationToMovementVector();
   }
 
   lockRotationToMovementVector() {

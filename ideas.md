@@ -88,7 +88,6 @@ better narrative
 
 ### for Daniel (urgent)
 
-- bugfix: improve one way platforms
-- bugfix: zombies should not be able to kill each other
-- more characters (optional extra)
+- bullet spread / fire rate
 
+- more characters (optional extra)

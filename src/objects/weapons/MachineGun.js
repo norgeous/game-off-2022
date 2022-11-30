@@ -3,19 +3,17 @@ import Bullet from '../projectiles/Bullet';
 import Sound from '../enums/Sound';
 
 export default class MachineGun extends AbstractWeapon {
-  static FRAME = 18;
+  static FRAME = 9; // gun with light
   constructor(scene, { entity }) {
     super(
       scene,
       {
         BulletClass: Bullet,
         maxBullets: 10,
-        frame: MachineGun.FRAME, // blue gun
+        frame: MachineGun.FRAME,
         entity,
         fireType: fireTypes.BURST,
         soundKeyName: Sound.GunBurst,
-        // soundKeyName: Sound.MachineGunFire,
-        // soundKeyName: Sound.Pistol,
       },
     );
   }

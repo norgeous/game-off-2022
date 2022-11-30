@@ -10,7 +10,7 @@ export default class Config {
   static PARTICLE_EFFECT_DEPTH = 1000;
 
   // options
-  static PLAY_MUSIC = false;
+  static PLAY_MUSIC = true;
   static PLAY_SFX = true;
   static SPAWN_ENEMIES = true;
   static SCREEN_SHAKE = true;
@@ -19,6 +19,7 @@ export default class Config {
 
   // physics
   static GRAVITY = {x: 0, y: 1};
+  static WORLD_BOUNDS_THICKNESS = 1000;
 
   // scene
   static SCENE_TRANSITION_TIME_MS = 1000;
@@ -37,8 +38,8 @@ export default class Config {
     b:0,
     g:0
   };
-  static EXPLODING_BARRELS_RADIUS = 200;
-  static EXPLODING_BARRELS_FORCE = 200;
+  static EXPLODING_BARRELS_RADIUS = 150;
+  static EXPLODING_BARRELS_FORCE = 40;
   static EXPLODING_BARRELS_DAMAGE = 200;
-  static EXPLODING_BARRELS_TEXTURE = 'explosion'
+  static EXPLODING_BARRELS_TEXTURE = 'explosive-barrel'
 }

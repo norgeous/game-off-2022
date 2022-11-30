@@ -6,7 +6,7 @@ export default class TestScene extends AbstractScene {
   constructor() {
     super('forest-area51')
     this.startText = 'The Forest - Area 51';
-    this.map = new Map(this, 'theForest', 'tileset_extruded.png', 'mapData5.json', 8);
+    this.map = new Map(this, 'theForest', 'tileset_extruded.png', 'mapData51.json', 8);
   }
 
   preload() {

@@ -1,5 +1,3 @@
-import Direction from '../enums/Direction';
-
 export const fireTypes = {
   SEMI: 'SEMI',
   BURST: 'BURST',

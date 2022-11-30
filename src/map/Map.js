@@ -38,6 +38,7 @@ export default class Map {
   // Must be called inside a scene's preLoad()
   preload() {
     this.Phaser.load.spritesheet('healthPack', 'sprites/healthpack.png', { frameWidth: 48, frameHeight: 48 });
+    this.Phaser.load.spritesheet(Config.EXPLODING_BARRELS_TEXTURE, 'sprites/explosive-barrel.png', { frameWidth: 32, frameHeight: 32 });
     this.loadTileSheet();
     this.loadBackgroundImages();
     this.loadMapData();
@@ -80,6 +81,7 @@ export default class Map {
 
   loadLayers() {
     this.layers.backgroundColour = this.map.createLayer('BackgroundColour', this.tileset)
+    this.layers.backgroundColourFront = this.map.createLayer('BackgroundColourFront', this.tileset)
     this.layers.background = this.map.createLayer('Background', this.tileset)
     this.layers.foreground = this.map.createLayer('Forground', this.tileset)
     this.layers.ladders = this.map.createLayer('Ladders', this.tileset)
@@ -87,19 +89,20 @@ export default class Map {
 
     this.spawners = {
       player: this.map.findObject('Spawner', obj => obj.name === 'player'),
-      zombie: this.map.filterObjects('Spawner', obj => obj.name === 'zombie'),
-      exit: this.map.filterObjects('Spawner', obj => obj.name === 'exit'),
+      zombie: this.getObjectFromLayer('Spawner', 'zombie'),
+      exit: this.getObjectFromLayer('Spawner', 'exit'),
     };
 
 
     this.createExplosives();
-    this.createItemDrops();
+    this.pickups = new Pickups(this);
 
     this.layers.background?.setCollisionByProperty({ collides: true });
     this.layers.foreground?.setCollisionByProperty({ collides: true });
     this.layers.ladders?.setCollisionByProperty({ collides: true });
     this.layers.toxicDamage?.setCollisionByProperty({ collides: true });
     this.layers.toxicDamage?.setDepth(Config.IN_FRONT_OF_PLAYER);
+    this.layers.foreground?.setDepth(Config.IN_FRONT_OF_PLAYER);
 
     this.Phaser.matter.world.convertTilemapLayer(this.layers.background);
     this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);
@@ -117,19 +120,12 @@ export default class Map {
 
   getObjectFromLayer(LayerName, objectNames) {
     let obj = this.map.filterObjects(LayerName, (obj) => obj.name === objectNames);
-    obj.forEach((element, index, array) => {
+    obj?.forEach((element, index, array) => {
       element.properties?.map((data) => {
         element.properties[data.name ?? ''] = data.value ?? '';
       });
     });
     return obj;
-  }
-
-  createItemDrops() {
-    new Pickups(this);
-
-
-
   }
 
   createExplosives() {
@@ -141,23 +137,23 @@ export default class Map {
         let barrel = this.Phaser.add.sprite(
           element.x,
           element.y,
-          'explosion'
+          Config.EXPLODING_BARRELS_TEXTURE
         );
         let barrelObject = this.Phaser.matter.add.gameObject(barrel, {isStatic: false});
         barrelObject.setCollidesWith(collisionMaskEverything);
         barrelObject.setOnCollide((data) => {
           if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
-            barrelObject.destroy();
+            data.bodyB.destroy();
             new Explosion(
               this.Phaser,
-              element.x, element.y,
+              barrelObject.x, barrelObject.y,
               {
-                radius: 200,
-                force: 100,
-                damage: 500,
+                radius: Config.EXPLODING_BARRELS_RADIUS,
+                force: Config.EXPLODING_BARRELS_FORCE,
+                damage: Config.EXPLODING_BARRELS_DAMAGE,
               },
             );
-
+            barrelObject.destroy();
           }
         })
       });

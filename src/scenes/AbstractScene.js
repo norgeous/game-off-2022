@@ -33,7 +33,6 @@ export default class AbstractScene extends Phaser.Scene {
     this.load.image('bullet1', 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
     this.load.image('floatingPlatform', 'sprites/floatingPlatform.png');
     this.load.spritesheet('explosion', 'sprites/explosion.png', { frameWidth: 256, frameHeight: 256 });
-    this.load.audio(Sound.MusicKey, `${this.map.getMapPath()}/${Sound.MapMusicFileName}`);
     this.load.audio(Sound.PLAYER_NO_WEAPON_SOUND, 'sounds/toy-horn.mp3');
     this.audio.preLoad();
   }
@@ -81,6 +80,10 @@ export default class AbstractScene extends Phaser.Scene {
         this.map.spawners.zombie.forEach(zombie => {
           const isInPlayerRange = Phaser.Math.Distance.BetweenPoints(zombie, this.player) <= Config.SPAWN_RANGE;
           if (isInPlayerRange) {
+            if (zombie.properties?.count !== undefined) {
+              if (zombie.properties?.count == 0) return;
+              else zombie.properties.count--;
+            }
             this.zombieGroup.get(zombie.x + 16, zombie.y - 16); // get = create
           }
         });

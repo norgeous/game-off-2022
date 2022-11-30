@@ -1,12 +1,18 @@
 import Phaser from 'phaser';
 import ScratchFont from '../objects/overlays/ScratchFont';
+import Config from "../objects/Config.js";
+import Sound from "../objects/enums/Sound.js";
+import Audio from "../objects/Audio.js";
 
 export default class MainMenu extends Phaser.Scene {
   constructor() {
     super('main-menu')
+    this.audio = new Audio(this);
   }
 
   preload() {
+    this.audio.preLoad();
+    this.load.audio(Sound.MusicKey, 'sounds/music.mp3');
     this.load.bitmapFont('hyperdrive', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.png', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.xml');
   }
 
@@ -20,10 +26,38 @@ export default class MainMenu extends Phaser.Scene {
       },
     );
 
-    this.add.text(this.scale.width/2, this.scale.height * 0.7, 'Click to Start', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setOrigin(0.5);
+    this.add.text(
+      this.scale.width/2,
+      this.scale.height * 0.7,
+      `${this.game.device.input.touch ? 'Tap' : 'Press any key'} to Start`,
+      {
+        fontSize: 20,
+        fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+      },
+    ).setOrigin(0.5);
+
+    if(!this.game.device.input.touch) {
+      this.add.text(
+        this.scale.width/2,
+        this.scale.height * 0.8,
+        'Move: WASD | Jump: Space\nCycle Weapon: Q | Fire Weapon: L',
+        {
+          fontSize: 12,
+          align: 'center',
+          fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+          color: '#333333',
+        },
+      ).setOrigin(0.5);
+    }
+
+    this.audio.create();
+    if (Config.PLAY_MUSIC) {
+      this.audio.playMusic(Sound.MusicKey);
+    }
 
     // load forest-area1 when clicking anywhere
     this.input.once('pointerdown', () => this.scene.start('forest-area1'));
+    this.input.keyboard.on('keydown', () => this.scene.start('forest-area1'));
   }
 
   update(time, delta) {

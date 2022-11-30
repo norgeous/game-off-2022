@@ -5,8 +5,10 @@ import WeaponInventory from '../../components/WeaponInventory';
 import Config from '../../Config';
 import Events from '../../enums/Events';
 import VirtualJoypad from '../../components/VirtualJoypad';
-import BloodFont from "../../overlays/BloodFont.js";
+import BloodFont from '../../overlays/BloodFont';
 import GameOver from '../../overlays/GameOver';
+import Sound from '../../enums/Sound';
+import GameComplete from "../../overlays/GameComplete.js";
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -100,6 +102,10 @@ export default class PlayerEntity extends Entity {
       if (data.bodyA.collisionFilter.category === collisionCategories.door || data.bodyB.collisionFilter.category === collisionCategories.door) {
         if (this.scene.cameras.main.fadeEffect.isRunning) return;
         const nextMap = data.bodyA.gameObject.body.loadLevel;
+        if (nextMap === 'end-game') {
+          new GameComplete(this.scene);
+          return;
+        }
         this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
           clearInterval(this.scene.spawner); // stop scene spawner interval. issues when loading next map.
           this.scene.scene.remove();
@@ -128,7 +134,12 @@ export default class PlayerEntity extends Entity {
       }
     });
     this.scene.events.on(Events.ON_KILL_ENTITY, (data) => {
-      if (data.entity.name !== 'PlayerEntity') {
+      const collisionCategory = data.from?.body?.collisionFilter.category ?? null;
+      if (data.entity.name === 'PlayerEntity') {
+        // player died - gets triggered once.
+        this.scene.audio.playSfxNow(Sound.PlayerDeath);
+      }
+      if (data.entity.name !== 'PlayerEntity' && collisionCategory === collisionCategories.enemyDamage) {
         (!this.totalKills[data.entity.name]) ? this.totalKills[data.entity.name] = 1 : this.totalKills[data.entity.name] += 1;
         this.totalKills['total']++;
         this.score += data.entity.pointsForKill ?? 0;
@@ -252,6 +263,15 @@ export default class PlayerEntity extends Entity {
     );
   }
 
+  preUpdate() {
+    // ladder collisions
+    if (this.body.velocity.y < -1 || this.joypadDirection.y > 0) {
+      this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
+    } else {
+      this.gameObject.setCollidesWith(collisionMaskEverything);
+    }
+  }
+
   update() {
     super.update();
 
@@ -274,13 +294,6 @@ export default class PlayerEntity extends Entity {
 
     // flip arm sprite to match facing
     this.flipXArmSprite(this.facing === -1);
-
-    // ladder collisions
-    if (this.body.velocity.y < -4 || this.joypadDirection.y > 0) {
-      this.gameObject.setCollidesWith(collisionMaskEverything &~ collisionCategories.ladders); // everything except ladders
-    } else {
-      this.gameObject.setCollidesWith(collisionMaskEverything);
-    }
     
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);

@@ -2190,6 +2190,24 @@
                  "width":32,
                  "x":6471,
                  "y":2613
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":93,
+                 "name":"item",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"shotgun"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":264.652788330041,
+                 "y":3117.35237805805
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2209,7 +2227,7 @@
          "y":0
         }],
  "nextlayerid":15,
- "nextobjectid":93,
+ "nextobjectid":94,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

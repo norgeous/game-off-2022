@@ -88,6 +88,4 @@ better narrative
 
 ### for Daniel (urgent)
 
-- bullet spread / fire rate
-
 - more characters (optional extra)

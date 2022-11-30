@@ -8,6 +8,9 @@ export default class Sound {
   static MachineGunFire = 'machine_gun';
   static GunBurst = 'gun_burst';
   static Pistol = 'pistol';
+  static Shotgun = 'shotgun';
+  static Lazer = 'lazer';
+  static Flame = 'flame';
   static RocketLaunch = 'rocket_launch';
   static GrenadeLaunch = 'grenade_launch';
 

@@ -31,7 +31,7 @@ https://trello.com/b/FtSSrcBy/zombie-vampire-survivors-game
 
 ## spritesheets used
 
-freebies from craftpix.net
+freebies from https://craftpix.net/
 
 https://jimmydjourney.itch.io/oil-barrel-and-explosive-oil-barrel
 
@@ -59,6 +59,16 @@ https://photonstorm.github.io/phaser3-docs/Phaser.Types.Physics.Matter.html#.Mat
 https://stackoverflow.com/questions/6039522/given-the-x-and-y-components-of-the-velocity-how-can-the-angle-be-computed
 
 https://phaser.io/examples/v3/view/physics/matterjs/compound-sensors
+
+
+## sounds used
+
+https://pixabay.com/sound-effects/search/shotgun/
+
+https://pixabay.com/sound-effects/single-gunshot-62-hp-37188/
+
+https://pixabay.com/sound-effects/designed-fire-winds-swoosh-04-116788/
+
 
 ## Tile Extruder
 

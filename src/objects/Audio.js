@@ -48,6 +48,7 @@ export default class Audio  {
 
   playMusic(key) {
     if (!this.music[key].isPlaying) {
+      this.music[key].loop = true;
       this.music[key].play();
     }
   }

@@ -2201,13 +2201,13 @@
                         {
                          "name":"itemType",
                          "type":"string",
-                         "value":"shotgun"
+                         "value":"health"
                         }],
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":256,
-                 "y":3104
+                 "x":1109.33333333333,
+                 "y":3078.66666666667
                 }, 
                 {
                  "class":"",
@@ -2219,13 +2219,31 @@
                         {
                          "name":"itemType",
                          "type":"string",
-                         "value":"lazer"
+                         "value":"health"
                         }],
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":320,
-                 "y":3104
+                 "x":1120,
+                 "y":3064
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":95,
+                 "name":"item",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1137.33333333333,
+                 "y":3068
                 }, 
                 {
                  "class":"",
@@ -2237,13 +2255,13 @@
                         {
                          "name":"itemType",
                          "type":"string",
-                         "value":"flamethrower"
+                         "value":"health"
                         }],
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":384,
-                 "y":3104
+                 "x":1137.33333333333,
+                 "y":3068
                 }, 
                 {
                  "class":"",
@@ -2255,13 +2273,13 @@
                         {
                          "name":"itemType",
                          "type":"string",
-                         "value":"grenadeLauncher"
+                         "value":"health"
                         }],
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":448,
-                 "y":3104
+                 "x":1137.33333333333,
+                 "y":3068
                 }, 
                 {
                  "class":"",
@@ -2273,13 +2291,31 @@
                         {
                          "name":"itemType",
                          "type":"string",
-                         "value":"machineGun"
+                         "value":"health"
                         }],
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":512,
-                 "y":3104
+                 "x":1138.66666666667,
+                 "y":3066.66666666667
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":99,
+                 "name":"item",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1138.66666666667,
+                 "y":3066.66666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2291,7 +2327,151 @@
          "draworder":"topdown",
          "id":8,
          "name":"Explosives",
-         "objects":[],
+         "objects":[
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":100,
+                 "name":"barrel",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1230,
+                 "y":3166
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":101,
+                 "name":"barrel",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":3212,
+                 "y":3634
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":102,
+                 "name":"barrel",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":4904,
+                 "y":2208
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":103,
+                 "name":"barrel",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":5748,
+                 "y":2604
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":104,
+                 "name":"barrel",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":5796,
+                 "y":2600
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":105,
+                 "name":"barrel",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":7334,
+                 "y":2520
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":106,
+                 "name":"barrel",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":7498,
+                 "y":2456
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":107,
+                 "name":"barrel",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"health"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":1533.33333333333,
+                 "y":3205.33333333333
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -2299,7 +2479,7 @@
          "y":0
         }],
  "nextlayerid":15,
- "nextobjectid":99,
+ "nextobjectid":108,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

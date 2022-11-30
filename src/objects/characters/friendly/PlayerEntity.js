@@ -8,6 +8,7 @@ import VirtualJoypad from '../../components/VirtualJoypad';
 import BloodFont from '../../overlays/BloodFont';
 import GameOver from '../../overlays/GameOver';
 import Sound from '../../enums/Sound';
+import GameComplete from "../../overlays/GameComplete.js";
 
 const SPRITESHEETKEY = 'playerSprites';
 
@@ -101,6 +102,10 @@ export default class PlayerEntity extends Entity {
       if (data.bodyA.collisionFilter.category === collisionCategories.door || data.bodyB.collisionFilter.category === collisionCategories.door) {
         if (this.scene.cameras.main.fadeEffect.isRunning) return;
         const nextMap = data.bodyA.gameObject.body.loadLevel;
+        if (nextMap === 'end-game') {
+          new GameComplete(this.scene);
+          return;
+        }
         this.scene.cameras.main.fadeOut(Config.SCENE_TRANSITION_TIME_MS).on(Events.ON_FADEOUT_COMPLETE, () => {
           clearInterval(this.scene.spawner); // stop scene spawner interval. issues when loading next map.
           this.scene.scene.remove();

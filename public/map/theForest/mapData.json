@@ -1571,8 +1571,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":162.636363636367,
-                 "y":3143.50000000001
+                 "x":181.9696969697,
+                 "y":3126.83333333334
                 }, 
                 {
                  "class":"",
@@ -2039,7 +2039,7 @@
                         {
                          "name":"itemType",
                          "type":"string",
-                         "value":"rocketLauncher"
+                         "value":"grenadeLauncher"
                         }],
                  "rotation":0,
                  "visible":true,

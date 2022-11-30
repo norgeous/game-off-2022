@@ -5,6 +5,7 @@ import Area1 from './scenes/theForest/Area1';
 import Area2 from './scenes/theForest/Area2';
 import Area3 from './scenes/theForest/Area3';
 import Area4 from './scenes/theForest/Area4';
+import Area51 from './scenes/theForest/Area51';
 
 const config = {
   type: Phaser.AUTO,
@@ -25,9 +26,10 @@ const config = {
   scene: [
     MainMenu,
     Area1,
-    Area3,
     Area2,
+    Area3,
     Area4,
+    Area51,
   ],
 }
 

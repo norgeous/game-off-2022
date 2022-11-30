@@ -29,7 +29,7 @@ export default class MainMenu extends Phaser.Scene {
     this.add.text(
       this.scale.width/2,
       this.scale.height * 0.7,
-      `${!this.game.device.input.touch ? 'Click' : 'Tap'} to Start`,
+      `${this.game.device.input.touch ? 'Tap' : 'Press any key'} to Start`,
       {
         fontSize: 20,
         fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
@@ -40,9 +40,10 @@ export default class MainMenu extends Phaser.Scene {
       this.add.text(
         this.scale.width/2,
         this.scale.height * 0.8,
-        'Move: WASD | Cycle Weapon: Q | Fire Weapon: L',
+        'Move: WASD | Jump: Space\nCycle Weapon: Q | Fire Weapon: L',
         {
           fontSize: 12,
+          align: 'center',
           fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
           color: '#333333',
         },
@@ -56,6 +57,7 @@ export default class MainMenu extends Phaser.Scene {
 
     // load forest-area1 when clicking anywhere
     this.input.once('pointerdown', () => this.scene.start('forest-area1'));
+    this.input.keyboard.on('keydown', () => this.scene.start('forest-area1'));
   }
 
   update(time, delta) {

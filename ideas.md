@@ -89,8 +89,5 @@ better narrative
 ### for Daniel (urgent)
 
 - bullet spread / fire rate
-  - shotgun
-  - lazer gun https://labs.phaser.io/assets/sprites/bullets/bullet11.png
-  - sniper / flame thrower
 
 - more characters (optional extra)

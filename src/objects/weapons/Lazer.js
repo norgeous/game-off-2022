@@ -1,5 +1,5 @@
 import AbstractWeapon, { fireTypes } from './AbstractWeapon';
-import Bullet from '../projectiles/Bullet';
+import LazerBeam from '../projectiles/LazerBeam';
 import Sound from '../enums/Sound';
 
 export default class Lazer extends AbstractWeapon {
@@ -8,7 +8,7 @@ export default class Lazer extends AbstractWeapon {
     super(
       scene,
       {
-        BulletClass: Bullet,
+        BulletClass: LazerBeam,
         maxBullets: 10,
         frame: Lazer.FRAME,
         entity,
@@ -20,6 +20,6 @@ export default class Lazer extends AbstractWeapon {
 
   static preload(scene) {
     AbstractWeapon.preload(scene);
-    Bullet.preload(scene);
+    LazerBeam.preload(scene);
   }
 }

@@ -2206,8 +2206,26 @@
                  "rotation":0,
                  "visible":true,
                  "width":32,
-                 "x":264.652788330041,
-                 "y":3117.35237805805
+                 "x":256,
+                 "y":3104
+                }, 
+                {
+                 "class":"",
+                 "gid":84,
+                 "height":32,
+                 "id":94,
+                 "name":"item",
+                 "properties":[
+                        {
+                         "name":"itemType",
+                         "type":"string",
+                         "value":"lazer"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":320,
+                 "y":3104
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2227,7 +2245,7 @@
          "y":0
         }],
  "nextlayerid":15,
- "nextobjectid":94,
+ "nextobjectid":95,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

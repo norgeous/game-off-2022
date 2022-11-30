@@ -88,5 +88,5 @@ better narrative
 
 ### for Daniel (urgent)
 
-- bugfix: zombies should not be able to kill each other
+- bullet spread
 - more characters (optional extra)

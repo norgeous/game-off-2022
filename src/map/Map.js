@@ -80,6 +80,7 @@ export default class Map {
 
   loadLayers() {
     this.layers.backgroundColour = this.map.createLayer('BackgroundColour', this.tileset)
+    this.layers.backgroundColourFront = this.map.createLayer('BackgroundColourFront', this.tileset)
     this.layers.background = this.map.createLayer('Background', this.tileset)
     this.layers.foreground = this.map.createLayer('Forground', this.tileset)
     this.layers.ladders = this.map.createLayer('Ladders', this.tileset)
@@ -100,6 +101,7 @@ export default class Map {
     this.layers.ladders?.setCollisionByProperty({ collides: true });
     this.layers.toxicDamage?.setCollisionByProperty({ collides: true });
     this.layers.toxicDamage?.setDepth(Config.IN_FRONT_OF_PLAYER);
+    this.layers.foreground?.setDepth(Config.IN_FRONT_OF_PLAYER);
 
     this.Phaser.matter.world.convertTilemapLayer(this.layers.background);
     this.Phaser.matter.world.convertTilemapLayer(this.layers.foreground);

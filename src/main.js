@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import Config from './objects/Config';
 import MainMenu from './scenes/MainMenu';
-import GameEnd from './scenes/GameEnd';
 import Area1 from './scenes/theForest/Area1';
 import Area2 from './scenes/theForest/Area2';
 import Area3 from './scenes/theForest/Area3';
@@ -31,7 +30,6 @@ const config = {
     Area3,
     Area4,
     Area51,
-    GameEnd,
   ],
 }
 

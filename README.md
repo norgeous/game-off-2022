@@ -33,6 +33,8 @@ https://trello.com/b/FtSSrcBy/zombie-vampire-survivors-game
 
 freebies from craftpix.net
 
+https://jimmydjourney.itch.io/oil-barrel-and-explosive-oil-barrel
+
 
 ## tutorials used
 

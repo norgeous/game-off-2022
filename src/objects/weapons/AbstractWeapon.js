@@ -15,10 +15,22 @@ const SPRITESHEETKEY = 'gunSprites';
 export default class AbstractWeapon {
   static MAP_ICON_SCALE = 2;
   static TEXTURE = 'gunSprites'
-  constructor(scene, { frame = 0, maxBullets, BulletClass, entity, fireType, soundKeyName = undefined }) {
+  constructor(
+    scene,
+    {
+      frame = 0,
+      maxBullets = 100,
+      bulletsPerFire = 1,
+      BulletClass,
+      entity,
+      fireType,
+      soundKeyName = undefined,
+    },
+  ) {
     this.scene = scene;
     this.entity = entity;
     this.fireType = fireType;
+    this.bulletsPerFire = bulletsPerFire;
     this.soundKeyName = soundKeyName;
     this.bulletsFiredThisPull = 0;
     this.gunDirection = {
@@ -54,16 +66,18 @@ export default class AbstractWeapon {
   pullTrigger() {
     if (this.bulletsFiredThisPull >= maxBulletsPerPull[this.fireType]) return;
 
-    // try to create bullet
-    const bullet = this.bulletGroup.create(
-      this.entity.x + this.gunSprite.x,
-      this.entity.y + this.gunSprite.y,
-      {
-        direction: this.entity.gunDirection,
-      },
-    );
-    
-    if (!bullet) return;
+    // try to create bullet(s)
+    for(let i = 0; i < this.bulletsPerFire; i++){
+      const bullet = this.bulletGroup.create(
+        this.entity.x + this.gunSprite.x,
+        this.entity.y + this.gunSprite.y,
+        {
+          direction: this.entity.gunDirection,
+        },
+      );
+
+      if (!bullet) return;
+    }
 
     this.bulletsFiredThisPull++;
 

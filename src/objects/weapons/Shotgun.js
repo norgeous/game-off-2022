@@ -10,6 +10,7 @@ export default class Shotgun extends AbstractWeapon {
       {
         BulletClass: Bullet,
         maxBullets: 10,
+        bulletsPerFire: 5,
         frame: Shotgun.FRAME,
         entity,
         fireType: fireTypes.SEMI,

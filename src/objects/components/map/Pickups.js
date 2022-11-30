@@ -6,6 +6,7 @@ import GrenadeLauncher from "../../weapons/GrenadeLauncher.js";
 import MachineGun from "../../weapons/MachineGun.js";
 import RocketLauncher from "../../weapons/RocketLauncher.js";
 import Shotgun from '../../weapons/Shotgun';
+import Lazer from '../../weapons/Lazer';
 
 export default class Pickups {
 
@@ -20,6 +21,7 @@ export default class Pickups {
       rocketLauncher: RocketLauncher,
       health: Health,
       shotgun: Shotgun,
+      lazer: Lazer,
     }
     let pickups = map.getObjectFromLayer(Pickups.PICKUP_LAYER, 'item');
 

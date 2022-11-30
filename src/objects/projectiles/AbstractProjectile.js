@@ -70,6 +70,8 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
     if (lifespan) {
       this.scene.time.delayedCall(lifespan, () => this.complete());
     }
+
+    if (this.enableLockRotationToMovementVector) this.lockRotationToMovementVector();
   }
 
   lockRotationToMovementVector() {

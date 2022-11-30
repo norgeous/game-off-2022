@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import {collisionCategories, collisionMaskEverything} from "../../enums/Collisions.js";
+import { collisionCategories, collisionMaskEverything } from "../../enums/Collisions.js";
 import HandGun from "../../weapons/HandGun.js";
 import Health from "../../Health.js";
 import GrenadeLauncher from "../../weapons/GrenadeLauncher.js";

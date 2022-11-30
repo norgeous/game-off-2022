@@ -21,9 +21,10 @@ export default class Audio  {
     this.scene.load.audio(Sound.BombBlast, 'sounds/musket-explosion.mp3');
     this.scene.load.audio(Sound.MachineGunFire, 'sounds/gun-burst.mp3'); // not used? gun-burst.mp3 is quite a long sound...
     this.scene.load.audio(Sound.GunBurst, 'sounds/machine-gun.mp3');
-    this.scene.load.audio(Sound.Pistol, 'sounds/single-gunshot.mp3');
     this.scene.load.audio(Sound.Lazer, 'sounds/lazer.wav'); // was pistol.wav
+    this.scene.load.audio(Sound.Pistol, 'sounds/single-gunshot.mp3');
     this.scene.load.audio(Sound.Shotgun, 'sounds/shotgun-with-reload.mp3');
+    this.scene.load.audio(Sound.Flame, 'sounds/fire-wind.mp3');
     this.scene.load.audio(Sound.PlayerDeath, 'sounds/man-scream.mp3');
     this.scene.load.audio(Sound.RocketLaunch, 'https://labs.phaser.io/assets/audio/SoundEffects/lazer_wall_off.mp3');
     this.scene.load.audio(Sound.GrenadeLaunch, 'https://labs.phaser.io/assets/audio/SoundEffects/pusher.wav');

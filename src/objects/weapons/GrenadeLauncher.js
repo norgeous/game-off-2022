@@ -3,8 +3,7 @@ import Grenade from '../projectiles/Grenade';
 import Sound from '../enums/Sound';
 
 export default class GrenadeLauncher extends AbstractWeapon {
-  static FRAME = 24;  // red gun
-  static TEXTURE = 'gunSprites'
+  static FRAME = 18; // blue gun
   constructor(scene, { entity }) {
     super(
       scene,

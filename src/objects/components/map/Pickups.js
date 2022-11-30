@@ -5,6 +5,7 @@ import Health from "../../Health.js";
 import GrenadeLauncher from "../../weapons/GrenadeLauncher.js";
 import MachineGun from "../../weapons/MachineGun.js";
 import RocketLauncher from "../../weapons/RocketLauncher.js";
+import Shotgun from '../../weapons/Shotgun';
 
 export default class Pickups {
 
@@ -18,6 +19,7 @@ export default class Pickups {
       machineGun: MachineGun,
       rocketLauncher: RocketLauncher,
       health: Health,
+      shotgun: Shotgun,
     }
     let pickups = map.getObjectFromLayer(Pickups.PICKUP_LAYER, 'item');
 

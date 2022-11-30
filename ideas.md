@@ -88,7 +88,5 @@ better narrative
 
 ### for Daniel (urgent)
 
-- bugfix: improve one way platforms
 - bugfix: zombies should not be able to kill each other
-- bugfix: convert entity > bottom sensor to rectangle
 - more characters (optional extra)

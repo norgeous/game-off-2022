@@ -5,7 +5,7 @@ import WeaponInventory from '../../components/WeaponInventory';
 import Config from '../../Config';
 import Events from '../../enums/Events';
 import VirtualJoypad from '../../components/VirtualJoypad';
-import BloodFont from "../../overlays/BloodFont.js";
+import BloodFont from '../../overlays/BloodFont';
 import GameOver from '../../overlays/GameOver';
 import Sound from '../../enums/Sound';
 

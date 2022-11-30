@@ -2,6 +2,7 @@ import MachineGun from '../../objects/weapons/MachineGun';
 import GrenadeLauncher from '../weapons/GrenadeLauncher';
 import RocketLauncher from '../weapons/RocketLauncher';
 import HandGun from '../../objects/weapons/HandGun';
+import Shotgun from '../../objects/weapons/Shotgun';
 
 export default class WeaponInventory {
   inventory = [
@@ -20,6 +21,7 @@ export default class WeaponInventory {
     MachineGun.preload(scene);
     GrenadeLauncher.preload(scene);
     RocketLauncher.preload(scene);
+    Shotgun.preload(scene);
   }
 
   createCurrentWeapon () {

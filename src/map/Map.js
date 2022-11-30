@@ -38,6 +38,7 @@ export default class Map {
   // Must be called inside a scene's preLoad()
   preload() {
     this.Phaser.load.spritesheet('healthPack', 'sprites/healthpack.png', { frameWidth: 48, frameHeight: 48 });
+    this.Phaser.load.spritesheet(Config.EXPLODING_BARRELS_TEXTURE, 'sprites/explosive-barrel.png', { frameWidth: 32, frameHeight: 32 });
     this.loadTileSheet();
     this.loadBackgroundImages();
     this.loadMapData();
@@ -136,23 +137,23 @@ export default class Map {
         let barrel = this.Phaser.add.sprite(
           element.x,
           element.y,
-          'explosion'
+          Config.EXPLODING_BARRELS_TEXTURE
         );
         let barrelObject = this.Phaser.matter.add.gameObject(barrel, {isStatic: false});
         barrelObject.setCollidesWith(collisionMaskEverything);
         barrelObject.setOnCollide((data) => {
           if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
-            barrelObject.destroy();
+            data.bodyB.destroy();
             new Explosion(
               this.Phaser,
-              element.x, element.y,
+              barrelObject.x, barrelObject.y,
               {
-                radius: 200,
-                force: 100,
-                damage: 500,
+                radius: Config.EXPLODING_BARRELS_RADIUS,
+                force: Config.EXPLODING_BARRELS_FORCE,
+                damage: Config.EXPLODING_BARRELS_DAMAGE,
               },
             );
-
+            barrelObject.destroy();
           }
         })
       });

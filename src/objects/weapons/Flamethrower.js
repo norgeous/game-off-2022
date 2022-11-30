@@ -1,5 +1,5 @@
 import AbstractWeapon, { fireTypes } from './AbstractWeapon';
-import Bullet from '../projectiles/Bullet';
+import Flame from '../projectiles/Flame';
 import Sound from '../enums/Sound';
 
 export default class Flamethrower extends AbstractWeapon {
@@ -8,7 +8,7 @@ export default class Flamethrower extends AbstractWeapon {
     super(
       scene,
       {
-        BulletClass: Bullet,
+        BulletClass: Flame,
         maxBullets: 10,
         frame: Flamethrower.FRAME,
         entity,
@@ -20,6 +20,6 @@ export default class Flamethrower extends AbstractWeapon {
 
   static preload(scene) {
     AbstractWeapon.preload(scene);
-    Bullet.preload(scene);
+    Flame.preload(scene);
   }
 }

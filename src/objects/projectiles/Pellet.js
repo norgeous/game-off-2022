@@ -1,8 +1,8 @@
 import AbstractProjectile from './AbstractProjectile';
 
-const SPRITESHEETKEY = 'bullet1';
+const SPRITESHEETKEY = 'pellet';
 
-export default class Bullet extends AbstractProjectile {
+export default class Pellet extends AbstractProjectile {
   constructor(scene, x, y, { direction }) {
     super(
       scene,
@@ -10,7 +10,7 @@ export default class Bullet extends AbstractProjectile {
       {
         direction,
         spriteSheetKey: SPRITESHEETKEY,
-        lifespan: 1_000,
+        lifespan: 500,
         minDestroySpeed: 0.1,
         matterBodyConfig: {
           ignoreGravity: true,
@@ -18,16 +18,18 @@ export default class Bullet extends AbstractProjectile {
           chamfer: { radius: 4 },
           mass: .1, // heavy
         },
-        enableLockRotationToMovementVector: true,
+        enableLockRotationToMovementVector: false,
         exitSpeed: 10,
         isExplosive: false,
-        collisionDamage: 20,
-        bulletSpread: 1,
+        collisionDamage: 10,
+        bulletSpread: 4,
       },
     );
+
+    this.setDisplaySize(3, 3);
   }
 
   static preload(scene) {
-    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
+    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/enemy-bullet.png');
   }
 }

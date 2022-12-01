@@ -1,5 +1,5 @@
 import AbstractWeapon, { fireTypes } from './AbstractWeapon';
-import Bullet from '../projectiles/Bullet';
+import Pellet from '../projectiles/Pellet';
 import Sound from '../enums/Sound';
 
 export default class Shotgun extends AbstractWeapon {
@@ -8,8 +8,8 @@ export default class Shotgun extends AbstractWeapon {
     super(
       scene,
       {
-        BulletClass: Bullet,
-        maxBullets: 10,
+        BulletClass: Pellet,
+        maxBullets: 5,
         bulletsPerFire: 5,
         frame: Shotgun.FRAME,
         entity,
@@ -21,6 +21,6 @@ export default class Shotgun extends AbstractWeapon {
 
   static preload(scene) {
     AbstractWeapon.preload(scene);
-    Bullet.preload(scene);
+    Pellet.preload(scene);
   }
 }

@@ -45,6 +45,7 @@ export default class Entity extends Phaser.GameObjects.Container {
 
     this.scene = scene;
     this.name = name;
+    this.maxHealth = health;
     this.health = health;
     this.isAlive = true;
     this.enableHealthBar = enableHealthBar;

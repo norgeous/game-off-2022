@@ -19,6 +19,9 @@ const config = {
       gravity: Config.GRAVITY,
       debug: true,
     },
+    fps: {
+      target: 30,
+    },
   },
   input: {
     activePointers: 3, // enable multi touch

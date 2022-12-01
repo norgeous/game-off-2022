@@ -2227,7 +2227,7 @@
                         {
                          "name":"itemType",
                          "type":"string",
-                         "value":"shotGun"
+                         "value":"shotgun"
                         }],
                  "rotation":0,
                  "visible":true,

@@ -6,9 +6,6 @@ import Config from "../Config.js";
 class Explosion {
   constructor (scene, x, y, { radius = 50, force = 50, damage = 20 }) {
     // draw a circle at size of explosion radius
-    const circle = scene.add.circle(x, y, radius);
-    circle.setStrokeStyle(1, 0xFF0000);
-    scene.time.delayedCall(500, () => circle.destroy());
 
     scene.anims.create({
       key: 'explosion',

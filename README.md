@@ -1,4 +1,4 @@
-# game-off-2022
+# Dead Man Walking
 
 play: https://norgeous.github.io/game-off-2022/
 

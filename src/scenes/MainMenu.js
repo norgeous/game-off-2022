@@ -17,7 +17,7 @@ export default class MainMenu extends Phaser.Scene {
   }
 
   create() {
-    new ScratchFont(
+    this.logo = new ScratchFont(
       this,
       this.scale.width/2,
       this.scale.height * 0.4,
@@ -25,6 +25,16 @@ export default class MainMenu extends Phaser.Scene {
         text: 'Dead Man\nWalking',
       },
     );
+    this.tweens.addCounter({
+      from: 255,
+      to: 0,
+      duration: 5000,
+      onUpdate: (tween) => {
+          const value = Math.floor(tween.getValue());
+          this.logo.text.setTint(Phaser.Display.Color.GetColor(value, 255-value, value));
+      }
+    });
+
 
     this.add.text(
       this.scale.width/2,

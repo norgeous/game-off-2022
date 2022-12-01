@@ -39,7 +39,7 @@ export default class Config {
     g:0
   };
   static EXPLODING_BARRELS_RADIUS = 150;
-  static EXPLODING_BARRELS_FORCE = 40;
+  static EXPLODING_BARRELS_FORCE = 20;
   static EXPLODING_BARRELS_DAMAGE = 200;
   static EXPLODING_BARRELS_TEXTURE = 'explosive-barrel'
 }

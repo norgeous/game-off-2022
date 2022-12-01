@@ -1,7 +1,7 @@
 {
-  "name": "Z",
-  "short_name": "Z",
-  "description": "Z",
+  "name": "Dead Man Walking",
+  "short_name": "DMW",
+  "description": "Run and gun zombie game, for Game Off 2022",
   "theme_color": "#ffffff",
   "background_color": "#000000",
   "scope": "./",

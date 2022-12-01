@@ -10,7 +10,7 @@ export default class Pellet extends AbstractProjectile {
       {
         direction,
         spriteSheetKey: SPRITESHEETKEY,
-        lifespan: 500,
+        lifespan: 400,
         minDestroySpeed: 0.1,
         matterBodyConfig: {
           ignoreGravity: true,
@@ -21,7 +21,7 @@ export default class Pellet extends AbstractProjectile {
         enableLockRotationToMovementVector: false,
         exitSpeed: 10,
         isExplosive: false,
-        collisionDamage: 10,
+        collisionDamage: 15,
         bulletSpread: 4,
       },
     );

@@ -10,7 +10,7 @@ export default class Config {
   static PARTICLE_EFFECT_DEPTH = 1000;
 
   // options
-  static PLAY_MUSIC = false;
+  static PLAY_MUSIC = true;
   static PLAY_SFX = true;
   static SPAWN_ENEMIES = true;
   static SCREEN_SHAKE = true;

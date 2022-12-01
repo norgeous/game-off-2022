@@ -5,8 +5,6 @@ import Config from "../Config.js";
 
 class Explosion {
   constructor (scene, x, y, { radius = 50, force = 50, damage = 20 }) {
-    // draw a circle at size of explosion radius
-
     scene.anims.create({
       key: 'explosion',
       frameRate: 15,

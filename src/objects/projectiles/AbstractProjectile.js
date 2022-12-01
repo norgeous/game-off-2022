@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import { collisionCategories, collisionMaskEverything } from '../enums/Collisions';
-import Direction from '../enums/Direction';
 import Explosion from './Explosion';
 
 export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
@@ -12,7 +11,7 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
       spriteSheetKey,
       matterBodyConfig = {},
       exitSpeed = 10,
-      bulletSpread = (2 * Math.PI) / 20,
+      bulletSpread = 0,
       lifespan = 1000,
       minDestroySpeed = 4,
       isExplosive = true,
@@ -48,7 +47,10 @@ export default class AbstractProjectile extends Phaser.Physics.Matter.Sprite {
     // apply exit speed and angle to velocity
     // console.log(exitSpeed, direction, bulletSpread);
     // const deg45multiplier = 0.7071;
-    this.setVelocity(direction.x * exitSpeed, direction.y * exitSpeed);
+    this.setVelocity(
+      (direction.x * exitSpeed) + ((bulletSpread / 2) - (Math.random() * bulletSpread)),
+      (direction.y * exitSpeed) + ((bulletSpread / 2) - (Math.random() * bulletSpread)),
+    );
  
     this.setCollisionCategory(collisionCategories.enemyDamage);
  

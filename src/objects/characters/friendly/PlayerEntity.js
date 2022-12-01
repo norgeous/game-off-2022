@@ -211,7 +211,7 @@ export default class PlayerEntity extends Entity {
     this.gunDirection = { ...joypadDirection };
 
     // if on floor, prevent pointing downwards
-    if (this.gunDirection.y === 1 && sensorData.bottom.size) this.gunDirection.y = 0;
+    // if (this.gunDirection.y === 1 && sensorData.bottom.size) this.gunDirection.y = 0;
 
     // if no button pressed, substitue in facing direction
     if (this.gunDirection.x === 0 && this.gunDirection.y === 0) this.gunDirection.x = facing;

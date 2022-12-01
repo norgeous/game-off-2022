@@ -142,7 +142,7 @@ export default class Map {
         let barrelObject = this.Phaser.matter.add.gameObject(barrel, {isStatic: false});
         barrelObject.setCollidesWith(collisionMaskEverything);
         barrelObject.setOnCollide((data) => {
-          if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage) {
+          if (data.bodyB.collisionFilter.category === collisionCategories.enemyDamage && barrelObject.active) {
             data.bodyB.destroy();
             new Explosion(
               this.Phaser,

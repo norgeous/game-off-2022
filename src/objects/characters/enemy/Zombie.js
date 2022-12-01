@@ -30,7 +30,7 @@ export default class Zombie extends Entity {
         enableKeepUpright: true,
         keepUprightStratergy: 'SPRINGY',
         collideCallback: (sensorName, body) => {
-          if(body.gameObject?.name === 'PlayerEntity' && body.gameObject?.takeDamage) {
+          if (this.health >0 && body.gameObject?.name === 'PlayerEntity' && body.gameObject?.takeDamage) {
             body.gameObject.takeDamage(10);
             body.gameObject.setVelocity(sensorName === 'left' ? -3 : 3, -2);
           }

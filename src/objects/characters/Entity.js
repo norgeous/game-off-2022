@@ -158,12 +158,14 @@ export default class Entity extends Phaser.GameObjects.Container {
   }
 
   takeDamage(amount, from) {
-    this.health -= amount;
-    this.scene.events.emit(Events.ON_DAMAGE_ENTITY, {amount: amount, entity:this, from:from});
-    if (this.health <= 0 && this.isAlive)  {
-      this.health = 0;
-      this.isAlive = false;
-      this.scene.events.emit(Events.ON_KILL_ENTITY, {entity:this, from:from});
+    if (this.isAlive) {
+      this.health -= amount;
+      this.scene.events.emit(Events.ON_DAMAGE_ENTITY, {amount: amount, entity:this, from:from});
+      if (this.health <= 0)  {
+        this.health = 0;
+        this.isAlive = false;
+        this.scene.events.emit(Events.ON_KILL_ENTITY, {entity:this, from:from});
+      }
     }
   }
 
@@ -220,9 +222,8 @@ export default class Entity extends Phaser.GameObjects.Container {
     }
 
     // kill if zero health
-    if (this.health <= 0 && !this.isDying) {
+    if (this.health <= 0) {
       // dead
-      this.isDying = true;
       this.gameObject.setCollidesWith(~collisionCategories.enemyDamage);
       this.rotation = 0; // force Entity upright for death animation
       this.text.setText('X');

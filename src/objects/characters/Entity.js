@@ -180,15 +180,16 @@ export default class Entity extends Phaser.GameObjects.Container {
     this.flipXSprite(this.facing === -1);
 
     // debug as text
-    this.text.setText(
-      [
-        this.sensorData.left.size ? 'L' : '-',
-        this.sensorData.right.size ? 'R' : '-',
-        this.sensorData.top.size ? 'T' : '-',
-        this.sensorData.bottom.size ? 'B' : '-',
-        this.isStunned ? '😵‍💫' : '-',
-      ].join('')
-    );
+    this.text.setText();
+    // this.text.setText(
+    //   [
+    //     this.sensorData.left.size ? 'L' : '-',
+    //     this.sensorData.right.size ? 'R' : '-',
+    //     this.sensorData.top.size ? 'T' : '-',
+    //     this.sensorData.bottom.size ? 'B' : '-',
+    //     this.isStunned ? '😵‍💫' : '-',
+    //   ].join('')
+    // );
 
     // SPRINGY
     if (this.keepUprightStratergy === keepUprightStratergies.SPRINGY && !this.isStunned) {

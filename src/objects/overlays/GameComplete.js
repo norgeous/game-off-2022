@@ -7,7 +7,7 @@ export default class GameComplete {
       scene.scale.width/2,
       scene.scale.height/2,
       {
-        text: 'You win the game!',
+        text: 'You win\nthe game!',
         origin: 0.5,
         align: 'center',
         backgroundColor: '#00000066',
@@ -15,16 +15,18 @@ export default class GameComplete {
       },
     );
 
-    scene.input.keyboard.on('keydown', () => {
-      gameComplete.text.destroy();
-      scene.scene.start('main-menu');
-      window.location.reload();
-    });
+    // scene.input.keyboard.on('keydown', () => {
+    //   gameComplete.text.destroy();
+    //   scene.scene.start('main-menu');
+    //   window.location.reload();
+    // });
 
-    scene.input.once('pointerdown', () => {
-      gameComplete.text.destroy();
-      scene.scene.start('main-menu');
-      window.location.reload();
-    });
+    setTimeout(() => {
+      scene.input.once('pointerdown', () => {
+        gameComplete.text.destroy();
+        // scene.scene.start('main-menu');
+        window.location.reload();
+      });
+    }, 5_000);
   }
 }

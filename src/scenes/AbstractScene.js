@@ -47,10 +47,6 @@ export default class AbstractScene extends Phaser.Scene {
 
     // matter debug
     this.matter.world.drawDebug = Config.DRAW_DEBUG;
-    this.input.keyboard.on('keydown-ALT', () => {
-      this.matter.world.drawDebug = !this.matter.world.drawDebug;
-      this.matter.world.debugGraphic.visible = this.matter.world.drawDebug;
-    }, this);
 
     // world bounds
     this.matter.world.setBounds(0, 0, this.map.width, this.map.height, 30);

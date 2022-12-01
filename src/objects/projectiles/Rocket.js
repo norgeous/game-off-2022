@@ -20,6 +20,7 @@ export default class Rocket extends AbstractProjectile {
         exitSpeed: 12,
         collisionDamage: 50,
         explosionDamage: 50,
+        bulletSpread: 2,
       },
     );
   }

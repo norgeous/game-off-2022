@@ -23,6 +23,7 @@ export default class Grenade extends AbstractProjectile {
         destroyOnCollideMask: collisionCategories.enemy, // destroy when collide with enemies, but bounce on ground
         collisionDamage: 10,
         explosionDamage: 10,
+        bulletSpread: 1,
       },
     );
 

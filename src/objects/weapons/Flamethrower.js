@@ -9,7 +9,7 @@ export default class Flamethrower extends AbstractWeapon {
       scene,
       {
         BulletClass: Flame,
-        maxBullets: 10,
+        maxBullets: 3,
         frame: Flamethrower.FRAME,
         entity,
         fireType: fireTypes.SEMI,

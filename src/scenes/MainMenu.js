@@ -56,8 +56,8 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     // load forest-area1 when clicking anywhere
-    this.input.once('pointerdown', () => this.scene.start('forest-area1'));
-    this.input.keyboard.on('keydown', () => this.scene.start('forest-area1'));
+    this.input.once('pointerdown', () => this.scene.start('forest-area4'));
+    this.input.keyboard.on('keydown', () => this.scene.start('forest-area4'));
   }
 
   update(time, delta) {

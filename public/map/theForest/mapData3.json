@@ -2716,7 +2716,7 @@
                         {
                          "name":"itemType",
                          "type":"string",
-                         "value":"laserGun"
+                         "value":"lazer"
                         }],
                  "rotation":0,
                  "visible":true,

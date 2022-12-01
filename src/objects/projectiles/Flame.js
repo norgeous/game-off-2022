@@ -31,7 +31,7 @@ export default class Flame extends AbstractProjectile {
         },
         enableLockRotationToMovementVector: true,
         exitSpeed: 3,
-        collisionDamage: 50,
+        collisionDamage: 10,
         isExplosive: false,
         destroyOnCollideMask: 0,
       },

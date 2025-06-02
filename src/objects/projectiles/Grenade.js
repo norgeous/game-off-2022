@@ -31,6 +31,6 @@ export default class Grenade extends AbstractProjectile {
   }
 
   static preload(scene) {
-    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/orb-green.png');
+    scene.load.image(SPRITESHEETKEY, 'sprites/orb-green.png');
   }
 }

@@ -1,6 +1,11 @@
-# game-off-2022
+# Dead Man Walking
 
 play: https://norgeous.github.io/game-off-2022/
+
+## Game Off 2022 submission
+
+https://norgeous.itch.io/dead-man-walking
+
 
 ## development
 

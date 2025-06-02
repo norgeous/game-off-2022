@@ -39,8 +39,8 @@ export default class Flame extends AbstractProjectile {
   }
 
   static preload(scene) {
-    scene.load.image(SPRITESHEETKEY1, 'https://labs.phaser.io/assets/particles/fire1.png');
-    scene.load.image(SPRITESHEETKEY2, 'https://labs.phaser.io/assets/particles/fire2.png');
-    scene.load.image(SPRITESHEETKEY3, 'https://labs.phaser.io/assets/particles/fire3.png');
+    scene.load.image(SPRITESHEETKEY1, 'sprites/fire1.png');
+    scene.load.image(SPRITESHEETKEY2, 'sprites/fire2.png');
+    scene.load.image(SPRITESHEETKEY3, 'sprites/fire3.png');
   }
 }

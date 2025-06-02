@@ -22,6 +22,6 @@ export default class ScratchFont {
   }
 
   static preload(scene) {
-    scene.load.bitmapFont('hyperdrive', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.png', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.xml');
+    scene.load.bitmapFont('hyperdrive', 'fonts/bitmap/hyperdrive.png', 'fonts/bitmap/hyperdrive.xml');
   }
 }

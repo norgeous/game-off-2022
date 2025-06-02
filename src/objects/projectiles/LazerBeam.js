@@ -29,6 +29,6 @@ export default class LazerBeam extends AbstractProjectile {
   }
 
   static preload(scene) {
-    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/bullets/bullet11.png');
+    scene.load.image(SPRITESHEETKEY, 'sprites/bullet11.png');
   }
 }

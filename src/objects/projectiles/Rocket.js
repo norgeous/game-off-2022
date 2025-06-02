@@ -26,6 +26,6 @@ export default class Rocket extends AbstractProjectile {
   }
 
   static preload(scene) {
-    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/bullets/bullet10.png');
+    scene.load.image(SPRITESHEETKEY, 'sprites/bullet10.png');
   }
 }

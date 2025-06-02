@@ -28,6 +28,6 @@ export default class Bullet extends AbstractProjectile {
   }
 
   static preload(scene) {
-    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/bullets/bullet1.png');
+    scene.load.image(SPRITESHEETKEY, 'sprites/bullet1.png');
   }
 }

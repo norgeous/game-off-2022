@@ -13,7 +13,7 @@ export default class MainMenu extends Phaser.Scene {
   preload() {
     this.audio.preLoad();
     this.load.audio(Sound.MusicKey, 'sounds/music.mp3');
-    this.load.bitmapFont('hyperdrive', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.png', 'https://labs.phaser.io/assets/fonts/bitmap/hyperdrive.xml');
+    this.load.bitmapFont('hyperdrive', 'fonts/bitmap/hyperdrive.png', 'fonts/bitmap/hyperdrive.xml');
   }
 
   create() {

@@ -30,6 +30,6 @@ export default class Pellet extends AbstractProjectile {
   }
 
   static preload(scene) {
-    scene.load.image(SPRITESHEETKEY, 'https://labs.phaser.io/assets/sprites/enemy-bullet.png');
+    scene.load.image(SPRITESHEETKEY, 'sprites/enemy-bullet.png');
   }
 }
